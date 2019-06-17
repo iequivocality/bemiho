@@ -1,7 +1,11 @@
-import json
 from pprint import pprint
 from bs4 import BeautifulSoup
+from extractor.json_extractor import JSONExtractor
+from extractor.json_mapper import GroupJSONObjectMapper, MemberJSONObjectMapper
 
-with open('index/hinata.idols') as f:
-    data = json.load(f)
-    print(data[0]['blog'])
+extractor = JSONExtractor('index/index.idols', GroupJSONObjectMapper())
+for group in extractor.extract():
+    print(group.code)
+    member_extractor = JSONExtractor('index/' + group.index, MemberJSONObjectMapper())
+    for member in member_extractor.extract():
+        print(member.kanji)
