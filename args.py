@@ -13,6 +13,14 @@ class BemihoUserInput:
         self.lastpage = lastpage
 
 class BemihoUserInputBuilder:
+    def __init__(self):
+        self.group = None
+        self.member = None
+        self.output = None
+        self.content = None
+        self.firstpage = None
+        self.lastpage = None
+
     def set_group(self, group):
         self.group = group
 
@@ -45,6 +53,18 @@ def parse_system_args():
     parser.add_argument("-l", "--lastpage", help="Last page", default=1)
     return parser.parse_args()
 
+def group_format(index, group):
+    return f"({index + 1}) {group.romaji} - {group.kanji}"
+
+def member_format(index, member):
+    return f"({index + 1}) {member.romaji} - {member.kanji}"
+
+def ask_for_user_input(options, format, label):
+    print(f"Available {label}s:")
+    for index, option_item in enumerate(options):
+        print(format(index, option_item))
+    return  input(f"Please select {label}: ")
+
 def get_user_input():
     args = parse_system_args()
     print(args)
@@ -55,28 +75,22 @@ def get_user_input():
     user_input_build = BemihoUserInputBuilder()
     group_input = None
     if (args.group == None):
-        print("Available groups:")
-        for index, group in enumerate(extracted_groups):
-            print(f"({index + 1}) {group.romaji} - {group.kanji}")
-        group_input = input("Please select group: ")
+        group_input = ask_for_user_input(extracted_groups, group_format, "group")
     else:
         group_input = args.group
-        # user_input_build.set_group(args.group)
 
     selected_group = next((group for group in extracted_groups if group.kanji == group_input or group.romaji == group_input or group.code == group_input), None)
     if (selected_group == None):
         print("Group not found on Bemiho's index.")
         quit()
-    
+    user_input_build.set_group(selected_group)
+
     member_extractor = JSONExtractor('index/' + selected_group.index, MemberJSONObjectMapper())
     extracted_members = member_extractor.extract()
     
     member_input = None
     if (args.member == None):
-        print("Available members:")
-        for index, group in enumerate(extracted_members):
-            print(f"({index + 1}) {group.romaji} - {group.kanji}")
-        member_input = input("Please select member: ")
+        member_input = ask_for_user_input(extracted_members, member_format, "member")
     else:
         member_input = args.member
 
@@ -86,3 +100,5 @@ def get_user_input():
         quit()
     else:
         print(selected_member)
+    user_input_build.set_member(selected_member)
+    return user_input_build.build()
