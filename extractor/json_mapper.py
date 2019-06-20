@@ -8,6 +8,10 @@ class MemberData:
         self.kanji = kanji
         self.romaji = romaji
         self.kana = kana
+    
+    def __str__(self):
+        formatted = f"    Blog: {self.blog}\n    Kanji: {self.kanji}\n    Romaji: {self.romaji}\n    Kana: {self.kana}"
+        return "{\n" + formatted + "\n}"
 
 class MemberJSONObjectMapper(JSONObjectMapper):
     def map_to_object(self, data):
@@ -20,6 +24,10 @@ class GroupData:
         self.romaji = romaji
         self.index = index
         self.code = code
+    
+    def __str__(self):
+        formatted = f"    Index: {self.index}\n    Code: {self.code}\n    Kanji: {self.kanji}\n    Romaji: {self.romaji}"
+        return "{\n" + formatted + "\n}"
 
 class GroupJSONObjectMapper(JSONObjectMapper):
     def map_to_object(self, data):
