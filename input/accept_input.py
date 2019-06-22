@@ -6,6 +6,7 @@ from user_input import BemihoUserInput, BemihoUserInputBuilder
 
 from args import parse_system_args
 from const import CONTENT_CHOICES
+from input.exceptions import JSONDataNotFound, PageNumberNotDigits
 
 def group_format(index, group):
     return f"({index + 1}) {group.romaji} - {group.kanji}"
@@ -29,21 +30,19 @@ def get_input_and_check_index(json_file, json_mapper, value_from_args, input_req
     else:
         input_value = value_from_args
 
-    selected_group = next((datum for datum in extracted_data if predicate_for_json_data(input_value)), None)
+    selected_group = next((datum for datum in extracted_data if predicate_for_json_data(datum, input_value)), None)
     if (selected_group == None):
-        # should raise exception instead of calling quit
-        print("Group not found on Bemiho's index.")
-        quit()
+        raise JSONDataNotFound(f"{input_req_label.title()} not found on Bemiho's index.")
     return selected_group
 
 def get_group_input(group_from_args):
-    def data_check(group):
-        return group.kanji == group_from_args or group.romaji == group_from_args or group.code == group_from_args
+    def data_check(group, input_value):
+        return group.kanji == input_value or group.romaji == input_value or group.code == input_value
     return get_input_and_check_index('index/index.idols', GroupJSONObjectMapper, group_from_args, group_format, "group", data_check)
 
 def get_member_input(member_from_args, selected_group):
-    def data_check(member):
-        return member.kanji == member_from_args or member.romaji == member_from_args or member.kana == member_from_args
+    def data_check(member, input_value):
+        return member.kanji == input_value or member.romaji == input_value or member.kana == input_value
     return get_input_and_check_index('index/' + selected_group.index, MemberJSONObjectMapper, member_from_args, member_format, "member", data_check)
 
 def get_page_input(page_from_args, default_value, label):
@@ -52,8 +51,7 @@ def get_page_input(page_from_args, default_value, label):
         if (page_input == None or page_input == ''):
             page_input = default_value
         if (not page_input.isdigit()):
-            print("Page numbers have to be digits.")
-            quit()
+            raise PageNumberNotDigits()
     else:
         page_input = page_from_args
     return page_input
