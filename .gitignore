@@ -103,5 +103,8 @@ venv.bak/
 # mypy
 .mypy_cache/
 
+#Visual Studio code settings to set interpreter (for virtual envs for example)
+.vscode
+
 #bemiho specific gitignore
 output/

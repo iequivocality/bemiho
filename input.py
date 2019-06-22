@@ -29,7 +29,7 @@ def get_input_and_check_index(json_file, json_mapper, value_from_args, input_req
     else:
         input_value = value_from_args
 
-    selected_group = next((datum for datum in extracted_data if predicate_for_json_data), None)
+    selected_group = next((datum for datum in extracted_data if predicate_for_json_data(input_value)), None)
     if (selected_group == None):
         # should raise exception instead of calling quit
         print("Group not found on Bemiho's index.")
@@ -38,12 +38,12 @@ def get_input_and_check_index(json_file, json_mapper, value_from_args, input_req
 
 def get_group_input(group_from_args):
     def data_check(group):
-        return group.kanji == group_input or group.romaji == group_input or group.code == group_input
+        return group.kanji == group_from_args or group.romaji == group_from_args or group.code == group_from_args
     return get_input_and_check_index('index/index.idols', GroupJSONObjectMapper, group_from_args, group_format, "group", data_check)
 
 def get_member_input(member_from_args, selected_group):
     def data_check(member):
-        return member.kanji == member_input or member.romaji == member_input or member.kana == member_input
+        return member.kanji == member_from_args or member.romaji == member_from_args or member.kana == member_from_args
     return get_input_and_check_index('index/' + selected_group.index, MemberJSONObjectMapper, member_from_args, member_format, "member", data_check)
 
 def get_page_input(page_from_args, default_value, label):
