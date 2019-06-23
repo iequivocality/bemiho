@@ -7,8 +7,8 @@ from scrapper import create_scrapper_based_on_input
 
 try:
     user_input = get_user_input()
-    create_scrapper_based_on_input()
     print(user_input)
+    create_scrapper_based_on_input(user_input).start_web_scrape()
 except (JSONDataNotFound, PageNumberNotDigits, FirstPageLargerThanLastPage, InvalidContentInput) as e:
     print(e)
 
