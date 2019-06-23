@@ -1,6 +1,8 @@
 from datetime import datetime
 
+import urllib.request
 import requests
+import os
 
 from bs4 import BeautifulSoup
 from bs4.element import Tag, NavigableString
@@ -75,11 +77,16 @@ class HinatazakaScrapper(Scrapper):
                 elif child.name == 'div' or child.name == 'span':
                     contents.extend(self.traverse_for_entire_blog(child))
         return contents
+
+    def read_image(self, url):
+        with urllib.request.urlopen(url) as response:
+            return response.read()
  
     def start_web_scrape(self):
         firstpage = self.user_input.firstpage
         lastpage = self.user_input.lastpage
         content_for_traversal = self.user_input.content
+        output = self.user_input.output
         for number in range(firstpage - 1, lastpage):
             link = self.format_url(number)
             print(link)
@@ -89,8 +96,9 @@ class HinatazakaScrapper(Scrapper):
                 header = self.get_header(article)
                 content = article.find('div', class_='c-blog-article__text')
                 if (content_for_traversal == 'photos'):
-                    for image in self.traverse_for_photos_only(content):
+                    for index, image in enumerate(self.traverse_for_photos_only(content)):
                         print(image)
+                        with open(os.path.join(output, f"{header.title}_{index}.jpeg"), 'wb') as f:
+                            f.write(self.read_image(image))
                 # print(header)
-        print(self.user_input.output)
     
