@@ -2,11 +2,11 @@ import argparse
 
 from extractor.json_extractor import JSONExtractor
 from extractor.json_mapper import GroupJSONObjectMapper, MemberJSONObjectMapper
-from user_input import BemihoUserInput, BemihoUserInputBuilder
+from input.user_input import BemihoUserInput, BemihoUserInputBuilder
 
 from args import parse_system_args
 from const import CONTENT_CHOICES
-from input.exceptions import JSONDataNotFound, PageNumberNotDigits
+from input.exceptions import JSONDataNotFound, PageNumberNotDigits, InvalidContentInput, FirstPageLargerThanLastPage
 
 def group_format(index, group):
     return f"({index + 1}) {group.romaji} - {group.kanji}"
@@ -75,14 +75,12 @@ def get_user_input():
     if (any(selected_content == choice for choice in CONTENT_CHOICES)):
         user_input_build.set_content(args.content)
     else:
-        print("Invalid content set by the user.")
-        quit()
+        raise InvalidContentInput()
 
     firstpage = int(get_page_input(args.firstpage, '1', "first page"))
     lastpage = int(get_page_input(args.lastpage, '1', "last page"))
     if (firstpage > lastpage):
-        print("First page cannot be larger than the last page.")
-        quit()
+        raise FirstPageLargerThanLastPage()
     else:
         user_input_build.set_firstpage(firstpage)
         user_input_build.set_lastpage(lastpage)
