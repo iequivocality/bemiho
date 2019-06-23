@@ -10,10 +10,13 @@ class Scrapper:
         self.user_input = user_input
 
     def format_url(self, page_number):
-        pass
+        raise NotImplementedError()
     
     def start_web_scrape(self):
-        pass
+        raise NotImplementedError()
+
+    def get_header(self):
+        raise NotImplementedError()
 
 def create_scrapper_based_on_input(user_input):
     scrapper = None

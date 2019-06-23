@@ -1,3 +1,5 @@
+from utilities.text import enclose_to_json_like_string
+
 class JSONObjectMapper:
     def map_to_object(self, data):
         return None
@@ -11,7 +13,7 @@ class MemberData:
     
     def __str__(self):
         formatted = f"    Blog: {self.blog}\n    Kanji: {self.kanji}\n    Romaji: {self.romaji}\n    Kana: {self.kana}"
-        return "{\n" + formatted + "\n}"
+        return enclose_to_json_like_string(formatted)
 
 class MemberJSONObjectMapper(JSONObjectMapper):
     def map_to_object(self, data):
@@ -28,7 +30,7 @@ class GroupData:
     
     def __str__(self):
         formatted = f"    Index: {self.index}\n    Code: {self.code}\n    Kanji: {self.kanji}\n    Romaji: {self.romaji}\n    Page Format: {self.pageformat}"
-        return "{\n" + formatted + "\n}"
+        return enclose_to_json_like_string(formatted)
 
 class GroupJSONObjectMapper(JSONObjectMapper):
     def map_to_object(self, data):
