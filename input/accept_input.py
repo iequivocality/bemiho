@@ -1,7 +1,7 @@
 import argparse
 
-from extractor.json_extractor import JSONExtractor
-from extractor.json_mapper import GroupJSONObjectMapper, MemberJSONObjectMapper
+from json_extractor.reader import JSONExtractor
+from json_extractor.mapper import GroupJSONObjectMapper, MemberJSONObjectMapper
 from input.user_input import BemihoUserInput, BemihoUserInputBuilder
 
 from args import parse_system_args

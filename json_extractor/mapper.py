@@ -19,17 +19,18 @@ class MemberJSONObjectMapper(JSONObjectMapper):
         return group_data
 
 class GroupData:
-    def __init__(self, kanji, romaji, index, code):
+    def __init__(self, kanji, romaji, index, code, pageformat):
         self.kanji = kanji
         self.romaji = romaji
         self.index = index
         self.code = code
+        self.pageformat = pageformat
     
     def __str__(self):
-        formatted = f"    Index: {self.index}\n    Code: {self.code}\n    Kanji: {self.kanji}\n    Romaji: {self.romaji}"
+        formatted = f"    Index: {self.index}\n    Code: {self.code}\n    Kanji: {self.kanji}\n    Romaji: {self.romaji}\n    Page Format: {self.pageformat}"
         return "{\n" + formatted + "\n}"
 
 class GroupJSONObjectMapper(JSONObjectMapper):
     def map_to_object(self, data):
-        group_data = GroupData(data['kanji'], data['romaji'], data['index'], data['code'])
+        group_data = GroupData(data['kanji'], data['romaji'], data['index'], data['code'], data['pageformat'])
         return group_data
