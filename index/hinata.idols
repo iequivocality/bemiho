@@ -1,17 +1,5 @@
 [
     {
-        "romaji" : "Watanabe Miho",
-        "kanji" : "渡邉美穂",
-        "kana" : "わたなべ みほ",
-        "blog" : "https://www.hinatazaka46.com/s/official/diary/member/list?ima=0000&ct=20"
-    },
-    {
-        "romaji" : "Tomita Suzuka",
-        "kanji" : "富田鈴花",
-        "kana" : "とみた すずか",
-        "blog" : "https://www.hinatazaka46.com/s/official/diary/member/list?ima=0000&ct=15"
-    },
-    {
         "romaji" : "Iguchi Mao",
         "kanji" : "井口眞緒",
         "kana" : "いぐち まお",
@@ -70,5 +58,71 @@
         "kanji" : "高本彩花",
         "kana" : "たかもと あやか",
         "blog" : "https://www.hinatazaka46.com/s/official/diary/member/list?ima=0000&ct=10"
+    },
+    {
+        "romaji" : "Higashimura Mei",
+        "kanji" : "東村芽依",
+        "kana" : "ひがしむら めい",
+        "blog" : "https://www.hinatazaka46.com/s/official/diary/member/list?ima=0000&ct=11"
+    },
+    {
+        "romaji" : "Kanemura Miku",
+        "kanji" : "金村美玖",
+        "kana" : "かねむら みく",
+        "blog" : "https://www.hinatazaka46.com/s/official/diary/member/list?ima=0000&ct=12"
+    },
+    {
+        "romaji" : "Kawata Hina",
+        "kanji" : "河田陽菜",
+        "kana" : "かわた ひな",
+        "blog" : "https://www.hinatazaka46.com/s/official/diary/member/list?ima=0000&ct=13"
+    },
+    {
+        "romaji" : "Kosaka Nao",
+        "kanji" : "小坂菜緒",
+        "kana" : "こさか なお",
+        "blog" : "https://www.hinatazaka46.com/s/official/diary/member/list?ima=0000&ct=14"
+    },
+    {
+        "romaji" : "Tomita Suzuka",
+        "kanji" : "富田鈴花",
+        "kana" : "とみた すずか",
+        "blog" : "https://www.hinatazaka46.com/s/official/diary/member/list?ima=0000&ct=15"
+    },
+    {
+        "romaji" : "Nibu Akari",
+        "kanji" : "丹生明里",
+        "kana" : "にぶ あかり",
+        "blog" : "https://www.hinatazaka46.com/s/official/diary/member/list?ima=0000&ct=16"
+    },
+    {
+        "romaji" : "Hamagishi Hiyori",
+        "kanji" : "濱岸ひより",
+        "kana" : "はまぎし ひより",
+        "blog" : "https://www.hinatazaka46.com/s/official/diary/member/list?ima=0000&ct=17"
+    },
+    {
+        "romaji" : "Matsuda Konoka",
+        "kanji" : "松田好花",
+        "kana" : "まつだ このか",
+        "blog" : "https://www.hinatazaka46.com/s/official/diary/member/list?ima=0000&ct=18"
+    },
+    {
+        "romaji" : "Miyata Manamo",
+        "kanji" : "宮田愛萌",
+        "kana" : "みやた まなも",
+        "blog" : "https://www.hinatazaka46.com/s/official/diary/member/list?ima=0000&ct=19"
+    },
+    {
+        "romaji" : "Watanabe Miho",
+        "kanji" : "渡邉美穂",
+        "kana" : "わたなべ みほ",
+        "blog" : "https://www.hinatazaka46.com/s/official/diary/member/list?ima=0000&ct=20"
+    },
+    {
+        "romaji" : "Kamimura Hinano",
+        "kanji" : "上村ひなの",
+        "kana" : "かみむら ひなの",
+        "blog" : "https://www.hinatazaka46.com/s/official/diary/member/list?ima=0000&ct=21"
     }
 ]

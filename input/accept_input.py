@@ -5,8 +5,9 @@ from json_extractor.mapper import GroupJSONObjectMapper, MemberJSONObjectMapper
 from input.user_input import BemihoUserInput, BemihoUserInputBuilder
 
 from args import parse_system_args
-from const import CONTENT_CHOICES
 from input.exceptions import JSONDataNotFound, PageNumberNotDigits, InvalidContentInput, FirstPageLargerThanLastPage
+
+from scrapper.traversal import get_available_content_options
 
 def group_format(index, group):
     return f"({index + 1}) {group.romaji} - {group.kanji}"
@@ -66,13 +67,13 @@ def get_user_input():
 
     selected_content = None
     if (args.content == None):
-        selected_content = input(f"Please select content to pull. Possible choices are ({', '.join(CONTENT_CHOICES)}). Default is photos: ")
+        selected_content = input(f"Please select content to pull. Possible choices are ({', '.join(get_available_content_options())}). Default is photos: ")
         if (selected_content == None or selected_content == ''):
             selected_content = 'photos'
     else:
         selected_content = args.content
 
-    if (any(selected_content == choice for choice in CONTENT_CHOICES)):
+    if (any(selected_content == choice for choice in get_available_content_options())):
         user_input_build.set_content(args.content)
     else:
         raise InvalidContentInput()

@@ -22,8 +22,8 @@ class HinatazakaBlogHeader(BlogHeader):
 
 class HinatazakaScrapper(Scrapper):
     code = 'Hinatazaka'
-    def __init__(self, user_input):
-        super().__init__(user_input)
+    def __init__(self, user_input, traversal):
+        super().__init__(user_input, traversal)
 
     def format_url(self, page_number):
         member = self.user_input.member
@@ -47,37 +47,6 @@ class HinatazakaScrapper(Scrapper):
         info_content = HinatazakaBlogInfo(info_date.contents[0].strip(), info_author.contents[0].strip())
         return info_content
 
-    def traverse_for_photos_only(self, content):
-        contents = []
-        children = content.children
-        for child in children:
-            if type(child) is Tag:
-                if child.name == 'img':
-                    contents.append(child.get('src'))
-                elif child.name == 'div' or child.name == 'span':
-                    contents.extend(self.traverse_for_photos_only(child))
-        return contents
-
-    def traverse_for_entire_blog(self, content):
-        contents = []
-        children = content.children
-        for child in children:
-            if type(child) is NavigableString:
-                # print child
-                contents.append(child)
-            elif type(child) is Tag:
-                if child.name == 'p':
-                    contents.extend(self.traverse_for_entire_blog(child))
-                elif child.name == 'b':
-                    contents.append(child.get_text())
-                elif child.name == 'img':
-                    contents.append(child.get('src'))
-                elif child.name == 'br':
-                    contents.append('')
-                elif child.name == 'div' or child.name == 'span':
-                    contents.extend(self.traverse_for_entire_blog(child))
-        return contents
-
     def read_image(self, url):
         with urllib.request.urlopen(url) as response:
             return response.read()
@@ -85,7 +54,6 @@ class HinatazakaScrapper(Scrapper):
     def start_web_scrape(self):
         firstpage = self.user_input.firstpage
         lastpage = self.user_input.lastpage
-        content_for_traversal = self.user_input.content
         output = self.user_input.output
         for number in range(firstpage - 1, lastpage):
             link = self.format_url(number)
@@ -95,10 +63,9 @@ class HinatazakaScrapper(Scrapper):
             for article in soup.find_all('div', class_='p-blog-article'):
                 header = self.get_header(article)
                 content = article.find('div', class_='c-blog-article__text')
-                if (content_for_traversal == 'photos'):
-                    for index, image in enumerate(self.traverse_for_photos_only(content)):
-                        print(image)
-                        with open(os.path.join(output, f"{header.title}_{index}.jpeg"), 'wb') as f:
-                            f.write(self.read_image(image))
+                for index, image in enumerate(self.traversal.traverse(content)):
+                    print(image)
+                    # with open(os.path.join(output, f"{header.title}_{index}.jpeg"), 'wb') as f:
+                    #     f.write(self.read_image(image))
                 # print(header)
     
