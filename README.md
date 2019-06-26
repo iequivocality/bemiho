@@ -18,3 +18,14 @@ python 3.7
 - git clone https://github.com/iequivocality/bemiho.git
 - pip install -r requirements.txt
 - python bemiho.py
+
+**Terminal Arguments**
+
+| Shorthand | Full        |       |
+| --------- |:-----------:| -----:|
+| -g        | --group     |       |
+| -m        | --member    |       |
+| -o        | --output    |       |
+| -c        | --content   |       |
+| -f        | --firstpage |       |
+| -l        | --lastpage  |       |

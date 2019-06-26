@@ -10,6 +10,8 @@ from bs4.element import Tag, NavigableString
 from scrapper import Scrapper
 from contents.header import BlogHeader
 
+from concurrent.futures import ThreadPoolExecutor
+
 class HinatazakaBlogInfo:
     def __init__(self, datestring, author):
         self.datestring = datestring
@@ -50,22 +52,29 @@ class HinatazakaScrapper(Scrapper):
     def read_image(self, url):
         with urllib.request.urlopen(url) as response:
             return response.read()
+
+    def __onfinish(self):
+        pass
+
+    def execute_single_page_scrape(self, page):
+        link = self.format_url(page)
+        print(link)
+        request = requests.get(link)
+        soup = BeautifulSoup(request.text, 'lxml')
+        for article in soup.find_all('div', class_='p-blog-article'):
+            header = self.get_header(article)
+            content = article.find('div', class_='c-blog-article__text')
+            for index, image in enumerate(self.traversal.traverse(content)):
+                print(image)
+                # with open(os.path.join(output, f"{header.title}_{index}.jpeg"), 'wb') as f:
+                #     f.write(self.read_image(image))
+            # print(header)
  
     def start_web_scrape(self):
         firstpage = self.user_input.firstpage
         lastpage = self.user_input.lastpage
-        output = self.user_input.output
-        for number in range(firstpage - 1, lastpage):
-            link = self.format_url(number)
-            print(link)
-            request = requests.get(link)
-            soup = BeautifulSoup(request.text, 'lxml')
-            for article in soup.find_all('div', class_='p-blog-article'):
-                header = self.get_header(article)
-                content = article.find('div', class_='c-blog-article__text')
-                for index, image in enumerate(self.traversal.traverse(content)):
-                    print(image)
-                    # with open(os.path.join(output, f"{header.title}_{index}.jpeg"), 'wb') as f:
-                    #     f.write(self.read_image(image))
-                # print(header)
-    
+
+        with ThreadPoolExecutor(max_workers=5) as executor:
+            futures = []
+            for number in range(firstpage - 1, lastpage):
+                futures.append(executor.submit(self.execute_single_page_scrape, number))
