@@ -13,7 +13,7 @@ def group_format(index, group):
     return f"({index + 1}) {group.romaji} - {group.kanji}"
 
 def member_format(index, member):
-    return f"({index + 1}) {member.romaji} - {member.kanji}"
+    return f"({member.index}) {member.romaji} - {member.kanji}"
 
 def ask_for_user_input_with_extracted(options, format, label):
     print(f"Available {label}s:")
@@ -43,7 +43,9 @@ def get_group_input(group_from_args):
 
 def get_member_input(member_from_args, selected_group):
     def data_check(member, input_value):
-        return member.kanji == input_value or member.romaji == input_value or member.kana == input_value
+        print(input_value)
+        print(member.index == input)
+        return member.kanji == input_value or member.romaji == input_value or member.kana == input_value or member.index == input_value
     return get_input_and_check_index('index/' + selected_group.index, MemberJSONObjectMapper, member_from_args, member_format, "member", data_check)
 
 def get_page_input(page_from_args, default_value, label):

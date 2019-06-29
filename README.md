@@ -21,11 +21,11 @@ python 3.7
 
 **Terminal Arguments**
 
-| Shorthand | Full        |       |
-| --------- |:-----------:| -----:|
-| -g        | --group     |       |
-| -m        | --member    |       |
-| -o        | --output    |       |
-| -c        | --content   |       |
-| -f        | --firstpage |       |
-| -l        | --lastpage  |       |
+| Complete    | Shorthand |       |
+| ----------- | --------- | ----- |
+| --group     | -g        |       |
+| --member    | -m        |       |
+| --output    | -o        |       |
+| --content   | -c        |       |
+| --firstpage | -f        |       |
+| --lastpage  | -l        |       |

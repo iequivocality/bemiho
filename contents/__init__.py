@@ -13,3 +13,9 @@ class BlogHeader:
     def __str__(self):
         header_data = f'    Title: {self.title}\n    Date: {self.date}\n    Author: {self.author}'
         return enclose_to_json_like_string(header_data)
+
+class BlogData:
+    def __init__(self, header, contents):
+        self.header = header
+        self.contents = contents
+    

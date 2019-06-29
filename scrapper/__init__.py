@@ -3,13 +3,17 @@ import inspect
 import pkgutil
 from pathlib import Path
 from importlib import import_module
+
+from concurrent.futures import ThreadPoolExecutor
+
 from scrapper.traversal import get_traversal_based_on_content_request
 
 class Scrapper:
     code = 'Scrapper'
-    def __init__(self, user_input, traversal):
+    def __init__(self, user_input, page_number, traversal):
         self.user_input = user_input
         self.traversal = traversal
+        self.page_number = page_number
 
     def format_url(self, page_number):
         raise NotImplementedError()
@@ -20,13 +24,34 @@ class Scrapper:
     def get_header(self):
         raise NotImplementedError()
 
-def create_scrapper_based_on_input(user_input):
+def get_scrapper_class_based_on_input(user_input):
     scrapper = None
-    traversal = get_traversal_based_on_content_request(user_input)
     for (_, name, _) in pkgutil.iter_modules([Path(__file__).parent]):
         imported_module = import_module('.' + name, package=__name__)
         for i in dir(imported_module):
             attribute = getattr(imported_module, i)
             if inspect.isclass(attribute) and issubclass(attribute, Scrapper) and attribute.code == user_input.group.code:
                 scrapper = attribute
-    return scrapper(user_input, traversal)
+    return scrapper
+
+class BemihoScrapProcessor:
+    def __init__(self, user_input, output_processor):
+        self.user_input = user_input
+        self.traversal = get_traversal_based_on_content_request(user_input)
+        self.scrapper_class = get_scrapper_class_based_on_input(user_input)
+        self.output_processor = output_processor
+
+    def execute_single_scraper(self, page_number):
+        scrapper = self.scrapper_class(self.user_input, page_number, self.traversal)
+        blog_data = scrapper.start_web_scrape()
+        for content in blog_data:
+            print(content.contents)
+
+    def start(self):
+        firstpage = self.user_input.firstpage
+        lastpage = self.user_input.lastpage
+
+        with ThreadPoolExecutor(max_workers=5) as executor:
+            futures = []
+            for page_number in range(firstpage - 1, lastpage):
+                futures.append(executor.submit(self.execute_single_scraper, page_number)) 

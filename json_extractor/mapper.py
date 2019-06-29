@@ -5,20 +5,21 @@ class JSONObjectMapper:
         return None
 
 class MemberData:
-    def __init__(self, blog, kanji, romaji, kana):
+    def __init__(self, blog, kanji, romaji, kana, index):
         self.blog = blog
         self.kanji = kanji
         self.romaji = romaji
         self.kana = kana
+        self.index = index
     
     def __str__(self):
-        formatted = f"    Blog: {self.blog}\n    Kanji: {self.kanji}\n    Romaji: {self.romaji}\n    Kana: {self.kana}"
+        formatted = f"    Blog: {self.blog}\n    Kanji: {self.kanji}\n    Romaji: {self.romaji}\n    Kana: {self.kana}\n    Index: {self.index}"
         return enclose_to_json_like_string(formatted)
 
 class MemberJSONObjectMapper(JSONObjectMapper):
     def map_to_object(self, data):
-        group_data = MemberData(data['blog'], data['kanji'], data['romaji'], data['kana'])
-        return group_data
+        member_data = MemberData(data['blog'], data['kanji'], data['romaji'], data['kana'], data['index'])
+        return member_data
 
 class GroupData:
     def __init__(self, kanji, romaji, index, code, pageformat):
