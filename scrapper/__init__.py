@@ -35,17 +35,19 @@ def get_scrapper_class_based_on_input(user_input):
     return scrapper
 
 class BemihoScrapProcessor:
-    def __init__(self, user_input, output_processor):
+    def __init__(self, user_input, output_processor_class):
         self.user_input = user_input
         self.traversal = get_traversal_based_on_content_request(user_input)
         self.scrapper_class = get_scrapper_class_based_on_input(user_input)
-        self.output_processor = output_processor
+        self.output_processor_class = output_processor_class
 
     def execute_single_scraper(self, page_number):
         scrapper = self.scrapper_class(self.user_input, page_number, self.traversal)
+        output_processor = self.output_processor_class(self.user_input, None)
         blog_data = scrapper.start_web_scrape()
-        for content in blog_data:
-            print(content.contents)
+        for blog_datum in blog_data:
+            output_processor.process_blog_data(blog_datum)
+            # print(content.contents)
 
     def start(self):
         firstpage = self.user_input.firstpage

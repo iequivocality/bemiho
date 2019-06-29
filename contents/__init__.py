@@ -10,6 +10,9 @@ class BlogHeader:
     def format_date(self, datestring):
         return datetime.now()
 
+    def date_to_string(self):
+        return self.date.strftime("%Y_%d_%m_%H_%M_%S")
+
     def __str__(self):
         header_data = f'    Title: {self.title}\n    Date: {self.date}\n    Author: {self.author}'
         return enclose_to_json_like_string(header_data)

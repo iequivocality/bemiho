@@ -2,8 +2,9 @@
     {
         "kanji" : "日向坂46",
         "romaji" : "Hinatazaka46",
-        "index" : "hinata.idols",
+        "index_file" : "hinata.idols",
         "code" : "Hinatazaka",
-        "pageformat" : "page="
+        "pageformat" : "page=",
+        "index" : "1"
     }
 ]

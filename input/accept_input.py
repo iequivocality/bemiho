@@ -10,7 +10,7 @@ from input.exceptions import JSONDataNotFound, PageNumberNotDigits, InvalidConte
 from scrapper.traversal import get_available_content_options
 
 def group_format(index, group):
-    return f"({index + 1}) {group.romaji} - {group.kanji}"
+    return f"({group.index}) {group.romaji} - {group.kanji}"
 
 def member_format(index, member):
     return f"({member.index}) {member.romaji} - {member.kanji}"
@@ -38,7 +38,7 @@ def get_input_and_check_index(json_file, json_mapper, value_from_args, input_req
 
 def get_group_input(group_from_args):
     def data_check(group, input_value):
-        return group.kanji == input_value or group.romaji == input_value or group.code == input_value
+        return group.kanji == input_value or group.romaji == input_value or group.code == input_value or group.index == input_value
     return get_input_and_check_index('index/index.idols', GroupJSONObjectMapper, group_from_args, group_format, "group", data_check)
 
 def get_member_input(member_from_args, selected_group):
@@ -46,7 +46,7 @@ def get_member_input(member_from_args, selected_group):
         print(input_value)
         print(member.index == input)
         return member.kanji == input_value or member.romaji == input_value or member.kana == input_value or member.index == input_value
-    return get_input_and_check_index('index/' + selected_group.index, MemberJSONObjectMapper, member_from_args, member_format, "member", data_check)
+    return get_input_and_check_index('index/' + selected_group.index_file, MemberJSONObjectMapper, member_from_args, member_format, "member", data_check)
 
 def get_page_input(page_from_args, default_value, label):
     if (page_from_args == None):

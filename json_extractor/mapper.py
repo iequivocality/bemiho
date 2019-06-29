@@ -22,18 +22,19 @@ class MemberJSONObjectMapper(JSONObjectMapper):
         return member_data
 
 class GroupData:
-    def __init__(self, kanji, romaji, index, code, pageformat):
+    def __init__(self, kanji, romaji, index_file, code, pageformat, index):
         self.kanji = kanji
         self.romaji = romaji
-        self.index = index
+        self.index_file = index_file
         self.code = code
         self.pageformat = pageformat
+        self.index = index
     
     def __str__(self):
-        formatted = f"    Index: {self.index}\n    Code: {self.code}\n    Kanji: {self.kanji}\n    Romaji: {self.romaji}\n    Page Format: {self.pageformat}"
+        formatted = f"    Index File: {self.index_file}\n    Code: {self.code}\n    Kanji: {self.kanji}\n    Romaji: {self.romaji}\n    Page Format: {self.pageformat}\n    Index: {self.index}"
         return enclose_to_json_like_string(formatted)
 
 class GroupJSONObjectMapper(JSONObjectMapper):
     def map_to_object(self, data):
-        group_data = GroupData(data['kanji'], data['romaji'], data['index'], data['code'], data['pageformat'])
+        group_data = GroupData(data['kanji'], data['romaji'], data['index_file'], data['code'], data['pageformat'], data['index'])
         return group_data
