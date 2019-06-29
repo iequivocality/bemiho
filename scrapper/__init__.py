@@ -47,7 +47,6 @@ class BemihoScrapProcessor:
         blog_data = scrapper.start_web_scrape()
         for blog_datum in blog_data:
             output_processor.process_blog_data(blog_datum)
-            # print(content.contents)
 
     def start(self):
         firstpage = self.user_input.firstpage
