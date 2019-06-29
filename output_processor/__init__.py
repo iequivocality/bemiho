@@ -9,6 +9,3 @@ class ScrapperOutputProcessor:
     
     def process_blog_data(self, blog_datum):
         print(blog_datum.contents)
-
-    
-    
