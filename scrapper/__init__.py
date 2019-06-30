@@ -3,6 +3,8 @@ import inspect
 import pkgutil
 from pathlib import Path
 from importlib import import_module
+import traceback
+
  
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
@@ -58,4 +60,5 @@ class BemihoScrapProcessor:
                 try:
                     data = future.result()
                 except Exception as exc:
+                    traceback.print_exc()
                     print('generated an exception: %s' % (exc))
