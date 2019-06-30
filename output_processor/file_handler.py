@@ -3,6 +3,9 @@ from utilities.file import create_directory
 
 from os.path import join, exists, isdir
 
+#this is temporary
+from scrapper.traversal import get_available_content_options
+
 class OutputFolderHandler:
     def __init__(self, user_input):
         self.user_input = user_input
@@ -22,6 +25,7 @@ class OutputFolderHandler:
             group_path = join(output_path, group)
             # print(group_path)
             create_directory(group_path)
+            self.group_path = group_path
 
     def create_member_directory(self):
         output_path = self.output_path
@@ -34,3 +38,15 @@ class OutputFolderHandler:
             member = self.user_input.member.kanji
             member_path = join(group_path, member)
             create_directory(member_path)
+            self.member_path = member_path
+            self.create_subfolders_for_members()
+
+    def create_subfolders_for_members(self):
+        content_options = get_available_content_options()
+        for cont_opt in content_options:
+            cont_path = join(self.member_path, cont_opt)
+            if (not exists(cont_path)):
+                create_directory(cont_path)
+    
+    def get_member_path(self):
+        return self.member_path

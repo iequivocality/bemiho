@@ -3,8 +3,8 @@ import inspect
 import pkgutil
 from pathlib import Path
 from importlib import import_module
-
-from concurrent.futures import ThreadPoolExecutor
+ 
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from scrapper.traversal import get_traversal_based_on_content_request
 
@@ -44,8 +44,7 @@ class BemihoScrapProcessor:
     def execute_single_scraper(self, page_number):
         scrapper = self.scrapper_class(self.user_input, page_number, self.traversal)
         blog_data = scrapper.start_web_scrape()
-        for blog_datum in blog_data:
-            self.output_processor.process_blog_data(blog_datum)
+        self.output_processor.process_blog_data(blog_data)
 
     def start(self):
         firstpage = self.user_input.firstpage
@@ -54,4 +53,9 @@ class BemihoScrapProcessor:
         with ThreadPoolExecutor(max_workers=5) as executor:
             futures = []
             for page_number in range(firstpage - 1, lastpage):
-                futures.append(executor.submit(self.execute_single_scraper, page_number)) 
+                futures.append(executor.submit(self.execute_single_scraper, page_number))
+            for future in as_completed(futures):
+                try:
+                    data = future.result()
+                except Exception as exc:
+                    print('generated an exception: %s' % (exc))

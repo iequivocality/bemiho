@@ -5,12 +5,15 @@ from input.accept_input import get_user_input
 from input.exceptions import JSONDataNotFound, FirstPageLargerThanLastPage, PageNumberNotDigits, InvalidContentInput
 from scrapper import BemihoScrapProcessor
 
-from output_processor import ScrapperOutputProcessor
+# from output_processor import ScrapperOutputProcessor
+
+from output_processor import get_output_processor_class_for_content
 
 try:
     user_input = get_user_input()
     print(user_input)
-    processor = BemihoScrapProcessor(user_input, ScrapperOutputProcessor)
+    output_processor_class = get_output_processor_class_for_content(user_input)
+    processor = BemihoScrapProcessor(user_input, output_processor_class)
     processor.start()
 except (JSONDataNotFound, PageNumberNotDigits, FirstPageLargerThanLastPage, InvalidContentInput) as e:
     print(e)
