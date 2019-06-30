@@ -10,6 +10,7 @@ class OutputFolderHandler:
     def __init__(self, user_input):
         self.user_input = user_input
         self.output_path = join(os.getcwd(), user_input.output)
+        self.content_folders = {}
 
     def create_main_directory(self):
         output_path = self.output_path
@@ -39,14 +40,17 @@ class OutputFolderHandler:
             member_path = join(group_path, member)
             create_directory(member_path)
             self.member_path = member_path
-            self.create_subfolders_for_members()
+            self.create_directory_for_members()
 
-    def create_subfolders_for_members(self):
+    def create_directory_for_members(self):
         content_options = get_available_content_options()
         for cont_opt in content_options:
-            cont_path = join(self.member_path, cont_opt)
-            if (not exists(cont_path)):
-                create_directory(cont_path)
+            self.content_folders[cont_opt] = join(self.member_path, cont_opt)
+            if (not exists(self.content_folders[cont_opt])):
+                create_directory(self.content_folders[cont_opt])
     
+    def get_directory_for_member_subdirectories(self, content):
+        return self.content_folders[content]
+
     def get_member_path(self):
         return self.member_path
