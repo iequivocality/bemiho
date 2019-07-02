@@ -63,5 +63,4 @@ class BemihoScrapProcessor:
                 try:
                     data = future.result()
                 except Exception as exc:
-                    traceback.print_exc()
-                    print('generated an exception: %s' % (exc))
+                    pass

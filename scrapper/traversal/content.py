@@ -25,7 +25,6 @@ class BlogScrapperTraversal(ScrapperTraversal):
         children = element.children
         for child in children:
             if type(child) is NavigableString:
-                # print child
                 # contents.append(child)
                 contents.append(BlogTextContent(child))
             elif type(child) is Tag:
@@ -43,5 +42,5 @@ class BlogScrapperTraversal(ScrapperTraversal):
                     contents.extend(self.traverse(child))
         return contents
 
-# class AllScrapperTraversal(BlogScrapperTraversal):
-#     content = 'all' 
+class AllScrapperTraversal(BlogScrapperTraversal):
+    content = 'all' 

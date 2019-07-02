@@ -53,12 +53,10 @@ class HinatazakaScrapper(Scrapper):
     def start_web_scrape(self):
         contents = []
         link = self.format_url(self.page_number)
-        print(link)
         request = requests.get(link)
         soup = BeautifulSoup(request.text, 'lxml')
         for article in soup.find_all('div', class_='p-blog-article'):
             header = self.get_header(article)
             content = article.find('div', class_='c-blog-article__text')
-            # contents.extend(self.traversal.traverse(content))
             contents.append(BlogData(header, self.traversal.traverse(content)))
         return contents

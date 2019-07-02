@@ -20,11 +20,9 @@ class PhotosOutputProcessor(ScrapperOutputProcessor):
         directory = self.output_folder_handler.get_directory_for_member_subdirectories(self.content)
         for blog_data in blog_datas:
             header = blog_data.header
-            print(header.date_to_string())
             contents = blog_data.contents
             for (index, content) in enumerate(contents):
                 image_url = content.get_content()
                 if (image_url and not image_url == ''):
                     save_url = self.build_url(header, image_url, directory, index)
-                    print(save_url)
                     request.urlretrieve(content.get_content(), save_url)

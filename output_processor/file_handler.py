@@ -24,7 +24,6 @@ class OutputFolderHandler:
         else:
             group = self.user_input.group.kanji
             group_path = join(output_path, group)
-            # print(group_path)
             create_directory(group_path)
             self.group_path = group_path
 

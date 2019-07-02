@@ -10,6 +10,5 @@ class JSONExtractor:
         with open(self.filename) as jsonfile:
             data = json.load(jsonfile)
             for d in data:
-                # print(d)
                 items.append(self.mapper.map_to_object(d))
         return items

@@ -43,8 +43,6 @@ def get_group_input(group_from_args):
 
 def get_member_input(member_from_args, selected_group):
     def data_check(member, input_value):
-        print(input_value)
-        print(member.index == input)
         return member.kanji == input_value or member.romaji == input_value or member.kana == input_value or member.index == input_value
     return get_input_and_check_index('index/' + selected_group.index_file, MemberJSONObjectMapper, member_from_args, member_format, "member", data_check)
 
