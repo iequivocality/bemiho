@@ -9,6 +9,7 @@ from logger import BemihoLogger
 from output_processor import get_output_processor_class_for_content
 
 if __name__ == '__main__':
+    BemihoLogger('bemiho').get_logger().debug('Starting Bemiho: the utility for Japanese idols')
     try:
         user_input = get_user_input()
         output_processor_class = get_output_processor_class_for_content(user_input.content)

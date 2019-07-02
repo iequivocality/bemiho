@@ -2,7 +2,7 @@ import logging
 
 class BemihoLogger:
     def __init__(self, name):
-        self.logger = logging.getLogger('main')
+        self.logger = logging.getLogger(name)
         self.init_handlers()
 
     def init_handlers(self):
