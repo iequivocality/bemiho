@@ -5,6 +5,7 @@
         "index_file" : "hinata.idols",
         "code" : "Hinatazaka",
         "pageformat" : "page=",
-        "index" : "1"
+        "index" : "1",
+        "homepage" : "https://www.hinatazaka46.com"
     }
 ]

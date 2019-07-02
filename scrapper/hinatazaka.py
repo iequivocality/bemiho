@@ -39,13 +39,16 @@ class HinatazakaScrapper(Scrapper):
         info_element = header_element.find('div', class_='p-blog-article__info')
         info_date = info_element.find('div', class_='c-blog-article__date')
         info_author = info_element.find('div', class_='c-blog-article__name')
-        
-        header_title_content = header_title_element.contents[0].strip()
-        return HinatazakaBlogHeader(header_title_content, info_date.contents[0].strip(), info_author.contents[0].strip())
 
-    # def read_image(self, url):
-    #     with urllib.request.urlopen(url) as response:
-    #         return response.read()
+        link = self.get_blog_link(article)
+        header_title_content = header_title_element.contents[0].strip()
+        return HinatazakaBlogHeader(header_title_content, info_date.contents[0].strip(), info_author.contents[0].strip(), link)
+
+    def get_blog_link(self, article):
+        group = self.user_input.group
+        link_element_container = article.find('div', class_='p-button__blog_detail')
+        link_element = link_element_container.find('a', class_='c-button-blog-detail')
+        return f"{group.homepage}{link_element.get('href')}"
  
     def start_web_scrape(self):
         contents = []

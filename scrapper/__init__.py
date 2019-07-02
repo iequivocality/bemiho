@@ -23,7 +23,10 @@ class Scrapper:
     def start_web_scrape(self):
         raise NotImplementedError()
 
-    def get_header(self):
+    def get_header(self, article):
+        raise NotImplementedError()
+
+    def get_blog_link(self, article):
         raise NotImplementedError()
 
 def get_scrapper_class_based_on_input(user_input):

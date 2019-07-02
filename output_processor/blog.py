@@ -1,13 +1,12 @@
 from os.path import join
 
-import io
-import requests
-
 from output_processor import ScrapperOutputProcessor
 from contents import BlogTextContent, BlogImageContent
 
 from docx import Document
-from docx.shared import Inches
+from docx.shared import Inches, Pt
+
+from output_processor.docs import HeaderDocumentModifier, create_document_modifier
 
 class BlogEntryOutputProcessor(ScrapperOutputProcessor):
     content = 'blog'
@@ -17,16 +16,12 @@ class BlogEntryOutputProcessor(ScrapperOutputProcessor):
 
         document_path = join(directory, f"{header.title}.docx")
         document = Document()
-        style = document.styles['Normal']
+        
+        HeaderDocumentModifier(header.title, level=1).change_document(document)
+        HeaderDocumentModifier(header.link, level=4).change_document(document)
         
         for content in contents:
-            if (isinstance(content, BlogTextContent)):
-                # print("text")
-                document.add_paragraph(content.get_content())
-            elif (isinstance(content, BlogImageContent)):
-                response = requests.get(content.get_content(), stream=True)
-                image = io.BytesIO(response.content)
-                document.add_picture(image, width=Inches(6))
+            create_document_modifier(content).change_document(document)
         document.save(document_path)
 
     def process_blog_data(self, blog_datas):
