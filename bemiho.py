@@ -4,8 +4,7 @@ from json_extractor.mapper import GroupJSONObjectMapper, MemberJSONObjectMapper
 from input.accept_input import get_user_input
 from input.exceptions import JSONDataNotFound, FirstPageLargerThanLastPage, PageNumberNotDigits, InvalidContentInput
 from scrapper import BemihoScrapProcessor
-
-# from output_processor import ScrapperOutputProcessor
+from logger import BemihoLogger
 
 from output_processor import get_output_processor_class_for_content
 
