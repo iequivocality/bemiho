@@ -14,8 +14,8 @@ class BlogEntryOutputProcessor(ScrapperOutputProcessor):
     def build_document(self, directory, blog_data):
         header = blog_data.header
         contents = blog_data.contents
-
-        document_path = join(directory, f"{header.title}.docx")
+        date_string = header.date.strftime("%Y.%m.%d")
+        document_path = join(directory, f"{date_string} {header.title}.docx")
         document = Document()
         
         HeaderDocumentModifier(header.title, level=1).change_document(document)
