@@ -49,6 +49,7 @@ class BemihoScrapProcessor:
     def execute_single_scraper(self, page_number):
         scrapper = self.scrapper_class(self.user_input, page_number, self.traversal)
         blog_data = scrapper.start_web_scrape()
+        self.output_processor.create_output_directory()
         self.output_processor.process_blog_data(blog_data)
 
     def start(self):
@@ -63,4 +64,4 @@ class BemihoScrapProcessor:
                 try:
                     data = future.result()
                 except Exception as exc:
-                    pass
+                    print(exc)

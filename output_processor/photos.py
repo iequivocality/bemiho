@@ -3,6 +3,7 @@ from os.path import join
 import mimetypes
 
 from output_processor import ScrapperOutputProcessor
+from contents import BlogImageContent
 
 class PhotosOutputProcessor(ScrapperOutputProcessor):
     content = 'photos'
@@ -17,12 +18,13 @@ class PhotosOutputProcessor(ScrapperOutputProcessor):
         return save_url
 
     def process_blog_data(self, blog_datas):
-        directory = self.output_folder_handler.get_directory_for_member_subdirectories(self.content)
+        directory = self.member_path
         for blog_data in blog_datas:
             header = blog_data.header
             contents = blog_data.contents
             for (index, content) in enumerate(contents):
-                image_url = content.get_content()
-                if (image_url and not image_url == ''):
-                    save_url = self.build_url(header, image_url, directory, index)
-                    request.urlretrieve(content.get_content(), save_url)
+                if (isinstance(content, BlogImageContent)):
+                    image_url = content.get_content()
+                    if (image_url and not image_url == ''):
+                        save_url = self.build_url(header, image_url, directory, index)
+                        request.urlretrieve(content.get_content(), save_url)

@@ -1,3 +1,4 @@
+import re
 from os.path import join
 
 from output_processor import ScrapperOutputProcessor
@@ -22,9 +23,13 @@ class BlogEntryOutputProcessor(ScrapperOutputProcessor):
         
         for content in contents:
             create_document_modifier(content).change_document(document)
-        document.save(document_path)
+        document.save(self.remove_emoji_from_document_path(document_path))
+
+    def remove_emoji_from_document_path(self, document_path):
+        RE_EMOJI = re.compile('[\U00010000-\U0010ffff]', flags=re.UNICODE)
+        return RE_EMOJI.sub(r'', document_path)
 
     def process_blog_data(self, blog_datas):
-        directory = self.output_folder_handler.get_directory_for_member_subdirectories(self.content)
+        directory = self.member_path
         for blog_data in blog_datas:
             self.build_document(directory, blog_data)

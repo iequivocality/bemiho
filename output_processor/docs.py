@@ -26,9 +26,11 @@ class BlogTextDocumentModifier(DocumentModifier):
 
 class BlogImageDocumentModifier(DocumentModifier):
     def change_document(self, document):
-        response = requests.get(self.text_container.get_content(), stream=True)
-        image = io.BytesIO(response.content)
-        document.add_picture(image, width=Inches(4))
+        image_content = self.text_container.get_content()
+        if (image_content and image_content != ''):
+            response = requests.get(self.text_container.get_content(), stream=True)
+            image = io.BytesIO(response.content)
+            document.add_picture(image, width=Inches(4))
 
 def create_document_modifier(content):
     if (isinstance(content, BlogTextContent)):
