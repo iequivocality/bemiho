@@ -4,10 +4,10 @@ import pkgutil
 from pathlib import Path
 from importlib import import_module
 import traceback
-
  
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
+from logger import BemihoLogger
 from scrapper.traversal import get_traversal_based_on_content_request
 
 class Scrapper:
@@ -45,16 +45,21 @@ class BemihoScrapProcessor:
         self.traversal = get_traversal_based_on_content_request(user_input)
         self.scrapper_class = get_scrapper_class_based_on_input(user_input)
         self.output_processor = output_processor_class(user_input, None)
+        self.logger = BemihoLogger(type(self)).get_logger()
 
     def execute_single_scraper(self, page_number):
+        content = self.user_input.content
+        self.logger.debug(f"Starting fetch {content} for page {page_number}")
         scrapper = self.scrapper_class(self.user_input, page_number, self.traversal)
         blog_data = scrapper.start_web_scrape()
         self.output_processor.create_output_directory()
         self.output_processor.process_blog_data(blog_data)
+        return page_number
 
     def start(self):
         firstpage = self.user_input.firstpage
         lastpage = self.user_input.lastpage
+        content = self.user_input.content
 
         with ThreadPoolExecutor(max_workers=5) as executor:
             futures = []
@@ -63,5 +68,6 @@ class BemihoScrapProcessor:
             for future in as_completed(futures):
                 try:
                     data = future.result()
+                    self.logger.debug(f"Successfully fetched {content} data for page {data}")
                 except Exception as exc:
-                    print(exc)
+                    self.logger.error("Exception occurred on thread", exc_info=True)

@@ -1,3 +1,5 @@
+from logger import BemihoLogger
+
 class BemihoUserInput:
     def __init__(self, group, member, output, content, firstpage, lastpage):
         self.group = group
@@ -18,6 +20,7 @@ class BemihoUserInputBuilder:
         self.content = 'photos'
         self.firstpage = 1
         self.lastpage = 1
+        self.logger = BemihoLogger(type(self)).get_logger()
 
     def set_group(self, group):
         self.group = group
@@ -38,4 +41,6 @@ class BemihoUserInputBuilder:
         self.lastpage = lastpage
 
     def build(self):
-        return BemihoUserInput(self.group, self.member, self.output, self.content, self.firstpage, self.lastpage)
+        user_input = BemihoUserInput(self.group, self.member, self.output, self.content, self.firstpage, self.lastpage)
+        self.logger.debug(f'User input object created for scrapping that contains the following data:\n{user_input}')
+        return user_input
