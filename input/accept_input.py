@@ -5,7 +5,7 @@ from json_extractor.mapper import GroupJSONObjectMapper, MemberJSONObjectMapper
 from input.user_input import BemihoUserInput, BemihoUserInputBuilder
 
 from args import parse_system_args
-from input.exceptions import JSONDataNotFound, PageNumberNotDigits, InvalidContentInput, FirstPageLargerThanLastPage
+from input.exceptions import JSONDataNotFound, PageNumberNotDigits, InvalidContentInput, NumberOfPageShouldBeAtLeastOne
 
 from scrapper.traversal import get_available_content_options
 
@@ -49,6 +49,8 @@ def get_member_input(member_from_args, selected_group):
     return get_input_and_check_index('index/' + selected_group.index_file, MemberJSONObjectMapper, member_from_args, member_format, "member", data_check)
 
 def get_page_input(page_from_args, default_value, label):
+    logger = BemihoLogger(get_page_input).get_logger()
+    logger.debug(f'Checking page or count from arguments {page_from_args} with default value {default_value}')
     if (page_from_args == None):
         page_input = input(f"Select {label}. Default is {default_value}: ")
         if (page_input == None or page_input == ''):
@@ -60,7 +62,7 @@ def get_page_input(page_from_args, default_value, label):
     return page_input
 
 def get_user_input():
-    logger = BemihoLogger(__name__).get_logger()
+    logger = BemihoLogger(get_user_input).get_logger()
     try:
         args = parse_system_args()
         user_input_build = BemihoUserInputBuilder()
@@ -83,12 +85,12 @@ def get_user_input():
             raise InvalidContentInput()
 
         firstpage = int(get_page_input(args.firstpage, '1', "first page"))
-        lastpage = int(get_page_input(args.lastpage, '1', "last page"))
-        if (firstpage > lastpage):
-            raise FirstPageLargerThanLastPage()
+        number_of_pages = int(get_page_input(args.number, '1', "last page"))
+        if (number_of_pages < 1):
+            raise NumberOfPageShouldBeAtLeastOne()
         else:
             user_input_build.set_firstpage(firstpage)
-            user_input_build.set_lastpage(lastpage)
+            user_input_build.set_number_of_page(number_of_pages)
         return user_input_build.build()
-    except (JSONDataNotFound, PageNumberNotDigits, FirstPageLargerThanLastPage, InvalidContentInput) as e:
+    except (JSONDataNotFound, PageNumberNotDigits, NumberOfPageShouldBeAtLeastOne, InvalidContentInput):
         logger.error("There were exceptions in acquiring data", exc_info=True)

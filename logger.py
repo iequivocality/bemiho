@@ -13,20 +13,20 @@ class BemihoLogger:
 
     def get_name(self, name_or_class):
         name = ''
-        if (inspect.isclass(name_or_class)):
+        if (inspect.isclass(name_or_class) or inspect.isfunction(name_or_class)):
             name = get_qualified_name(name_or_class)
         else:
             name = str(name_or_class)
         return name
 
     def init_handlers(self):
-        formatter = Formatter('%(asctime)s %(name)-6s %(levelname)-6s %(message)s')
+        formatter = Formatter('%(asctime)s %(name)-4s %(levelname)-4s %(message)s')
 
         stream_handler = StreamHandler()
         stream_handler.setLevel(logging.INFO)
         stream_handler.setFormatter(formatter)
 
-        file_handler = TimedRotatingFileHandler(filename = 'bemiho.log', when='midnight', backupCount = 5)
+        file_handler = TimedRotatingFileHandler(filename = 'log/bemiho.log', when='midnight', backupCount = 5)
         file_handler.setFormatter(formatter)
         file_handler.setLevel(logging.DEBUG)
 

@@ -112,3 +112,5 @@ output/
 
 #Mac OS
 .DS_Store
+
+log/

@@ -1,18 +1,15 @@
-class Error(Exception):
-    pass
-
-class JSONDataNotFound(Error):
+class JSONDataNotFound(Exception):
     def __init__(self, message):
         self.message = message
 
-class PageNumberNotDigits(Error):
+class PageNumberNotDigits(Exception):
     def __init__(self):
         self.message = "Page numbers have to be digits."
 
-class InvalidContentInput(Error):
+class InvalidContentInput(Exception):
     def __init__(self):
         self.message = "Invalid input for content. Must be photos or blog"
 
-class FirstPageLargerThanLastPage(Error):
+class NumberOfPageShouldBeAtLeastOne(Exception):
     def __init__(self):
-        self.message = "First page cannot be larger than last page."
+        self.message = "Number of pages should at least be one"
