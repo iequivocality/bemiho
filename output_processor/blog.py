@@ -18,7 +18,7 @@ class BlogEntryOutputProcessor(ScrapperOutputProcessor):
         self.logger = BemihoLogger(self.__class__).get_logger()
 
     def process_blog_data(self, blog_datas):
-        self.logger.debug(f'Starting saving blog data content to {self.member_path}.')
+        self.logger.debug(f'Starting saving blog content to {self.member_path}.')
         directory = self.member_path
         for blog_data in blog_datas:
             self.build_document(directory, blog_data)
