@@ -33,11 +33,13 @@ git clone https://github.com/iequivocality/bemiho.git
 **Re-open Terminal**
 ```shell
 git clone https://github.com/iequivocality/bemiho.git
+mkvirtualenv bemiho/
 pip install -r requirements.txt
 python bemiho.py
 ```
 
 ## Features
+> ✔️ Supported content and groups
 
 ### Supported Groups
 - Hinatazaka46
@@ -48,8 +50,9 @@ python bemiho.py
 - All download
 
 ## Usage
+> 💎 How to get your idol photos, fast...
 
-**Terminal Arguments**
+## Terminal Arguments
 
 | Complete    | Shorthand | Function   |
 | ----------- | --------- | ----- |
@@ -69,7 +72,7 @@ python bemiho.py
     - 🍴 Fork this repo!
 
 - **Option 2**
-    - 👯 Clone this repo to your local machine using `https://github.com/joanaz/HireDot2.git`
+    - 👯 Clone this repo to your local machine using `https://github.com/iequivocality/bemiho.git`
 
 ### Step 2
 
