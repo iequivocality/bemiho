@@ -3,9 +3,9 @@ import argparse
 from json_extractor.reader import JSONExtractor
 from json_extractor.mapper import GroupJSONObjectMapper, MemberJSONObjectMapper
 from input.user_input import BemihoUserInput, BemihoUserInputBuilder
+from input.exceptions import JSONDataNotFound, PageNumberNotDigits, InvalidContentInput, NumberOfPageShouldBeAtLeastOne
 
 from args import parse_system_args
-from input.exceptions import JSONDataNotFound, PageNumberNotDigits, InvalidContentInput, NumberOfPageShouldBeAtLeastOne
 
 from scrapper.traversal import get_available_content_options
 
@@ -62,35 +62,31 @@ def get_page_input(page_from_args, default_value, label):
     return page_input
 
 def get_user_input():
-    logger = BemihoLogger(get_user_input).get_logger()
-    try:
-        args = parse_system_args()
-        user_input_build = BemihoUserInputBuilder()
+    args = parse_system_args()
+    user_input_build = BemihoUserInputBuilder()
 
-        selected_group = get_group_input(args.group)
-        user_input_build.set_group(selected_group)
-        user_input_build.set_member(get_member_input(args.member, selected_group))
+    selected_group = get_group_input(args.group)
+    user_input_build.set_group(selected_group)
+    user_input_build.set_member(get_member_input(args.member, selected_group))
 
-        selected_content = None
-        if (args.content == None):
-            selected_content = input(f"Please select content to pull. Possible choices are ({', '.join(get_available_content_options())}). Default is photos: ")
-            if (selected_content == None or selected_content == ''):
-                selected_content = 'photos'
-        else:
-            selected_content = args.content
+    selected_content = None
+    if (args.content == None):
+        selected_content = input(f"Please select content to pull. Possible choices are ({', '.join(get_available_content_options())}). Default is photos: ")
+        if (selected_content == None or selected_content == ''):
+            selected_content = 'photos'
+    else:
+        selected_content = args.content
 
-        if (any(selected_content == choice for choice in get_available_content_options())):
-            user_input_build.set_content(args.content)
-        else:
-            raise InvalidContentInput()
+    if (any(selected_content == choice for choice in get_available_content_options())):
+        user_input_build.set_content(selected_content)
+    else:
+        raise InvalidContentInput()
 
-        firstpage = int(get_page_input(args.firstpage, '1', "first page"))
-        number_of_pages = int(get_page_input(args.number, '1', "last page"))
-        if (number_of_pages < 1):
-            raise NumberOfPageShouldBeAtLeastOne()
-        else:
-            user_input_build.set_firstpage(firstpage)
-            user_input_build.set_number_of_page(number_of_pages)
-        return user_input_build.build()
-    except (JSONDataNotFound, PageNumberNotDigits, NumberOfPageShouldBeAtLeastOne, InvalidContentInput):
-        logger.error("There were exceptions in acquiring data", exc_info=True)
+    firstpage = int(get_page_input(args.firstpage, '1', "first page"))
+    number_of_pages = int(get_page_input(args.number, '1', "last page"))
+    if (number_of_pages < 1):
+        raise NumberOfPageShouldBeAtLeastOne()
+    else:
+        user_input_build.set_firstpage(firstpage)
+        user_input_build.set_number_of_page(number_of_pages)
+    return user_input_build.build()

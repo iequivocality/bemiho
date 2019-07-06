@@ -16,8 +16,9 @@ class Scrapper:
         self.user_input = user_input
         self.traversal = traversal
         self.page_number = self.get_proper_page_index(page_number)
-
-    def get_proper_page_index(self, page_number):
+        
+    @staticmethod
+    def get_proper_page_index(page_number):
         raise NotImplementedError()
 
     def format_url(self, page_number):
@@ -69,7 +70,7 @@ class BemihoScrapProcessor:
 
         with ThreadPoolExecutor(max_workers=5) as executor:
             futures = []
-            for page_number in range(firstpage, number_of_pages):
+            for page_number in range(self.scrapper_class.get_proper_page_index(firstpage), number_of_pages):
                 futures.append(executor.submit(self.execute_single_scraper, page_number))
             for future in as_completed(futures):
                 try:

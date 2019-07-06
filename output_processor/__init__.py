@@ -18,10 +18,14 @@ class ScrapperOutputProcessor:
         self.user_input = user_input
         self.metadata_handler = metadata_handler
         
-        base_path = Path(__file__).parent
+        base_path = Path(os.getcwd())
         file_path = (base_path / user_input.output).resolve()
         self.output_path = file_path
         self.member_path = self.format_path()
+        self.logger = BemihoLogger(self.__class__).get_logger()
+        group = self.user_input.group
+        member = self.user_input.member
+        self.logger.debug(f'Created output processor for {member.kanji} ({member.romaji}) from {group.kanji} ({group.romaji}) with path {self.member_path}')
     
     def build_metadata_file(self):
         pass
@@ -29,11 +33,11 @@ class ScrapperOutputProcessor:
     def format_path(self):
         group = self.user_input.group.kanji
         member = self.user_input.member.kanji
-        print(join(self.output_path, group, member, self.content))
         return join(self.output_path, group, member, self.content)
 
     def create_output_directory(self):
         if (not exists(self.member_path)):
+            self.logger.debug(f'Folder for member path {self.member_path} doesn\'t exist. Creating folder')
             path = Path(self.member_path)
             path.mkdir(parents=True)
 
@@ -41,7 +45,6 @@ class ScrapperOutputProcessor:
         raise NotImplementedError()
 
 def get_output_processor_class_for_content(content):
-    # print(get_output_processor_class_for_content.__name__)
     logger = BemihoLogger(get_output_processor_class_for_content).get_logger()
     qualified_name = get_qualified_name(ScrapperOutputProcessor)
     logger.debug(f'Getting output processor ({qualified_name}) class for content {content}.')

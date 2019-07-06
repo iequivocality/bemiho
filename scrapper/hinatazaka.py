@@ -27,7 +27,8 @@ class HinatazakaScrapper(Scrapper):
     def __init__(self, user_input, page_number, traversal):
         super().__init__(user_input, page_number, traversal)
 
-    def get_proper_page_index(self, page_number):
+    @staticmethod
+    def get_proper_page_index(page_number):
         return page_number - 1
 
     def format_url(self, page_number):
