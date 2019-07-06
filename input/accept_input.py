@@ -77,6 +77,7 @@ def get_user_input():
     else:
         selected_content = args.content
 
+    user_input_build.set_output(args.output)
     if (any(selected_content == choice for choice in get_available_content_options())):
         user_input_build.set_content(selected_content)
     else:

@@ -17,9 +17,10 @@ class ScrapperOutputProcessor:
     def __init__(self, user_input, metadata_handler):
         self.user_input = user_input
         self.metadata_handler = metadata_handler
-        
-        base_path = Path(os.getcwd())
-        file_path = (base_path / user_input.output).resolve()
+    
+        file_path = Path(user_input.output).resolve()
+        print(user_input.output)
+        print(file_path)
         self.output_path = file_path
         self.member_path = self.format_path()
         self.logger = BemihoLogger(self.__class__).get_logger()

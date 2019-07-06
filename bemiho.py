@@ -1,4 +1,5 @@
 import sys
+import time
 
 from input.accept_input import get_user_input
 from input.exceptions import JSONDataNotFound, PageNumberNotDigits, InvalidContentInput, NumberOfPageShouldBeAtLeastOne
@@ -12,8 +13,9 @@ from scrapper.traversal.exceptions import TraversalClassNotFound
 
 if __name__ == '__main__':
     logger = BemihoLogger('bemiho').get_logger()
+    start = time.time()
     try:
-        logger.debug('Starting Bemiho.')
+        logger.info('Starting Bemiho.')
         user_input = get_user_input()
         output_processor_class = get_output_processor_class_for_content(user_input.content)
         processor = BemihoScrapProcessor(user_input, output_processor_class)
@@ -27,4 +29,7 @@ if __name__ == '__main__':
     except Exception as e:
         logger.error('Uncaught exception occurred', exc_info=True)
     finally:
+        end = time.time()
+        total_seconds = (end - start)
         logger.debug('Stopped Bemiho.')
+        logger.info(f'Duration: {int(total_seconds)}s')

@@ -2,6 +2,8 @@ import urllib.request as request
 from os.path import join
 import mimetypes
 
+from concurrent.futures import ThreadPoolExecutor, as_completed
+
 from output_processor import ScrapperOutputProcessor
 from contents import BlogImageContent
 from logger import BemihoLogger
@@ -21,15 +23,26 @@ class PhotosOutputProcessor(ScrapperOutputProcessor):
             header = blog_data.header
             contents = blog_data.contents
             self.logger.debug(f'Saving contents from {header.title} with content count {len(contents)}.')
-            for (index, content) in enumerate(contents):
-                if (isinstance(content, BlogImageContent)):
-                    image_url = content.get_content()
-                    if (image_url and not image_url == ''):
-                        self.logger.debug(f'Image url is not empty. Building download path from {image_url}.')
-                        save_url = self.build_url(header, image_url, directory, index)
-                        request.urlretrieve(content.get_content(), save_url)
-                    else:
-                        self.logger.debug('Image url is empty.')
+            with ThreadPoolExecutor(max_workers=10) as executor:
+                futures = []
+                for (index, content) in enumerate(contents):
+                    self.logger.debug(f'Starting thread execution for saving photos.')
+                    futures.append(executor.submit(self.save_photo, directory, index, header, content))
+                for future in as_completed(futures):
+                    try:
+                        future.result()
+                    except Exception:
+                        self.logger.error("Exception occurred on thread", exc_info=True)
+
+    def save_photo(self, directory, index, header, content):
+        if (isinstance(content, BlogImageContent)):
+            image_url = content.get_content()
+            if (image_url and not image_url == ''):
+                self.logger.debug(f'Image url is not empty. Building download path from {image_url}.')
+                save_url = self.build_url(header, image_url, directory, index)
+                request.urlretrieve(content.get_content(), save_url)
+            else:
+                self.logger.debug('Image url is empty.')
 
     def build_url(self, header, image_url, directory, index):
         header_date_string = header.date_to_string()

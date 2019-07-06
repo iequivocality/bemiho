@@ -1,6 +1,8 @@
 import re
 from os.path import join
 
+from concurrent.futures import ThreadPoolExecutor, as_completed
+
 from output_processor import ScrapperOutputProcessor
 from contents import BlogTextContent, BlogImageContent
 
@@ -20,8 +22,16 @@ class BlogEntryOutputProcessor(ScrapperOutputProcessor):
     def process_blog_data(self, blog_datas):
         self.logger.debug(f'Starting saving blog content to {self.member_path}.')
         directory = self.member_path
-        for blog_data in blog_datas:
-            self.build_document(directory, blog_data)
+        with ThreadPoolExecutor(max_workers=10) as executor:
+            futures = []
+            for blog_data in blog_datas:
+                self.logger.debug(f'Starting thread execution for building document.')
+                futures.append(executor.submit(self.build_document, directory, blog_data))
+            for future in as_completed(futures):
+                try:
+                    future.result()
+                except Exception:
+                    self.logger.error("Exception occurred on thread", exc_info=True)
 
     def build_document(self, directory, blog_data):
         header = blog_data.header
