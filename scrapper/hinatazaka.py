@@ -12,11 +12,6 @@ from contents import BlogHeader, BlogData
 
 from concurrent.futures import ThreadPoolExecutor
 
-class HinatazakaBlogInfo:
-    def __init__(self, datestring, author):
-        self.datestring = datestring
-        self.author = author
-
 class HinatazakaBlogHeader(BlogHeader):
     def format_date(self, datestring):
         #2019.5.26 00:48

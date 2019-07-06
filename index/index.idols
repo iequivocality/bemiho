@@ -7,5 +7,14 @@
         "pageformat" : "page=",
         "index" : "1",
         "homepage" : "https://www.hinatazaka46.com"
+    },
+    {
+        "kanji" : "欅坂46",
+        "romaji" : "Keyakizaka46",
+        "index_file" : "keyaki.idols",
+        "code" : "Keyakizaka",
+        "pageformat" : "page=",
+        "index" : "2",
+        "homepage" : "http://www.keyakizaka46.com"
     }
 ]
