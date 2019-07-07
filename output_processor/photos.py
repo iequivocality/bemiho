@@ -1,4 +1,4 @@
-import urllib.request as request
+import requests
 from os.path import join
 import mimetypes
 
@@ -42,9 +42,18 @@ class PhotosOutputProcessor(ScrapperOutputProcessor):
             if (image_url and not image_url == ''):
                 self.logger.debug(f'Image url is not empty. Building download path from {image_url}.')
                 save_url = self.build_url(header, image_url, directory, index)
-                request.urlretrieve(content.get_content(), save_url)
+                self.save_photo_to_file(image_url, save_url)
             else:
                 self.logger.debug('Image url is empty.')
+
+    def save_photo_to_file(self, image_url, save_url):
+        try:
+            request = requests.get(image_url, allow_redirects=True)
+            with open(save_url, 'wb') as image_file:
+                image_file.write(request.content)
+            self.logger.debug(f'Download from {image_url} to {save_url} is successful.')
+        except:
+            self.logger.error(f'Download from {image_url} to {save_url} is unsuccessful due to issue.', exc_info=True)
 
     def build_url(self, header, image_url, directory, index):
         header_date_string = header.date_to_string()
