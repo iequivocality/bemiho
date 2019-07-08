@@ -12,6 +12,10 @@ class BlogHeader:
         self.date = self.format_date(datestring)
         self.author = author
         self.link = link
+        self.id = self.get_id_from_link(link)
+
+    def get_id_from_link(self, link):
+        return link
 
     def format_date(self, datestring):
         return datetime.now()
@@ -20,7 +24,7 @@ class BlogHeader:
         return self.date.strftime("%Y_%m_%d_%H_%M_%S")
 
     def __str__(self):
-        header_data = f'    Title: {self.title}\n    Date: {self.date}\n    Author: {self.author}\n    Link: {self.link}'
+        header_data = f'ID: {self.id}\n    Title: {self.title}\n    Date: {self.date}\n    Author: {self.author}\n    Link: {self.link}'
         return enclose_to_json_like_string(header_data)
 
 class BlogContent:
