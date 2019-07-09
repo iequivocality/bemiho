@@ -11,8 +11,8 @@ from logger import BemihoLogger
 class PhotosOutputProcessor(ScrapperOutputProcessor):
     content = 'photos'
 
-    def __init__(self, user_input, metadata_handler):
-        super().__init__(user_input, metadata_handler)
+    def __init__(self, user_input, metadata_handler_class):
+        super().__init__(user_input, metadata_handler_class)
         self.logger = BemihoLogger(self.__class__).get_logger()
 
     def process_blog_data(self, blog_datas):
@@ -25,6 +25,7 @@ class PhotosOutputProcessor(ScrapperOutputProcessor):
             self.logger.debug(f'Saving contents from {header.title} with content count {len(contents)}.')
             for (index, content) in enumerate(contents):
                 self.save_photo(directory, index, header, content)
+        self.metadata_handler.save_metadata()
             # with ThreadPoolExecutor(max_workers=10) as executor:
             #     futures = []
             #     for (index, content) in enumerate(contents):
@@ -42,17 +43,21 @@ class PhotosOutputProcessor(ScrapperOutputProcessor):
             if (image_url and not image_url == ''):
                 self.logger.debug(f'Image url is not empty. Building download path from {image_url}.')
                 save_url = self.build_url(header, image_url, directory, index)
-                self.save_photo_to_file(image_url, save_url)
+                self.save_photo_to_file(header, image_url, save_url)
             else:
                 self.logger.debug('Image url is empty.')
 
-    def save_photo_to_file(self, image_url, save_url):
+    def save_photo_to_file(self, header, image_url, save_url):
         try:
             request = requests.get(image_url, allow_redirects=True)
             with open(save_url, 'wb') as image_file:
                 image_file.write(request.content)
+            content_data = self.metadata_handler.build_content_object_from_data(True, image_url=image_url, download_url=save_url)
+            self.metadata_handler.add_success_to_metadata(header, content_data)
             self.logger.debug(f'Download from {image_url} to {save_url} is successful.')
         except:
+            content_data = self.metadata_handler.build_content_object_from_data(False, image_url=image_url, download_url=save_url)
+            self.metadata_handler.add_success_to_metadata(header, content_data)
             self.logger.error(f'Download from {image_url} to {save_url} is unsuccessful due to issue.', exc_info=True)
 
     def build_url(self, header, image_url, directory, index):
