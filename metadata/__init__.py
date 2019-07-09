@@ -47,10 +47,10 @@ class MetadataHandler:
                 json.dump(self.metadata, write_file)
 
     def check_duplicates(self, header, content):
-        return False
+        raise NotImplementedError()
 
     def build_content_object_from_data(self, **kwargs):
-        return {}
+        raise NotImplementedError()
 
     def add_success_to_metadata(self, header, content):
         raise NotImplementedError()
@@ -63,7 +63,7 @@ class MetadataHandler:
         for md in list(self.metadata.values()):
             json_metadata.append(md.to_json())
         with open(self.metadata_file, "w") as write_file:
-            json.dump(json_metadata, write_file, indent=4)
+            json.dump(json_metadata, write_file, indent=4, ensure_ascii=False)
 
     def repair_metadata(self):
         raise NotImplementedError()

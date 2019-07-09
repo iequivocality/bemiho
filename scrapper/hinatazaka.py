@@ -16,7 +16,6 @@ class HinatazakaBlogHeader(BlogHeader):
     def get_id_from_link(self, link):
         removed_prefix = link.replace('https://www.hinatazaka46.com/s/official/diary/detail/', '')
         question_mark_index = removed_prefix.find('?')
-        print(removed_prefix[0:question_mark_index])
         return removed_prefix[0:question_mark_index]
 
 
