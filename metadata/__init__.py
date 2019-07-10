@@ -18,6 +18,9 @@ from utilities.reflect import get_qualified_name
 from .exceptions import MetadataHandlerNotFound
 
 class Metadata:
+    def __init__(self, _id):
+        self.id = _id
+
     def to_json(self):
         return self.__dict__
 
@@ -40,11 +43,13 @@ class MetadataHandler:
     def load_metadata(self):
         if (exists(self.metadata_file)):
             md_extractor = JSONExtractor(self.metadata_file, self.mapper)
-            self.metadata = md_extractor.extract()
+            metadata_array = md_extractor.extract()
+            for metadata in metadata_array:
+                self.metadata[metadata.id] = metadata
         else:
             self.metadata = {}
             with open(self.metadata_file, "w") as write_file:
-                json.dump(self.metadata, write_file)
+                json.dump([], write_file)
 
     def check_duplicates(self, header, content):
         raise NotImplementedError()

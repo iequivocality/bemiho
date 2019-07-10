@@ -7,11 +7,12 @@ class BlogData:
         self.contents = contents
 
 class BlogHeader:
-    def __init__(self, title, datestring, author, link):
+    def __init__(self, title, datestring, author, link, page):
         self.title = title
         self.date = self.format_date(datestring)
         self.author = author
         self.link = link
+        self.page = page
         self.id = self.get_id_from_link(link)
 
     def get_id_from_link(self, link):

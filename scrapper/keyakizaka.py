@@ -40,7 +40,7 @@ class KeyakizakaScrapper(Scrapper):
         date_box = header_element.find("div", class_="box-date")
         date_box_children = date_box.find_all('time')
         date_box_string = f'{date_box_children[0].get_text()}.{date_box_children[1].get_text()}'
-        return KeyakizakaBlogHeader(header_title, date_box_string, info_author, link)
+        return KeyakizakaBlogHeader(header_title, date_box_string, info_author, link, self.page_number)
 
     def get_blog_link(self, article):
         group = self.user_input.group

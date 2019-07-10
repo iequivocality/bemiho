@@ -16,7 +16,7 @@ class Scrapper:
     def __init__(self, user_input, page_number, traversal):
         self.user_input = user_input
         self.traversal = traversal
-        self.page_number = self.get_proper_page_index(page_number)
+        self.page_number = page_number
         
     @staticmethod
     def get_proper_page_index(page_number):

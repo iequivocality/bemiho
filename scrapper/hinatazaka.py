@@ -47,7 +47,7 @@ class HinatazakaScrapper(Scrapper):
 
         link = self.get_blog_link(article)
         header_title_content = header_title_element.contents[0].strip()
-        return HinatazakaBlogHeader(header_title_content, info_date.contents[0].strip(), info_author.contents[0].strip(), link)
+        return HinatazakaBlogHeader(header_title_content, info_date.contents[0].strip(), info_author.contents[0].strip(), link, self.page_number)
 
     def get_blog_link(self, article):
         group = self.user_input.group

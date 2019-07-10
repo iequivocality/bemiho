@@ -35,6 +35,7 @@ class ScrapperOutputProcessor:
             self.logger.debug(f'Folder for member path {self.member_path} doesn\'t exist. Creating folder')
             path = Path(self.member_path)
             path.mkdir(parents=True)
+        self.metadata_handler.load_metadata()
 
     def process_blog_data(self, blog_data):
         raise NotImplementedError()
