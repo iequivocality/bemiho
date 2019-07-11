@@ -36,6 +36,7 @@ class MetadataHandler:
         self.metadata_file = join(metadata_directory, 'metadata.json')
         self.mapper = self.create_mapper()
         self.metadata = {}
+        self.logger = BemihoLogger(self.__class__).get_logger()
 
     def create_mapper(self):
         return EmptyMapper()
@@ -48,8 +49,6 @@ class MetadataHandler:
                 self.metadata[metadata.id] = metadata
         else:
             self.metadata = {}
-            with open(self.metadata_file, "w") as write_file:
-                json.dump([], write_file)
 
     def check_duplicates(self, header, content):
         raise NotImplementedError()
@@ -57,10 +56,7 @@ class MetadataHandler:
     def build_content_object_from_data(self, **kwargs):
         raise NotImplementedError()
 
-    def add_success_to_metadata(self, header, content):
-        raise NotImplementedError()
-
-    def add_unsuccess_to_metadata(self, header, content):
+    def add_to_metadata(self, header, content):
         raise NotImplementedError()
 
     def save_metadata(self):

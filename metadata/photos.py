@@ -1,6 +1,8 @@
 from metadata import MetadataHandler, Metadata
 from json_extractor.mapper import JSONObjectMapper
 from utilities.text import enclose_to_json_like_string
+from logger import BemihoLogger
+from os.path import exists
 
 class PhotosMetadataJSONMapper(JSONObjectMapper):
     def map_to_object(self, data):
@@ -39,6 +41,10 @@ class PhotosContentMetadata(Metadata):
     def add_photo(self, photo):
         self.photos.append(photo)
 
+    def does_photo_exist(self, content_data):
+        existing = any(content_data.image_url == photo.image_url and content_data.download_url == photo.download_url for photo in self.photos)
+        return existing is not None
+
     def __str__(self):
         pd_string = f"    Title: {self.title}\n    Link: {self.link}\n    Author: {self.author}\n    Page: {self.page}\n    Photos: {len(self.photos)}"
         return enclose_to_json_like_string(pd_string)
@@ -64,11 +70,20 @@ class PhotosMetadataHandler(MetadataHandler):
 
     def __init__(self, user_input, metadata_directory):
         super().__init__(user_input, metadata_directory)
+        self.logger = BemihoLogger(self.__class__).get_logger()
 
     def check_duplicates(self, header, content):
+        if (header.id in self.metadata.keys()):
+            md = self.metadata[header.id]
+            if (md.does_photo_exist(content) and exists(content.download_url)):
+                self.logger.debug(f'Duplicate photo found for photo url {content.image_url} and output url {content.download_url}. Output process will be cancelled.')
+                return True
+            else:
+                return False
+            return True    
         return False
 
-    def add_success_to_metadata(self, header, content):
+    def add_to_metadata(self, header, content):
         if (header.id in self.metadata.keys()):
             self.metadata[header.id].add_photo(content)
         else:
@@ -77,9 +92,6 @@ class PhotosMetadataHandler(MetadataHandler):
     
     def build_content_object_from_data(self, **kwargs):
         return PhotosData(kwargs['image_url'], kwargs['download_url'], kwargs['successful'])
-
-    def add_unsuccess_to_metadata(self, header, content):
-        pass
 
     def repair_metadata(self):
         pass

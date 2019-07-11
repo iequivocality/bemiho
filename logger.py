@@ -23,7 +23,7 @@ class BemihoLogger:
         formatter = Formatter('%(asctime)s %(name)-4s %(levelname)-4s %(message)s')
 
         stream_handler = StreamHandler()
-        stream_handler.setLevel(logging.INFO)
+        stream_handler.setLevel(logging.DEBUG)
         stream_handler.setFormatter(formatter)
 
         file_handler = TimedRotatingFileHandler(filename = 'log/bemiho.log', when='midnight', backupCount = 5)

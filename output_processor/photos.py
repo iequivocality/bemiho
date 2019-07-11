@@ -48,17 +48,21 @@ class PhotosOutputProcessor(ScrapperOutputProcessor):
                 self.logger.debug('Image url is empty.')
 
     def save_photo_to_file(self, header, image_url, save_url):
+        content_data = None
         try:
             request = requests.get(image_url, allow_redirects=True)
-            with open(save_url, 'wb') as image_file:
-                image_file.write(request.content)
             content_data = self.metadata_handler.build_content_object_from_data(image_url=image_url, download_url=save_url, successful=True)
-            self.metadata_handler.add_success_to_metadata(header, content_data)
-            self.logger.debug(f'Download from {image_url} to {save_url} is successful.')
+            if not self.metadata_handler.check_duplicates(header, content_data):
+                with open(save_url, 'wb') as image_file:
+                    image_file.write(request.content)
+                self.logger.debug(f'Download from {image_url} to {save_url} is successful.')
+            else:
+                self.logger.debug(f'Duplicate found. Download from {image_url} to {save_url} is cancelled.')
         except:
             content_data = self.metadata_handler.build_content_object_from_data(image_url=image_url, download_url=save_url, successful=False)
-            self.metadata_handler.add_success_to_metadata(header, content_data)
             self.logger.error(f'Download from {image_url} to {save_url} is unsuccessful due to issue.', exc_info=True)
+        finally:
+            self.metadata_handler.add_to_metadata(header, content_data)
 
     def build_url(self, header, image_url, directory, index):
         header_date_string = header.date_to_string()
