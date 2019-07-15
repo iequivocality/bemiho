@@ -67,6 +67,7 @@ class MetadataHandler:
             json.dump(json_metadata, write_file, indent=4, ensure_ascii=False)
 
     def repair_metadata(self):
+        # Deferring for future as this will need a big rework
         raise NotImplementedError()
 
 def get_metadata_class_for_content(content):

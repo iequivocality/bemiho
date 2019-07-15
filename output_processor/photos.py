@@ -26,16 +26,6 @@ class PhotosOutputProcessor(ScrapperOutputProcessor):
             for (index, content) in enumerate(contents):
                 self.save_photo(directory, index, header, content)
         self.metadata_handler.save_metadata()
-            # with ThreadPoolExecutor(max_workers=10) as executor:
-            #     futures = []
-            #     for (index, content) in enumerate(contents):
-            #         self.logger.debug(f'Starting thread execution for saving photos.')
-            #         futures.append(executor.submit(self.save_photo, directory, index, header, content))
-            #     for future in as_completed(futures):
-            #         try:
-            #             future.result()
-            #         except Exception:
-            #             self.logger.error("Exception occurred on thread", exc_info=True)
 
     def save_photo(self, directory, index, header, content):
         if (isinstance(content, BlogImageContent)):

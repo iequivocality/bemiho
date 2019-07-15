@@ -1,8 +1,9 @@
 import logging
 import inspect
+import os
 
 from utilities.reflect import get_qualified_name
-from logging import StreamHandler, Formatter, getLogger, DEBUG, INFO
+from logging import StreamHandler, Formatter, getLogger, DEBUG, INFO, FileHandler
 from logging.handlers import TimedRotatingFileHandler
 
 class BemihoLogger:
@@ -26,7 +27,11 @@ class BemihoLogger:
         stream_handler.setLevel(logging.DEBUG)
         stream_handler.setFormatter(formatter)
 
-        file_handler = TimedRotatingFileHandler(filename = 'log/bemiho.log', when='midnight', backupCount = 5)
+        file_handler = None
+        log_file = os.path.join('log', 'bemiho.log')
+        if (not os.path.exists('log')):
+            os.makedirs('log')
+        file_handler = TimedRotatingFileHandler(filename = log_file, when='midnight', backupCount = 5)
         file_handler.setFormatter(formatter)
         file_handler.setLevel(logging.DEBUG)
 

@@ -87,6 +87,7 @@ class PhotosMetadataHandler(MetadataHandler):
         if (header.id in self.metadata.keys()):
             self.metadata[header.id].add_photo(content)
         else:
+            self.logger.debug(f'Added metadata for post {header.id}')
             self.metadata[header.id] = PhotosContentMetadata(header.id, header.title, header.link, header.author, header.page)
             self.metadata[header.id].add_photo(content)
     
