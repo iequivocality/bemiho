@@ -66,10 +66,6 @@ class MetadataHandler:
         with open(self.metadata_file, "w") as write_file:
             json.dump(json_metadata, write_file, indent=4, ensure_ascii=False)
 
-    def repair_metadata(self):
-        # Deferring for future as this will need a big rework
-        raise NotImplementedError()
-
 def get_metadata_class_for_content(content):
     logger = BemihoLogger(get_metadata_class_for_content).get_logger()
     qualified_name = get_qualified_name(MetadataHandler)
