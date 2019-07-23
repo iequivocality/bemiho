@@ -8,6 +8,11 @@ from contents import BlogHeader, BlogData
 from concurrent.futures import ThreadPoolExecutor
 
 class KeyakizakaBlogHeader(BlogHeader):
+    def get_id_from_link(self, link):
+        removed_prefix = link.replace('http://www.keyakizaka46.com/s/k46o/diary/detail/', '')
+        question_mark_index = removed_prefix.find('?')
+        return removed_prefix[0:question_mark_index]
+    
     def format_date(self, datestring):
         #2019.5.26 00:48
         return datetime.strptime(datestring, "%Y.%m.%d")
