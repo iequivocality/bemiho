@@ -43,6 +43,7 @@ python bemiho.py
 
 ### Supported Groups
 - Hinatazaka46
+- Keyakizaka46
 
 ### Supported Content
 - Photo download
