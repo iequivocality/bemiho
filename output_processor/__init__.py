@@ -14,22 +14,16 @@ from .exceptions import OutputProcessorNotFound
 
 class ScrapperOutputProcessor:
     content = ''
-    def __init__(self, user_input, metadata_handler):
+    def __init__(self, user_input, metadata_handler_class):
         self.user_input = user_input
-        self.metadata_handler = metadata_handler
-    
         file_path = Path(user_input.output).resolve()
-        print(user_input.output)
-        print(file_path)
         self.output_path = file_path
         self.member_path = self.format_path()
+        self.metadata_handler = metadata_handler_class(user_input, self.member_path)
         self.logger = BemihoLogger(self.__class__).get_logger()
         group = self.user_input.group
         member = self.user_input.member
         self.logger.debug(f'Created output processor for {member.kanji} ({member.romaji}) from {group.kanji} ({group.romaji}) with path {self.member_path}')
-    
-    def build_metadata_file(self):
-        pass
 
     def format_path(self):
         group = self.user_input.group.kanji
@@ -41,6 +35,7 @@ class ScrapperOutputProcessor:
             self.logger.debug(f'Folder for member path {self.member_path} doesn\'t exist. Creating folder')
             path = Path(self.member_path)
             path.mkdir(parents=True)
+        self.metadata_handler.load_metadata()
 
     def process_blog_data(self, blog_data):
         raise NotImplementedError()

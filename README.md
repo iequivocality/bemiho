@@ -1,4 +1,4 @@
-# BEMIHO
+![alt text](logo.png)
 > Utility for dowloading blogs of various Japanese idols
 
 ## Table of Contents (Optional)

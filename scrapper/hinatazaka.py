@@ -13,6 +13,12 @@ from contents import BlogHeader, BlogData
 from concurrent.futures import ThreadPoolExecutor
 
 class HinatazakaBlogHeader(BlogHeader):
+    def get_id_from_link(self, link):
+        removed_prefix = link.replace('https://www.hinatazaka46.com/s/official/diary/detail/', '')
+        question_mark_index = removed_prefix.find('?')
+        return removed_prefix[0:question_mark_index]
+
+
     def format_date(self, datestring):
         #2019.5.26 00:48
         return datetime.strptime(datestring, "%Y.%m.%d %H:%M")
@@ -41,7 +47,7 @@ class HinatazakaScrapper(Scrapper):
 
         link = self.get_blog_link(article)
         header_title_content = header_title_element.contents[0].strip()
-        return HinatazakaBlogHeader(header_title_content, info_date.contents[0].strip(), info_author.contents[0].strip(), link)
+        return HinatazakaBlogHeader(header_title_content, info_date.contents[0].strip(), info_author.contents[0].strip(), link, self.page_number)
 
     def get_blog_link(self, article):
         group = self.user_input.group

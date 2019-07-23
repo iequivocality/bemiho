@@ -2,7 +2,7 @@ from utilities.text import enclose_to_json_like_string
 
 class JSONObjectMapper:
     def map_to_object(self, data):
-        return None
+        return {}
 
 class MemberData:
     def __init__(self, blog, kanji, romaji, kana, index):
