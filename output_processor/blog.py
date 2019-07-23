@@ -15,8 +15,8 @@ from output_processor.docs import HeaderDocumentModifier, create_document_modifi
 class BlogEntryOutputProcessor(ScrapperOutputProcessor):
     content = 'blog'
     
-    def __init__(self, user_input, metadata_handler):
-        super().__init__(user_input, metadata_handler)
+    def __init__(self, user_input, metadata_handler_class):
+        super().__init__(user_input, metadata_handler_class)
         self.logger = BemihoLogger(self.__class__).get_logger()
 
     def process_blog_data(self, blog_datas):
@@ -32,21 +32,33 @@ class BlogEntryOutputProcessor(ScrapperOutputProcessor):
                     future.result()
                 except Exception:
                     self.logger.error("Exception occurred on thread", exc_info=True)
+        self.metadata_handler.save_metadata()
 
     def build_document(self, directory, blog_data):
+        content_data = None
         header = blog_data.header
         contents = blog_data.contents
         date_string = header.date.strftime("%Y.%m.%d")
         document_path = join(directory, f"{date_string} {header.title}.docx")
-        document = Document()
-        
-        HeaderDocumentModifier(header.title, level=1).change_document(document)
-        HeaderDocumentModifier(header.link, level=4).change_document(document)
-        
-        for content in contents:
-            create_document_modifier(content).change_document(document)
-        document.save(self.remove_emoji_from_document_path(document_path))
 
-    def remove_emoji_from_document_path(self, document_path):
-        RE_EMOJI = re.compile('[\U00010000-\U0010ffff]', flags=re.UNICODE)
-        return RE_EMOJI.sub(r'', document_path)
+        try:
+            if not self.metadata_handler.check_duplicates(header, content_data):
+                document = Document()
+                
+                HeaderDocumentModifier(header.title, level=1).change_document(document)
+                HeaderDocumentModifier(header.link, level=4).change_document(document)
+                
+                for content in contents:
+                    create_document_modifier(content).change_document(document)
+                # document.save(self.remove_emoji_from_document_path(document_path))
+                document.save(document_path)
+                content_data = self.metadata_handler.build_content_object_from_data(download_url=document_path, successful=True)
+        except:
+            content_data = self.metadata_handler.build_content_object_from_data(download_url=document_path, successful=False)
+            self.logger.error(f'Download from {header.link} to {document_path} is unsuccessful due to issue.', exc_info=True)
+        finally:
+            self.metadata_handler.add_to_metadata(header, content_data)
+
+    # def remove_emoji_from_document_path(self, document_path):
+    #     RE_EMOJI = re.compile('[\U00010000-\U0010ffff]', flags=re.UNICODE)
+    #     return RE_EMOJI.sub(r'', document_path)

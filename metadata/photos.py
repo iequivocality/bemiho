@@ -45,7 +45,7 @@ class PhotosContentMetadata(Metadata):
         self.photos.append(photo)
 
     def does_photo_exist(self, content_data):
-        existing = any(content_data.image_url == photo.image_url and content_data.download_url == photo.download_url for photo in self.photos)
+        existing = any(content_data.image_url == photo.image_url and content_data.download_url == photo.download_url and exists(photo.download_url) for photo in self.photos)
         return existing is not None
 
     def __str__(self):
