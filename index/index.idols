@@ -16,5 +16,14 @@
         "pageformat" : "page=",
         "index" : "2",
         "homepage" : "http://www.keyakizaka46.com"
+    },
+    {
+        "kanji" : "わーすた",
+        "romaji" : "The World Standard",
+        "index_file" : "wasuta.idols",
+        "code" : "Wasuta",
+        "pageformat" : "pageKey=",
+        "index" : "3",
+        "homepage" : "https://lineblog.me/theworldstandard/"
     }
 ]
