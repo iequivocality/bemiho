@@ -26,6 +26,8 @@ if __name__ == '__main__':
         logger.error(oe.message, exc_info=True)
     except TraversalClassNotFound as te:
         logger.error(te.message, exc_info=True)
+    except KeyboardInterrupt as ke:
+        logger.debug("User stopped the application.")
     except Exception as e:
         logger.error('Uncaught exception occurred', exc_info=True)
     finally:
