@@ -2,6 +2,7 @@ from datetime import datetime
 import requests
 
 from contents import BlogHeader
+from scrapper import Scrapper
 
 class LineBlogHeader(BlogHeader):
     def __init__(self, title, createdAt, author, url, page_number, _id):
@@ -28,7 +29,3 @@ class LineBlogApiCrawler:
             print(LineBlogHeader(row['title'], row['createdAt'], self.author, row['url'], self.page_number, row['id']))
             headers.append(LineBlogHeader(row['title'], row['createdAt'], self.author, row['url'], self.page_number, row['id']))
         return headers
-
-class LineBlogScrapperService:
-    def __init__(self, header):
-        self.header = header

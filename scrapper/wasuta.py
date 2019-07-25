@@ -1,6 +1,8 @@
+import requests
+from bs4 import BeautifulSoup
 
 from scrapper import Scrapper
-from contents import BlogHeader
+from contents import BlogHeader, BlogData
 from services.lineblog import LineBlogApiCrawler
 
 class WasutaScrapper(Scrapper):
@@ -21,4 +23,12 @@ class WasutaScrapper(Scrapper):
         contents = []
         url = self.format_url(self.page_number)
         headers = LineBlogApiCrawler(url, self.page_number, self.user_input.member.kanji).crawl_api_for_headers()
+        for header in headers:
+            print(header.link)
+            request = requests.get(header.link)
+            soup = BeautifulSoup(request.text, 'lxml')
+            for article in soup.find_all('article', class_='first-article'):
+                article_body = article.find('div', class_='article-body')
+                article_body_inner = article_body.find('div', class_='article-body-inner')
+                contents.append(BlogData(header, self.traversal.traverse(article_body_inner)))
         return contents
