@@ -117,3 +117,5 @@ log/
 
 #Test
 test.py
+sp/
+*_photos.py

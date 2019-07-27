@@ -29,10 +29,10 @@ class Scrapper:
         raise NotImplementedError()
 
     def get_header(self, article):
-        raise NotImplementedError()
+        pass
 
     def get_blog_link(self, article):
-        raise NotImplementedError()
+        pass
 
 def get_scrapper_class_based_on_input(user_input):
     scrapper = None

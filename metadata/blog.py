@@ -8,21 +8,20 @@ from json_extractor.mapper import JSONObjectMapper
 class BlogMetadataJSONMapper(JSONObjectMapper):
     def map_to_object(self, data):
         blog_data = BlogData(data['download_url'], data['successful'])
-        metadata = BlogContentMetadata(data['id'], data['title'], data['link'], data['author'], int(data['page']), datetime.strptime(data['date'], "%Y-%m-%d %H:%M:%S"), blog_data)
+        metadata = BlogContentMetadata(data['id'], data['title'], data['link'], data['author'], datetime.strptime(data['date'], "%Y-%m-%d %H:%M:%S"), blog_data)
         return metadata
 
 class BlogContentMetadata(Metadata):
-    def __init__(self, _id, title, link, author, page, date, blog_data):
+    def __init__(self, _id, title, link, author, date, blog_data):
         super().__init__(_id)
         self.title = title
         self.link = link
         self.author = author
-        self.page = page
         self.date = date
         self.blog_data = blog_data
 
     def __str__(self):
-        pd_string = f"    Title: {self.title}\n    Link: {self.link}\n    Author: {self.author}\n    Page: {self.page}\n    Photos: {str(self.blog_data)}"
+        pd_string = f"    Title: {self.title}\n    Link: {self.link}\n    Author: {self.author}\n    Photos: {str(self.blog_data)}"
         return enclose_to_json_like_string(pd_string)
 
     def to_json(self):
@@ -32,7 +31,6 @@ class BlogContentMetadata(Metadata):
             'link' : self.link,
             'author' : self.author,
             'date' : self.date.strftime("%Y-%m-%d %H:%M:%S"),
-            'page' : self.page,
             'successful' : self.blog_data.successful,
             'download_url' : self.blog_data.download_url
         }
@@ -80,5 +78,5 @@ class BlogMetadataHandler(MetadataHandler):
     def add_to_metadata(self, header, content):
         if (header.id not in self.metadata.keys()):
             self.logger.debug(f'Added metadata for post {header.id}')
-            self.metadata[header.id] = BlogContentMetadata(header.id, header.title, header.link, header.author, header.page, header.date, content)
+            self.metadata[header.id] = BlogContentMetadata(header.id, header.title, header.link, header.author, header.date, content)
             
