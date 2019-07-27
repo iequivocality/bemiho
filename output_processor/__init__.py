@@ -27,8 +27,10 @@ class ScrapperOutputProcessor:
 
     def format_path(self):
         group = self.user_input.group.kanji
+        group_romaji = self.user_input.group.romaji
         member = self.user_input.member.kanji
-        return join(self.output_path, group, member, self.content)
+        member_romaji = self.user_input.member.romaji
+        return join(self.output_path, f"{group} ({group_romaji})", f"{member} ({member_romaji})", self.content)
 
     def create_output_directory(self):
         if (not exists(self.member_path)):

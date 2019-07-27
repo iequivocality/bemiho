@@ -8,7 +8,7 @@ from logger import BemihoLogger
 
 class PhotosMetadataJSONMapper(JSONObjectMapper):
     def map_to_object(self, data):
-        metadata = PhotosContentMetadata(data['id'], data['title'], data['link'], data['author'], int(data['page']), datetime.strptime(data['date'], "%Y-%m-%d %H:%M:%S"))
+        metadata = PhotosContentMetadata(data['id'], data['title'], data['link'], data['author'], datetime.strptime(data['date'], "%Y-%m-%d %H:%M:%S"))
         for photo_parsed in data['photos']:
             metadata.add_photo(PhotosData(photo_parsed['image_url'], photo_parsed['download_url'], photo_parsed['successful']))
         return metadata
@@ -32,12 +32,11 @@ class PhotosData(Metadata):
         return photo_json
 
 class PhotosContentMetadata(Metadata):
-    def __init__(self, _id, title, link, author, page, date):
+    def __init__(self, _id, title, link, author, date):
         super().__init__(_id)
         self.title = title
         self.link = link
         self.author = author
-        self.page = page
         self.date = date
         self.photos = []
     
@@ -49,7 +48,7 @@ class PhotosContentMetadata(Metadata):
         return existing is not None
 
     def __str__(self):
-        pd_string = f"    Title: {self.title}\n    Link: {self.link}\n    Author: {self.author}\n    Page: {self.page}\n    Photos: {len(self.photos)}"
+        pd_string = f"    Title: {self.title}\n    Link: {self.link}\n    Author: {self.author}\n    Photos: {len(self.photos)}"
         return enclose_to_json_like_string(pd_string)
 
     def to_json(self):
@@ -62,7 +61,6 @@ class PhotosContentMetadata(Metadata):
             'link' : self.link,
             'author' : self.author,
             'date' : self.date.strftime("%Y-%m-%d %H:%M:%S"),
-            'page' : self.page,
             'photos' : photos_json
         }
 
@@ -92,7 +90,7 @@ class PhotosMetadataHandler(MetadataHandler):
             self.metadata[header.id].add_photo(content)
         else:
             self.logger.debug(f'Added metadata for post {header.id}')
-            self.metadata[header.id] = PhotosContentMetadata(header.id, header.title, header.link, header.author, header.page, header.date)
+            self.metadata[header.id] = PhotosContentMetadata(header.id, header.title, header.link, header.author, header.date)
             self.metadata[header.id].add_photo(content)
     
     def build_content_object_from_data(self, **kwargs):
