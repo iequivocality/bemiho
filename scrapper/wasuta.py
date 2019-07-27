@@ -39,6 +39,7 @@ class WasutaScrapper(Scrapper):
         futures = []
         url = self.format_url(self.page_number)
         headers = LineBlogApiCrawler(url, self.page_number, self.user_input.member.kanji).crawl_api_for_headers()
+        self.logger.debug(f'Headers extracted from api url {url} with size {len(headers)}. Proceeding to fetch data.')
         with ThreadPoolExecutor(max_workers=5) as executor:
             for header in headers:
                 futures.append(executor.submit(self.scrape_single_url, header))

@@ -26,6 +26,5 @@ class LineBlogApiCrawler:
         resp = requests.get(self.url)
         data = resp.json()
         for row in data['rows']:
-            print(LineBlogHeader(row['title'], row['createdAt'], self.author, row['url'], self.page_number, row['id']))
             headers.append(LineBlogHeader(row['title'], row['createdAt'], self.author, row['url'], self.page_number, row['id']))
         return headers
