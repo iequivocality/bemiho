@@ -69,6 +69,12 @@ def get_user_input():
     user_input_build.set_group(selected_group)
     user_input_build.set_member(get_member_input(args.member, selected_group))
 
+    user_input_build.set_output(args.output)
+
+    if (args.reset):
+        user_input_build.set_reset_mode(True)
+        return user_input_build.build()
+
     selected_content = None
     if (args.content == None):
         selected_content = input(f"Please select content to pull. Possible choices are ({', '.join(get_available_content_options())}). Default is photos: ")
@@ -77,7 +83,6 @@ def get_user_input():
     else:
         selected_content = args.content
 
-    user_input_build.set_output(args.output)
     if (any(selected_content == choice for choice in get_available_content_options())):
         user_input_build.set_content(selected_content)
     else:
@@ -90,4 +95,5 @@ def get_user_input():
     else:
         user_input_build.set_firstpage(firstpage)
         user_input_build.set_number_of_page(number_of_pages)
+
     return user_input_build.build()

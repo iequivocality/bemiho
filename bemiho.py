@@ -11,15 +11,21 @@ from output_processor import get_output_processor_class_for_content
 from output_processor.exceptions import OutputProcessorNotFound
 from scrapper.traversal.exceptions import TraversalClassNotFound
 
+from processor.reset import BemihoResetProcessor
+
 if __name__ == '__main__':
     logger = BemihoLogger('bemiho').get_logger()
     start = time.time()
     try:
         logger.info('Starting Bemiho.')
         user_input = get_user_input()
-        output_processor_class = get_output_processor_class_for_content(user_input.content)
-        processor = BemihoScrapProcessor(user_input, output_processor_class)
-        processor.start()
+        if (user_input.reset_mode):
+            reset_processor = BemihoResetProcessor(user_input)
+            reset_processor.start()
+        else:
+            output_processor_class = get_output_processor_class_for_content(user_input.content)
+            processor = BemihoScrapProcessor(user_input, output_processor_class)
+            processor.start()
     except (JSONDataNotFound, PageNumberNotDigits, NumberOfPageShouldBeAtLeastOne, InvalidContentInput):
         logger.error("There were exceptions in acquiring data", exc_info=True)
     except OutputProcessorNotFound as oe:

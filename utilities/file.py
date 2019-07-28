@@ -1,4 +1,4 @@
-import os
+import os, shutil
 from os.path import join, exists, isdir
 
 import logging
