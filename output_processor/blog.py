@@ -42,6 +42,7 @@ class BlogEntryOutputProcessor(ScrapperOutputProcessor):
         document_path = join(directory, f"{date_string} {header.title}.docx")
 
         try:
+            content_data = self.metadata_handler.build_content_object_from_data(download_url=document_path, successful=False)
             if not self.metadata_handler.check_duplicates(header, content_data):
                 document = Document()
                 
@@ -52,12 +53,14 @@ class BlogEntryOutputProcessor(ScrapperOutputProcessor):
                     create_document_modifier(content).change_document(document)
                 # document.save(self.remove_emoji_from_document_path(document_path))
                 document.save(document_path)
-                content_data = self.metadata_handler.build_content_object_from_data(download_url=document_path, successful=True)
+                # content_data = self.metadata_handler.build_content_object_from_data(download_url=document_path, successful=True)
+                content_data.successful = True
+                self.metadata_handler.add_to_metadata(header, content_data)
         except:
             content_data = self.metadata_handler.build_content_object_from_data(download_url=document_path, successful=False)
-            self.logger.error(f'Download from {header.link} to {document_path} is unsuccessful due to issue.', exc_info=True)
-        finally:
             self.metadata_handler.add_to_metadata(header, content_data)
+            self.logger.error(f'Download from {header.link} to {document_path} is unsuccessful due to issue.', exc_info=True)
+        # finally:
 
     # def remove_emoji_from_document_path(self, document_path):
     #     RE_EMOJI = re.compile('[\U00010000-\U0010ffff]', flags=re.UNICODE)

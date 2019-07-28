@@ -73,7 +73,8 @@ class BemihoScrapProcessor:
 
         with ThreadPoolExecutor(max_workers=5) as executor:
             futures = []
-            for page_number in range(self.scrapper_class.get_proper_page_index(firstpage), number_of_pages):
+            page_index = self.scrapper_class.get_proper_page_index(firstpage)
+            for page_number in range(page_index, page_index + number_of_pages):
                 futures.append(executor.submit(self.execute_single_scraper, page_number))
             for future in as_completed(futures):
                 try:

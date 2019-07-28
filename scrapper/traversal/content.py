@@ -1,17 +1,24 @@
 import imghdr
+import mimetypes
 import requests
 from bs4.element import Tag, NavigableString
 
 from scrapper.traversal import ScrapperTraversal
 from contents import BlogImageContent, BlogTextContent
 
+IMAGE_MIME_TYPE = 'image/'
 VALID_PHOTO_EXTENSIONS = ['rgb', 'gif', 'pbm', 'pgm', 'ppm', 'tiff', 'rast', 'xbm', 'jpeg', 'bmp', 'png', 'webp', 'exr']
 
 class PhotosScrapperTraversal(ScrapperTraversal):
     content = 'photos'
     def image_check(self, image_src):
-        request = requests.get(image_src, allow_redirects=True)
-        extension = imghdr.what(None, request.content)
+        #Get initial from mimetypes
+        mime_type = mimetypes.guess_type(image_src)
+        if (mime_type[0] is not None):
+            return (mime_type[0].startswith(IMAGE_MIME_TYPE), mimetypes.guess_all_extensions(mime_type[0])[-1])
+        else:
+            request = requests.get(image_src, allow_redirects=True)
+            extension = imghdr.what(None, request.content)
         return (extension in VALID_PHOTO_EXTENSIONS, extension)
 
     def traverse(self, element):
