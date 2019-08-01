@@ -58,8 +58,8 @@ class BlogScrapperTraversal(ScrapperTraversal):
                 elif child.name == 'img':
                     contents.append(BlogImageContent(child.get('src')))
                     # contents.append(child.get('src'))
-                elif child.name == 'br':
-                    contents.append(BlogTextContent(''))
+                # elif child.name == 'br':
+                    # contents.append(BlogTextContent(''))
                 elif child.name == 'div' or child.name == 'span':
                     contents.extend(self.traverse(child))
         return contents

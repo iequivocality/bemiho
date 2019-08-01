@@ -39,12 +39,14 @@ class BlogEntryOutputProcessor(ScrapperOutputProcessor):
         header = blog_data.header
         contents = blog_data.contents
         date_string = header.date.strftime("%Y.%m.%d")
-        document_path = join(directory, f"{date_string} {header.title}.docx")
+        document_path = join(directory, f"{date_string} ({header.title}).docx")
 
         try:
             content_data = self.metadata_handler.build_content_object_from_data(download_url=document_path, successful=False)
             if not self.metadata_handler.check_duplicates(header, content_data):
                 document = Document()
+                paragraph_format = document.styles['Normal'].paragraph_format
+                paragraph_format.line_spacing = 1
                 
                 HeaderDocumentModifier(header.title, level=1).change_document(document)
                 HeaderDocumentModifier(header.link, level=4).change_document(document)

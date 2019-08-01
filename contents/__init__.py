@@ -22,7 +22,10 @@ class BlogHeader:
         return datetime.now()
 
     def date_to_string(self):
-        return self.date.strftime("%Y_%m_%d_%H_%M_%S")
+        if (self.date.minute > 0 or self.date.hour > 0):
+            return self.date.strftime("%Y_%m_%d_%H%M")
+        else:
+            return self.date.strftime("%Y_%m_%d")
 
     def __str__(self):
         header_data = f'    ID: {self.id}\n    Title: {self.title}\n    Date: {self.date}\n    Author: {self.author}\n    Link: {self.link}'
