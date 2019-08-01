@@ -8,12 +8,17 @@ from output_processor import ScrapperOutputProcessor
 from contents import BlogImageContent
 from logger import BemihoLogger
 
+from metadata.photos import PhotosMetadataHandler
+
 class PhotosOutputProcessor(ScrapperOutputProcessor):
     content = 'photos'
 
-    def __init__(self, user_input, metadata_handler_class):
-        super().__init__(user_input, metadata_handler_class)
+    def __init__(self, user_input):
+        super().__init__(user_input)
         self.logger = BemihoLogger(self.__class__).get_logger()
+
+    def get_metadata_handler_class(self, user_input, member_path):
+        return PhotosMetadataHandler(user_input, member_path)
 
     def process_blog_data(self, blog_datas):
         directory = self.member_path

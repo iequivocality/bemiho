@@ -9,7 +9,6 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from logger import BemihoLogger
 from scrapper.traversal import get_traversal_based_on_content_request
-from metadata import get_metadata_class_for_content
 
 class Scrapper:
     code = 'Scrapper'
@@ -50,8 +49,7 @@ class BemihoScrapProcessor:
         self.traversal = get_traversal_based_on_content_request(user_input)
         self.scrapper_class = get_scrapper_class_based_on_input(user_input)
         
-        metadata_handler_class = get_metadata_class_for_content(user_input.content)
-        self.output_processor = output_processor_class(user_input, metadata_handler_class)
+        self.output_processor = output_processor_class(user_input)
         self.logger = BemihoLogger(self.__class__).get_logger()
 
     def execute_single_scraper(self, page_number):

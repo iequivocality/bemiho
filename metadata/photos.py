@@ -10,10 +10,10 @@ class PhotosMetadataJSONMapper(JSONObjectMapper):
     def map_to_object(self, data):
         metadata = PhotosContentMetadata(data['id'], data['title'], data['link'], data['author'], datetime.strptime(data['date'], "%Y-%m-%d %H:%M:%S"))
         for photo_parsed in data['photos']:
-            metadata.add_photo(PhotosData(photo_parsed['image_url'], photo_parsed['download_url'], photo_parsed['successful']))
+            metadata.add_photo(PhotosMetadata(photo_parsed['image_url'], photo_parsed['download_url'], photo_parsed['successful']))
         return metadata
 
-class PhotosData(Metadata):
+class PhotosMetadata(Metadata):
     def __init__(self, image_url, download_url, successful):
         self.image_url = image_url
         self.download_url = download_url
@@ -75,7 +75,7 @@ class PhotosMetadataHandler(MetadataHandler):
         self.logger = BemihoLogger(self.__class__).get_logger()
 
     def check_duplicates(self, header, content):
-        if (header.id in self.metadata.keys()):
+        if (isinstance(content, PhotosMetadata) and header.id in self.metadata.keys()):
             md = self.metadata[header.id]
             if (md.does_photo_exist(content) and exists(content.download_url)):
                 self.logger.debug(f'Duplicate photo found for photo url {content.image_url} and output url {content.download_url}. Output process will be cancelled.')
@@ -94,4 +94,4 @@ class PhotosMetadataHandler(MetadataHandler):
             self.metadata[header.id].add_photo(content)
     
     def build_content_object_from_data(self, **kwargs):
-        return PhotosData(kwargs['image_url'], kwargs['download_url'], kwargs['successful'])
+        return PhotosMetadata(kwargs['image_url'], kwargs['download_url'], kwargs['successful'])

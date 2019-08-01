@@ -7,7 +7,7 @@ from json_extractor.mapper import JSONObjectMapper
 
 class BlogMetadataJSONMapper(JSONObjectMapper):
     def map_to_object(self, data):
-        blog_data = BlogData(data['download_url'], data['successful'])
+        blog_data = BlogMetadata(data['download_url'], data['successful'])
         metadata = BlogContentMetadata(data['id'], data['title'], data['link'], data['author'], datetime.strptime(data['date'], "%Y-%m-%d %H:%M:%S"), blog_data)
         return metadata
 
@@ -35,7 +35,7 @@ class BlogContentMetadata(Metadata):
             'download_url' : self.blog_data.download_url
         }
 
-class BlogData(Metadata):
+class BlogMetadata(Metadata):
     def __init__(self, download_url, successful):
         self.download_url = download_url
         self.successful = successful
@@ -62,7 +62,7 @@ class BlogMetadataHandler(MetadataHandler):
         return BlogMetadataJSONMapper()
 
     def check_duplicates(self, header, content):
-        if (header.id in self.metadata.keys()):
+        if (isinstance(content, BlogMetadata) and header.id in self.metadata.keys()):
             md = self.metadata[header.id]
             if md.blog_data.download_url == content.download_url:
                 self.logger.debug(f'Duplicate document found for url {header.link} and output url {content.download_url}. Output process will be cancelled.')
@@ -73,7 +73,7 @@ class BlogMetadataHandler(MetadataHandler):
         return False
 
     def build_content_object_from_data(self, **kwargs):
-        return BlogData(kwargs['download_url'], kwargs['successful'])
+        return BlogMetadata(kwargs['download_url'], kwargs['successful'])
 
     def add_to_metadata(self, header, content):
         if (header.id not in self.metadata.keys()):

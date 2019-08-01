@@ -14,15 +14,19 @@ from logger import BemihoLogger
 
 class AllOutputProcessor(ScrapperOutputProcessor):
     content = 'all'
-    def __init__(self, user_input, metadata_handler):
-        super().__init__(user_input, metadata_handler)
+    
+    def __init__(self, user_input):
+        super().__init__(user_input)
         self.logger = BemihoLogger(self.__class__).get_logger()
         other_processors = []
         self.logger.debug('Getting other output processors for all context implementation.')
         for output_p in get_output_processor_classes_for_content_except(self.content):
-            other_processors.append(output_p(user_input, metadata_handler))
+            other_processors.append(output_p(user_input))
         self.other_processors = other_processors
         self.logger.debug(f'Found the following other output processor classes: {other_processors}')
+
+    def get_metadata_handler_class(self, user_input, member_path):
+        pass
 
     def create_output_directory(self):
         for processor in self.other_processors:

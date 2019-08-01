@@ -65,19 +65,3 @@ class MetadataHandler:
             json_metadata.append(md.to_json())
         with open(self.metadata_file, "w") as write_file:
             json.dump(json_metadata, write_file, indent=4, ensure_ascii=False)
-
-def get_metadata_class_for_content(content):
-    logger = BemihoLogger(get_metadata_class_for_content).get_logger()
-    qualified_name = get_qualified_name(MetadataHandler)
-    logger.debug(f'Getting metadata handler ({qualified_name}) class for content {content}.')
-    writer = None
-    for (_, name, _) in pkgutil.iter_modules([Path(__file__).parent]):
-        imported_module = import_module('.' + name, package=__name__)
-        for i in dir(imported_module):
-            attribute = getattr(imported_module, i)
-            if inspect.isclass(attribute) and issubclass(attribute, MetadataHandler) and attribute.content == content:
-                writer = attribute
-    if (writer == None):
-        raise MetadataHandlerNotFound(content)
-    logger.debug(f'Output processor ({get_qualified_name(writer)}) found.')
-    return writer

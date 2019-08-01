@@ -12,12 +12,17 @@ from docx.shared import Inches, Pt
 from logger import BemihoLogger
 from output_processor.docs import HeaderDocumentModifier, create_document_modifier
 
+from metadata.blog import BlogMetadataHandler
+
 class BlogEntryOutputProcessor(ScrapperOutputProcessor):
     content = 'blog'
     
-    def __init__(self, user_input, metadata_handler_class):
-        super().__init__(user_input, metadata_handler_class)
+    def __init__(self, user_input):
+        super().__init__(user_input)
         self.logger = BemihoLogger(self.__class__).get_logger()
+
+    def get_metadata_handler_class(self, user_input, member_path):
+        return BlogMetadataHandler(user_input, member_path)
 
     def process_blog_data(self, blog_datas):
         self.logger.debug(f'Starting saving blog content to {self.member_path}.')

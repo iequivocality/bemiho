@@ -14,16 +14,19 @@ from .exceptions import OutputProcessorNotFound
 
 class ScrapperOutputProcessor:
     content = ''
-    def __init__(self, user_input, metadata_handler_class):
+    def __init__(self, user_input):
         self.user_input = user_input
         file_path = Path(user_input.output).resolve()
         self.output_path = file_path
         self.member_path = self.format_path()
-        self.metadata_handler = metadata_handler_class(user_input, self.member_path)
+        self.metadata_handler = self.get_metadata_handler_class(user_input, self.member_path)
         self.logger = BemihoLogger(self.__class__).get_logger()
         group = self.user_input.group
         member = self.user_input.member
         self.logger.debug(f'Created output processor for {member.kanji} ({member.romaji}) from {group.kanji} ({group.romaji}) with path {self.member_path}')
+
+    def get_metadata_handler_class(self, user_input, member_path):
+        raise NotImplementedError()
 
     def format_path(self):
         group = self.user_input.group.kanji
