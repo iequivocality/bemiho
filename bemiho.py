@@ -13,6 +13,9 @@ from scrapper.traversal.exceptions import TraversalClassNotFound
 
 from processor.reset import BemihoResetProcessor
 
+from json_extractor.reader import JSONExtractor
+from json_extractor.mapper import GroupJSONObjectMapper, MemberJSONObjectMapper
+
 if __name__ == '__main__':
     logger = BemihoLogger('bemiho').get_logger()
     start = time.time()
@@ -22,6 +25,16 @@ if __name__ == '__main__':
         if (user_input.reset_mode):
             reset_processor = BemihoResetProcessor(user_input)
             reset_processor.start()
+        elif (user_input.list_mode):
+            extractor = JSONExtractor('index/index.idols', GroupJSONObjectMapper())
+            group_data = extractor.extract()
+            for group in group_data:
+                print(f'({group.index}) {group.romaji} - {group.kanji}')
+                extractor = JSONExtractor(f'index/{group.index_file}', MemberJSONObjectMapper())
+                member_data = extractor.extract()
+                for member in member_data:
+                    print(f'    ({member.index}) {member.romaji} - {member.kanji}')
+            
         else:
             output_processor_class = get_output_processor_class_for_content(user_input.content)
             processor = BemihoScrapProcessor(user_input, output_processor_class)

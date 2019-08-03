@@ -65,6 +65,10 @@ def get_user_input():
     args = parse_system_args()
     user_input_build = BemihoUserInputBuilder()
 
+    if (args.list):
+        user_input_build.set_list_mode(True)
+        return user_input_build.build()
+
     selected_group = get_group_input(args.group)
     user_input_build.set_group(selected_group)
     user_input_build.set_member(get_member_input(args.member, selected_group))

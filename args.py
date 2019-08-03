@@ -12,6 +12,7 @@ def parse_system_args():
     parser.add_argument("-f", "--firstpage", help="First page", type=int)
     parser.add_argument("-n", "--number", help="Number of pages", type=int)
     parser.add_argument("--reset", help="Resets saved data from idol's blog", action='store_true')
+    parser.add_argument("--list", help="Lists all groups and possible members", action='store_true')
     logger.debug('Parsing command line arguments')
     parsed = parser.parse_args()
     logger.debug(f'Parsing command line arguments finished {parsed}')

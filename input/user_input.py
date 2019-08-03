@@ -1,7 +1,7 @@
 from logger import BemihoLogger
 
 class BemihoUserInput:
-    def __init__(self, group, member, output, content, firstpage, number_of_pages, reset_mode):
+    def __init__(self, group, member, output, content, firstpage, number_of_pages, reset_mode, list_mode):
         self.group = group
         self.member = member
         self.output = output
@@ -9,6 +9,7 @@ class BemihoUserInput:
         self.firstpage = firstpage
         self.number_of_pages = number_of_pages
         self.reset_mode = reset_mode
+        self.list_mode = list_mode
 
     def __str__(self):
         return f"Group: {self.group}\nMember: {self.member}\nOutput: {self.output}\nContent: {self.content}\nFirst Page: {self.firstpage}\nNumber of Pages: {self.number_of_pages}"
@@ -23,6 +24,7 @@ class BemihoUserInputBuilder:
         self.number_of_pages = 1
         self.logger = BemihoLogger(BemihoUserInputBuilder).get_logger()
         self.reset_mode = False
+        self.list_mode = False
 
     def set_group(self, group):
         self.group = group
@@ -45,7 +47,10 @@ class BemihoUserInputBuilder:
     def set_reset_mode(self, reset_mode):
         self.reset_mode = reset_mode
 
+    def set_list_mode(self, list_mode):
+        self.list_mode = list_mode
+
     def build(self):
-        user_input = BemihoUserInput(self.group, self.member, self.output, self.content, self.firstpage, self.number_of_pages, self.reset_mode)
+        user_input = BemihoUserInput(self.group, self.member, self.output, self.content, self.firstpage, self.number_of_pages, self.reset_mode, self.list_mode)
         self.logger.debug(f'User input object created for scrapping that contains the following data:\n{user_input}')
         return user_input

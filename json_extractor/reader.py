@@ -1,5 +1,6 @@
 import json
 
+import logging
 from logger import BemihoLogger
 from utilities.reflect import get_qualified_name
 
@@ -7,7 +8,7 @@ class JSONExtractor:
     def __init__(self, filename, mapper):
         self.filename = filename
         self.mapper = mapper
-        self.logger = BemihoLogger(self.__class__).get_logger()
+        self.logger = BemihoLogger(self.__class__, logging.INFO).get_logger()
     
     def extract(self):
         items = []
