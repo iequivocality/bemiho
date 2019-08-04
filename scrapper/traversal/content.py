@@ -62,6 +62,7 @@ class BlogScrapperTraversal(ScrapperTraversal):
                     # contents.append(BlogTextContent(''))
                 elif child.name == 'div' or child.name == 'span':
                     contents.extend(self.traverse(child))
+                    contents.append(BlogTextContent(''))
         return contents
 
 class AllScrapperTraversal(BlogScrapperTraversal):

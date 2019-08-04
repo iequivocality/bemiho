@@ -1,5 +1,5 @@
 import requests
-from os.path import join
+from os.path import join, sep
 import mimetypes
 
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -7,6 +7,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from output_processor import ScrapperOutputProcessor
 from contents import BlogImageContent
 from logger import BemihoLogger
+from utilities.text import clean_file_name
 
 from metadata.photos import PhotosMetadataHandler
 
@@ -63,7 +64,7 @@ class PhotosOutputProcessor(ScrapperOutputProcessor):
         header_date_string = header.date_to_string()
         guessed_ext = self.get_mime_type_extension(image_url)
         self.logger.debug(f'Extension for image URL ({image_url}): {guessed_ext}')
-        save_url = join(directory, '%s_%s (%s)%s' % (header_date_string, index, header.title, guessed_ext))
+        save_url = join(directory, '%s_%s (%s)%s' % (header_date_string, index, clean_file_name(header.title), guessed_ext))
         self.logger.debug(f'Download path for image URL {image_url} created: {save_url}')
         return save_url
 

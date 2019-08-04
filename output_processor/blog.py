@@ -1,10 +1,11 @@
 import re
-from os.path import join
+from os.path import join, sep
 
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from output_processor import ScrapperOutputProcessor
 from contents import BlogTextContent, BlogImageContent
+from utilities.text import clean_file_name
 
 from docx import Document
 from docx.shared import Inches, Pt
@@ -44,7 +45,7 @@ class BlogEntryOutputProcessor(ScrapperOutputProcessor):
         header = blog_data.header
         contents = blog_data.contents
         date_string = header.date.strftime("%Y.%m.%d")
-        document_path = join(directory, f"{date_string} ({header.title}).docx")
+        document_path = join(directory, f"{date_string} ({clean_file_name(header.title)}).docx")
 
         try:
             content_data = self.metadata_handler.build_content_object_from_data(download_url=document_path, successful=False)
