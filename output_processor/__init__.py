@@ -8,7 +8,7 @@ from os.path import join, exists, isdir
 
 from logger import BemihoLogger
 from utilities.file import create_directory
-from utilities.reflect import get_qualified_name
+from utilities.reflect import get_qualified_name, get_class_in_module, get_classes_in_module
 
 from .exceptions import OutputProcessorNotFound
 
@@ -49,24 +49,12 @@ def get_output_processor_class_for_content(content):
     logger = BemihoLogger(get_output_processor_class_for_content).get_logger()
     qualified_name = get_qualified_name(ScrapperOutputProcessor)
     logger.debug(f'Getting output processor ({qualified_name}) class for content {content}.')
-    writer = None
-    for (_, name, _) in pkgutil.iter_modules([Path(__file__).parent]):
-        imported_module = import_module('.' + name, package=__name__)
-        for i in dir(imported_module):
-            attribute = getattr(imported_module, i)
-            if inspect.isclass(attribute) and issubclass(attribute, ScrapperOutputProcessor) and attribute.content == content:
-                writer = attribute
+    writer = get_class_in_module(__file__, __name__, ScrapperOutputProcessor, lambda clazz : clazz.content == content)
     if (writer == None):
         raise OutputProcessorNotFound(content)
     logger.debug(f'Output processor ({get_qualified_name(writer)}) found.')
     return writer
 
 def get_output_processor_classes_for_content_except(not_included):
-    processor_classes = []
-    for (_, name, _) in pkgutil.iter_modules([Path(__file__).parent]):
-        imported_module = import_module('.' + name, package=__name__)
-        for i in dir(imported_module):
-            attribute = getattr(imported_module, i)
-            if inspect.isclass(attribute) and issubclass(attribute, ScrapperOutputProcessor) and attribute != ScrapperOutputProcessor and attribute.content != not_included:
-                processor_classes.append(attribute)
+    processor_classes = get_classes_in_module(__file__, __name__, ScrapperOutputProcessor, lambda clazz : clazz != ScrapperOutputProcessor and clazz.content != not_included)
     return processor_classes

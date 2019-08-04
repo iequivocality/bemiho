@@ -9,6 +9,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from logger import BemihoLogger
 from scrapper.traversal import get_traversal_based_on_content_request
+from utilities.reflect import get_class_in_module
 
 class Scrapper:
     code = 'Scrapper'
@@ -34,13 +35,7 @@ class Scrapper:
         pass
 
 def get_scrapper_class_based_on_input(user_input):
-    scrapper = None
-    for (_, name, _) in pkgutil.iter_modules([Path(__file__).parent]):
-        imported_module = import_module('.' + name, package=__name__)
-        for i in dir(imported_module):
-            attribute = getattr(imported_module, i)
-            if inspect.isclass(attribute) and issubclass(attribute, Scrapper) and attribute.code == user_input.group.code:
-                scrapper = attribute
+    scrapper = get_class_in_module(__file__, __name__, Scrapper, lambda clazz : clazz.code == user_input.group.code)
     return scrapper
 
 class BemihoScrapProcessor:
