@@ -6,6 +6,7 @@ from logger import BemihoLogger
 from contents import BlogHeader, BlogData
 from services.lineblog import LineBlogApiCrawler
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from services.lineblog import LineBlogService
 
 class WasutaScrapper(Scrapper):
     code = 'Wasuta'
@@ -21,31 +22,9 @@ class WasutaScrapper(Scrapper):
         member = self.user_input.member
         group = self.user_input.group
         return f"{member.blog}&{group.pageformat}{page_number}"
-
-    def scrape_single_url(self, header):
-        contents = []
-        self.logger.debug(f'Extracting data from {header.link} for {self.code}')
-        request = requests.get(header.link)
-        soup = BeautifulSoup(request.text, 'lxml')
-        for article in soup.find_all('article', class_='first-article'):
-            article_body = article.find('div', class_='article-body')
-            article_body_inner = article_body.find('div', class_='article-body-inner')
-            contents = self.traversal.traverse(article_body_inner)
-            self.logger.debug(f'Contents extracted from {header.link} with size {len(contents)}')
-        return BlogData(header, contents)
     
     def start_web_scrape(self):
-        contents = []
-        futures = []
         url = self.format_url(self.page_number)
-        headers = LineBlogApiCrawler(url, self.page_number, self.user_input.member.kanji).crawl_api_for_headers()
-        self.logger.debug(f'Headers extracted from api url {url} with size {len(headers)}. Proceeding to fetch data.')
-        with ThreadPoolExecutor(max_workers=5) as executor:
-            for header in headers:
-                futures.append(executor.submit(self.scrape_single_url, header))
-            for future in as_completed(futures):
-                try:
-                    contents.append(future.result())
-                except Exception:
-                    self.logger.error("Exception occurred on thread", exc_info=True)
+        services = LineBlogService(url, self.page_number, self.user_input.member.kanji, self.traversal)
+        contents = services.serve_contents()
         return contents
