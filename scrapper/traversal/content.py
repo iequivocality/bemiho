@@ -5,6 +5,7 @@ from bs4.element import Tag, NavigableString
 
 from scrapper.traversal import ScrapperTraversal
 from contents import BlogImageContent, BlogTextContent
+from utilities.text import check_valid_url_format
 
 IMAGE_MIME_TYPE = 'image/'
 VALID_PHOTO_EXTENSIONS = ['rgb', 'gif', 'pbm', 'pgm', 'ppm', 'tiff', 'rast', 'xbm', 'jpeg', 'bmp', 'png', 'webp', 'exr']
@@ -12,6 +13,8 @@ VALID_PHOTO_EXTENSIONS = ['rgb', 'gif', 'pbm', 'pgm', 'ppm', 'tiff', 'rast', 'xb
 class PhotosScrapperTraversal(ScrapperTraversal):
     content = 'photos'
     def image_check(self, image_src):
+        if (not check_valid_url_format(image_src)):
+            return (False, None)
         #Get initial from mimetypes
         mime_type = mimetypes.guess_type(image_src)
         if (mime_type[0] is not None):
