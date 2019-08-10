@@ -26,20 +26,42 @@ class PhotosScrapperTraversal(ScrapperTraversal):
 
     def traverse(self, element):
         contents = []
-        children = element.children
-        # children = element.find_all('img')
+        children = element.find_all(['img', 'a'])
         for child in children:
             if type(child) is Tag:
+                image_src = child.get('src')
                 if child.name == 'img':
-                    contents.append(BlogImageContent(child.get('src')))
+                    if (not check_valid_url_format(image_src)):
+                        return (False, None)
+                    #Get initial from mimetypes
+                    mime_type = mimetypes.guess_type(image_src)
+                    if (mime_type[0] is not None):
+                        contents.append(BlogImageContent(image_src))
+                    else:
+                        checker = self.image_check(image_src)
+                        if (checker[0]):
+                            generated_link = f"{href}.{checker[1]}"
+                            contents.append(BlogImageContent(generated_link))
                 elif child.name == 'a':
                     href = child.get('href')
                     checker = self.image_check(href)
                     if (checker[0]):
                         generated_link = f"{href}.{checker[1]}"
                         contents.append(BlogImageContent(generated_link))
-                elif child.name == 'div' or child.name == 'span':
-                    contents.extend(self.traverse(child))
+        # children = element.children
+        # children = element.find_all('img')
+        # for child in children:
+        #     if type(child) is Tag:
+        #         if child.name == 'img':
+        #             contents.append(BlogImageContent(child.get('src')))
+        #         elif child.name == 'a':
+        #             href = child.get('href')
+        #             checker = self.image_check(href)
+        #             if (checker[0]):
+        #                 generated_link = f"{href}.{checker[1]}"
+        #                 contents.append(BlogImageContent(generated_link))
+        #         elif child.name == 'div' or child.name == 'span' or child.name == 'p':
+        #             contents.extend(self.traverse(child))
         return contents
 
 class BlogScrapperTraversal(ScrapperTraversal):

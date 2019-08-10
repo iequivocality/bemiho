@@ -3,7 +3,7 @@ import time
 
 from input.accept_input import get_user_input
 from input.exceptions import JSONDataNotFound, PageNumberNotDigits, InvalidContentInput, NumberOfPageShouldBeAtLeastOne
-from scrapper import BemihoScrapProcessor
+from processor.scrapper import BemihoScrapProcessor
 from logger import BemihoLogger
 
 from output_processor import get_output_processor_class_for_content

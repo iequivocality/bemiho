@@ -1,9 +1,12 @@
-from logger import BemihoLogger
 from os.path import join, exists, isdir
 import os, shutil
 
-class BemihoResetProcessor:
+from logger import BemihoLogger
+from processor import BemihoProcessor
+
+class BemihoResetProcessor(BemihoProcessor):
     def __init__(self, user_input):
+        super().__init__(user_input)
         self.group = user_input.group
         self.member = user_input.member
         self.output = user_input.output
