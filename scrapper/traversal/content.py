@@ -22,7 +22,7 @@ class PhotosScrapperTraversal(ScrapperTraversal):
         else:
             request = requests.get(image_src, allow_redirects=True)
             extension = imghdr.what(None, request.content)
-        return (extension in VALID_PHOTO_EXTENSIONS, extension)
+            return (extension in VALID_PHOTO_EXTENSIONS, extension)
 
     def traverse(self, element):
         contents = []
@@ -38,7 +38,6 @@ class PhotosScrapperTraversal(ScrapperTraversal):
                     if (checker[0]):
                         generated_link = f"{href}.{checker[1]}"
                         contents.append(BlogImageContent(generated_link))
-                    # contents.append(child.get('src'))
                 elif child.name == 'div' or child.name == 'span':
                     contents.extend(self.traverse(child))
         return contents
