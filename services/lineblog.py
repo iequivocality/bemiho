@@ -33,6 +33,13 @@ class LineBlogApiCrawler:
         return headers
 
 class LineBlogService:
+    def scrape_single_url(self, header):
+        raise NotImplementedError()
+
+    def serve_contents(self):
+        raise NotImplementedError()
+
+class LineBlogGroupService(LineBlogService):
     def __init__(self, url, page_number, author, traversal):
         self.url = url
         self.page_number = page_number

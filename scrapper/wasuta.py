@@ -6,7 +6,7 @@ from logger import BemihoLogger
 from contents import BlogHeader, BlogData
 from services.lineblog import LineBlogApiCrawler
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from services.lineblog import LineBlogService
+from services.lineblog import LineBlogGroupService
 
 class WasutaScrapper(Scrapper):
     code = 'Wasuta'
@@ -25,6 +25,6 @@ class WasutaScrapper(Scrapper):
     
     def start_web_scrape(self):
         url = self.format_url(self.page_number)
-        services = LineBlogService(url, self.page_number, self.user_input.member.kanji, self.traversal)
+        services = LineBlogGroupService(url, self.page_number, self.user_input.member.kanji, self.traversal)
         contents = services.serve_contents()
         return contents
