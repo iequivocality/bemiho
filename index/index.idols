@@ -25,5 +25,14 @@
         "pageformat" : "pageKey=",
         "index" : "3",
         "homepage" : "https://lineblog.me/theworldstandard/"
+    },
+    {
+        "kanji" : "虹のコンキスタドール",
+        "romaji" : "Niji no Conquistador",
+        "index_file" : "nijicon.idols",
+        "code" : "Nijicon",
+        "pageformat" : "pageKey=",
+        "index" : "4",
+        "homepage" : "https://lineblog.me/2zicon/"
     }
 ]
