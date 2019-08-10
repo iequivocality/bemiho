@@ -42,8 +42,10 @@ python bemiho.py
 > ✔️ Supported content and groups
 
 ### Supported Groups
-- Hinatazaka46
-- Keyakizaka46
+- Hinatazaka46 (日向坂46)
+- Keyakizaka46 (欅坂46)
+- The World Standard (わーすた)
+- Niji no Conquistador (虹のコンキスタドール)
 
 ### Supported Content
 - Photo download
@@ -59,6 +61,7 @@ python bemiho.py
 | ----------- | --------- | ----- |
 | --group     | -g        | Specifies group (required) |
 | --member    | -m        | Specifies member of a group (required) |
+| --number    | -n        | Number of pages needed to save |
 | --output    | -o        | Specifies output folder where all contents are saved (default ./output) |
 | --content   | -c        | Specified which data is fetched from content |
 | --firstpage | -f        | Specified the first page from which data is fetched |

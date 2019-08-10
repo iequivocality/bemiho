@@ -52,7 +52,6 @@ class BemihoScrapProcessor:
         self.logger.debug(f'Starting fetch {content} for page {page_number}')
         scrapper = self.scrapper_class(self.user_input, page_number, self.traversal)
         blog_data = scrapper.start_web_scrape()
-        self.output_processor.create_output_directory()
         self.output_processor.process_blog_data(blog_data)
         return page_number
 
@@ -63,7 +62,7 @@ class BemihoScrapProcessor:
         number_of_pages = self.user_input.number_of_pages
         content = self.user_input.content
         self.logger.debug(f'Starting scrap process for {member.kanji} ({member.romaji}) from {group.kanji} ({group.romaji}) with content {content} and {number_of_pages} page count from page {firstpage}')
-
+        self.output_processor.create_output_directory()
         with ThreadPoolExecutor(max_workers=5) as executor:
             futures = []
             page_index = self.scrapper_class.get_proper_page_index(firstpage)
