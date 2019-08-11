@@ -1,5 +1,5 @@
 ![alt text](logo.png)
-> Utility for dowloading blogs of various Japanese idols
+> Utility for dowloading blogs of various Japanese idols. Allows extraction for both photos and content.
 
 ## Table of Contents (Optional)
 
