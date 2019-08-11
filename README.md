@@ -1,6 +1,12 @@
 ![alt text](logo.png)
 > Utility for dowloading blogs of various Japanese idols. Allows extraction for both photos and content.
 
+> **Announcement**
+> The following members will be removed by September as management
+> will take down their respective blogs on August 30, 2019:
+>       Nagahama Neru (Keyakizaka46)
+>       Kakizaki Memi (Hinatazaka46)
+
 ## Table of Contents (Optional)
 
 - [Requirements](#requirements)
@@ -26,6 +32,7 @@ git clone https://github.com/iequivocality/bemiho.git
 - pip install virtualenvwrapper
 - mkdir -p ~/Envs
 
+- For Mac OSX:
 - Add the following into your ~/.bash_profile file.
 - export WORKON_HOME=~/Envs
 - source /usr/local/bin/virtualenvwrapper.sh
@@ -89,5 +96,7 @@ python bemiho.py
 ## Future Development
 - Adding other blogs Sakamichi groups and some chika idol groups
 - Logging improvements
-- Metadata for photo and blog data
-- Selenium support for more complicated cases
+- Extracing blogs from LINE for individual members
+- Extracting blogs from Ameblo (both groups and individual groups)
+- Allow re-download through only metadata
+- Selenium support for more complicated cases (such as adding Twitter support)
