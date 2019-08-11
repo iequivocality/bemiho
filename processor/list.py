@@ -18,9 +18,11 @@ class BemihoDataOptionsProcessor(BemihoProcessor):
         group_data = extractor.extract()
         for group in group_data:
             print(f'({group.index}) {group.romaji} - {group.kanji}')
+            print('    The kanji of the group and its members can also be used for -g and -m options, respectively.')
+            print('    Showing only the romaji is only for formatting purposes.')
             extractor = JSONExtractor(f'index/{group.index_file}', MemberJSONObjectMapper())
             member_data = extractor.extract()
-            print_matrix(split_list_for_column_output(member_data, 3), lambda member: f'({member.index}) {member.romaji} - {member.kanji}')
+            print_matrix(split_list_for_column_output(member_data, 3), lambda member: f'({member.index}) {member.romaji}')
             # for member in member_data:
             #     print(f'    ({member.index}) {member.romaji} - {member.kanji}')
         
