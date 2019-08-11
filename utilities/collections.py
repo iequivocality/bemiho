@@ -28,4 +28,4 @@ def split_list_for_column_output(_list, col_num):
 def print_matrix(matrix, string_value = lambda val : val):
     col_width = max(len(string_value(word)) for row in matrix for word in row) + 8
     for row in matrix:
-        print(f'    {"".join(string_value(word).ljust(col_width) for word in row)}')
+        print(f'\033[1;370m    {"".join(string_value(word).ljust(col_width) for word in row)}')
