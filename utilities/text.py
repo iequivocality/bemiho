@@ -1,4 +1,5 @@
 import re
+import emoji
 
 from os.path import sep
 from bs4 import NavigableString
@@ -6,8 +7,7 @@ from bs4 import NavigableString
 def enclose_to_json_like_string(string_for_enclose):
     return '{\n' + string_for_enclose + '\n}'
 
-def clean_file_name(file_path):
-    processed = file_path.replace(sep, '')
+def contains_emojis(input_str):
     emoji_pattern = re.compile("["
             u"\U00010000-\U0010ffff"
             u"\U0001F600-\U0001F64F"
@@ -15,7 +15,14 @@ def clean_file_name(file_path):
             u"\U0001F680-\U0001F6FF"  
             u"\U0001F1E0-\U0001F1FF"  
                             "]+", flags=re.UNICODE)
-    return emoji_pattern.sub(r'', processed)
+    return emoji_pattern.match(input_str)
+
+def clean_file_name(file_path):
+    processed = file_path.replace(sep, '')
+    return clean_emojis(processed)
+
+def clean_emojis(input_str):
+    return emoji.demojize(input_str).replace(':', '')
 
 def check_valid_url_format(url):
     regex = re.compile(

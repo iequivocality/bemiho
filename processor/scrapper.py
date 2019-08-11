@@ -7,7 +7,6 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 class BemihoScrapProcessor(BemihoProcessor):
     def __init__(self, user_input, output_processor_class):
-
         self.user_input = user_input
         self.traversal = get_traversal_based_on_content_request(user_input)
         self.scrapper_class = get_scrapper_class_based_on_input(user_input)
