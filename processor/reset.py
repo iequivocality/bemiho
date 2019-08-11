@@ -2,7 +2,7 @@ from os.path import join, exists, isdir
 import os, shutil
 
 from logger import BemihoLogger
-from processor import BemihoProcessor
+from .base import BemihoProcessor
 
 class BemihoResetProcessor(BemihoProcessor):
     def __init__(self, user_input):

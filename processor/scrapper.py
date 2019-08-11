@@ -1,5 +1,5 @@
 from logger import BemihoLogger
-from processor import BemihoProcessor
+from .base import BemihoProcessor
 from scrapper.traversal import get_traversal_based_on_content_request
 from scrapper import get_scrapper_class_based_on_input
 
