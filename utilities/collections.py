@@ -26,10 +26,6 @@ def split_list_for_column_output(_list, col_num):
     return split_array
 
 def print_matrix(matrix, string_value = lambda val : val):
-    col_width = max(len(string_value(word)) for row in matrix for word in row) + 8  # padding
+    col_width = max(len(string_value(word)) for row in matrix for word in row) + 8
     for row in matrix:
-        # for word in row:
-        #     justified = string_value(word).ljust(col_width,'_')
-        #     print(justified, col_width, len(string_value(word)))
-
         print(f'    {"".join(string_value(word).ljust(col_width) for word in row)}')
