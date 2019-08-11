@@ -7,6 +7,8 @@ from .base import BemihoProcessor
 from json_extractor.reader import JSONExtractor
 from json_extractor.mapper import GroupJSONObjectMapper, MemberJSONObjectMapper
 
+from utilities.collections import split_list_for_column_output, print_matrix
+
 class BemihoDataOptionsProcessor(BemihoProcessor):
     def __init__(self, user_input):
         super().__init__(user_input)
@@ -18,5 +20,8 @@ class BemihoDataOptionsProcessor(BemihoProcessor):
             print(f'({group.index}) {group.romaji} - {group.kanji}')
             extractor = JSONExtractor(f'index/{group.index_file}', MemberJSONObjectMapper())
             member_data = extractor.extract()
-            for member in member_data:
-                print(f'    ({member.index}) {member.romaji} - {member.kanji}')
+            print_matrix(split_list_for_column_output(member_data, 3), lambda member: f'({member.index}) {member.romaji} - {member.kanji}')
+            # for member in member_data:
+            #     print(f'    ({member.index}) {member.romaji} - {member.kanji}')
+        
+            
