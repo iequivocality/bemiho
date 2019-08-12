@@ -1,3 +1,4 @@
+from datetime import datetime
 import requests
 
 from bs4 import BeautifulSoup
@@ -5,6 +6,23 @@ from bs4.element import Tag, NavigableString
 
 from scrapper import Scrapper
 from scrapper.traversal import ScrapperTraversal
+
+from contents import BlogHeader, BlogData
+
+
+class NogizakaBlogHeader(BlogHeader):
+    def get_id_from_link(self, link):
+        #http://blog.nogizaka46.com/miona.hori/2019/08/052085.php
+        last_part = link.split('/')[-1]
+        return last_part.replace('.php', '')
+        # removed_prefix = link.replace('https://www.hinatazaka46.com/s/official/diary/detail/', '')
+        # question_mark_index = removed_prefix.find('?')
+        # return removed_prefix[0:question_mark_index]
+
+    def format_date(self, datestring):
+        #2019/08/05 18:00
+        return datetime.strptime(datestring, "%Y/%m/%d %H:%M")
+
 
 class NogizakaSeparatedContent:
     def __init__(self, header_elem):
@@ -63,22 +81,32 @@ class NogizakaScrapper(Scrapper):
         sheet = container.find('div', id='sheet')
         separated = self.separator.separate_elements(sheet)
         for blog in separated:
-            self.get_header(blog)
+            header = self.get_header(blog)
             print(self.traversal.traverse(blog.content_elem))
         return []
 
     def get_header(self, element):
         header_elem = element.header_elem
         bottom_elem = element.bottom_elem
-        self.get_date(header_elem)
+        date = self.get_date(bottom_elem)
+        author = self.get_author(header_elem)
+        title_and_link = self.get_title_and_link(header_elem)
+        print(date, author, title_and_link['title'], title_and_link['link'])
+        return NogizakaBlogHeader(title_and_link['title'], date, author, title_and_link['link'], self.page_number)
 
-    def get_date(self, header):
-        date_container = header.find('span', class_='date')
-        date_month = date_container.find('span', class_='yearmonth')
-        date_day_container =  date_container.find('span', class_='daydate')
-        day_container = date_day_container.find('span', class_='dd1')
-        print(date_month.get_text(), day_container.get_text())
+    def get_title_and_link(self, header):
+        heading_container = header.find('span', class_='heading')
+        title_container = heading_container.find('span', class_='entrytitle')
+        title_link = title_container.find('a')
+        return { 'title' : title_link.get_text(), 'link' : title_link.get('href') }
 
+    def get_author(self, header):
+        heading_container = header.find('span', class_='heading')
+        author_container = heading_container.find('span', class_='author')
+        return author_container.get_text()
+
+    def get_date(self, bottom):
+        return bottom.get_text().split('｜')[0]
 
     def get_blog_link(self, element):
         pass
