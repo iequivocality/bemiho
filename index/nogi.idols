@@ -5,5 +5,12 @@
         "romaji" : "Hori Miona",
         "blog" : "http://blog.nogizaka46.com/miona.hori/",
         "index" : "1"
+    },
+    {
+        "kanji" : "生田絵梨花",
+        "kana" : "いくた えりか",
+        "romaji" : "Ikuta Erika",
+        "blog" : "http://blog.nogizaka46.com/erika.ikuta/",
+        "index" : "2"
     }
 ]

@@ -60,7 +60,7 @@ class BlogScrapperTraversal(ScrapperTraversal):
                     if (imghdr.what(None, request.content) in VALID_PHOTO_EXTENSIONS):
                         contents.append(BlogImageContent(child.get('href')))
                     else:
-                        contents.append(BlogTextContent(f"{child.get_text()} ()"))
+                        contents.append(BlogTextContent(f"{child.get_text()} ({href})"))
                 elif child.name == 'div' or child.name == 'span':
                     contents.extend(self.traverse(child))
                     contents.append(BlogTextContent(''))

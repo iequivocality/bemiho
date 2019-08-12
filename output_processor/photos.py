@@ -28,7 +28,7 @@ class PhotosOutputProcessor(ScrapperOutputProcessor):
         self.logger.debug(f'Blog data number {len(blog_datas)}.')
         for blog_data in blog_datas:
             header = blog_data.header
-            contents = blog_data.contents
+            contents = list(filter(lambda content: type(content) is BlogImageContent, blog_data.contents))
             self.logger.debug(f'Saving contents from {header.title} with content count {len(contents)}.')
             for (index, content) in enumerate(contents):
                 self.save_photo(index, header, content)
