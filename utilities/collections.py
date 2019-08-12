@@ -14,7 +14,7 @@ def split_list_for_column_output(_list, col_num):
     split_array = []
     max_count = length // col_num if length % col_num == 0 else ( length // col_num ) + 1
     for value in enumerate(_list):
-        if value[0] <= max_count:
+        if value[0] < max_count:
             row = []
             rowIndex = value[0]
             while(rowIndex < length):
