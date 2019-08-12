@@ -1,9 +1,9 @@
 [
     {
-        "kanji" : "堀未央奈",
-        "kana" : "ほり　みおな",
-        "romaji" : "Hori Miona",
-        "blog" : "http://blog.nogizaka46.com/miona.hori/",
+        "kanji" : "秋元真夏",
+        "kana" : "あきもと　まなつ",
+        "romaji" : "Akimoto Manatsu",
+        "blog" : "http://blog.nogizaka46.com/manatsu.akimoto/",
         "index" : "1"
     },
     {
@@ -12,5 +12,222 @@
         "romaji" : "Ikuta Erika",
         "blog" : "http://blog.nogizaka46.com/erika.ikuta/",
         "index" : "2"
+    },
+    {
+        "kanji" : "伊藤純奈",
+        "kana" : "いとう　じゅんな",
+        "romaji" : "Itou Junna",
+        "blog" : "http://blog.nogizaka46.com/junna.itou/",
+        "index" : "3"
+    },
+    {
+        "kanji" : "伊藤理々杏",
+        "kana" : "いとう　りりあ",
+        "romaji" : "Itou Riria",
+        "blog" : "http://blog.nogizaka46.com/riria.itou/",
+        "index" : "4"
+    },
+    {
+        "kanji" : "井上小百合",
+        "kana" : "いのうえ　さゆり",
+        "romaji" : "Inoue Sayuri",
+        "blog" : "http://blog.nogizaka46.com/sayuri.inoue/",
+        "index" : "5"
+    },
+    {
+        "kanji" : "岩本蓮加",
+        "kana" : "いわもと　れんか",
+        "romaji" : "Iwamoto Renka",
+        "blog" : "http://blog.nogizaka46.com/renka.iwamoto/",
+        "index" : "6"
+    },
+    {
+        "kanji" : "梅澤美波",
+        "kana" : "うめざわ　みなみ",
+        "romaji" : "Umezawa Minami",
+        "blog" : "http://blog.nogizaka46.com/minami.umezawa/",
+        "index" : "7"
+    },
+    {
+        "kanji" : "大園桃子",
+        "kana" : "おおぞの　ももこ",
+        "romaji" : "Oozono Momoko",
+        "blog" : "http://blog.nogizaka46.com/momoko.oozono/",
+        "index" : "8"
+    },
+    {
+        "kanji" : "北野日奈子",
+        "kana" : "きたの　ひなこ",
+        "romaji" : "Kitano Hitano",
+        "blog" : "http://blog.nogizaka46.com/hinako.kitano/",
+        "index" : "9"
+    },
+    {
+        "kanji" : "久保史緒里",
+        "kana" : "くぼ　しおり",
+        "romaji" : "Kubo Shiori",
+        "blog" : "http://blog.nogizaka46.com/shiori.kubo/",
+        "index" : "10"
+    },
+    {
+        "kanji" : "齋藤飛鳥",
+        "kana" : "さいとう　あすか",
+        "romaji" : "Saitou Asuka",
+        "blog" : "http://blog.nogizaka46.com/asuka.saito/",
+        "index" : "11"
+    },
+    {
+        "kanji" : "阪口珠美",
+        "kana" : "さかぐち　たまみ",
+        "romaji" : "Sakaguchi Tamami",
+        "blog" : "http://blog.nogizaka46.com/tamami.sakaguchi/",
+        "index" : "12"
+    },
+    {
+        "kanji" : "桜井玲香",
+        "kana" : "さくらい　れいか",
+        "romaji" : "Sakurai Reika",
+        "blog" : "http://blog.nogizaka46.com/reika.sakurai/",
+        "index" : "13"
+    },
+    {
+        "kanji" : "佐々木琴子",
+        "kana" : "ささき　ことこ",
+        "romaji" : "Sasaki Kotoko",
+        "blog" : "http://blog.nogizaka46.com/kotoko.sasaki/",
+        "index" : "14"
+    },
+    {
+        "kanji" : "佐藤楓",
+        "kana" : "かえで　さとう",
+        "romaji" : "Kaede Satou",
+        "blog" : "http://blog.nogizaka46.com/kaede.satou/",
+        "index" : "15"
+    },
+    {
+        "kanji" : "白石麻衣",
+        "kana" : "しらいし　まい",
+        "romaji" : "Shiraishi Mai",
+        "blog" : "http://blog.nogizaka46.com/mai.shiraishi/",
+        "index" : "16"
+    },
+    {
+        "kanji" : "新内眞衣",
+        "kana" : "しぬち　まい",
+        "romaji" : "Shinuchi Mai",
+        "blog" : "http://blog.nogizaka46.com/mai.shinuchi/",
+        "index" : "17"
+    },
+    {
+        "kanji" : "鈴木絢音",
+        "kana" : "すずき　あやね",
+        "romaji" : "Suzuki Ayane",
+        "blog" : "http://blog.nogizaka46.com/ayane.suzuki/",
+        "index" : "18"
+    },
+    {
+        "kanji" : "高山一実",
+        "kana" : "たかやま　かずみ",
+        "romaji" : "Takayama Kazumi",
+        "blog" : "http://blog.nogizaka46.com/kazumi.takayama/",
+        "index" : "19"
+    },
+    {
+        "kanji" : "寺田蘭世",
+        "kana" : "てらだ　らんぜ",
+        "romaji" : "Terada Ranze",
+        "blog" : "http://blog.nogizaka46.com/ranze.terada/",
+        "index" : "20"
+    },
+    {
+        "kanji" : "中田花奈",
+        "kana" : "なかだ　かな",
+        "romaji" : "Nakada Kana",
+        "blog" : "http://blog.nogizaka46.com/kana.nakada/",
+        "index" : "21"
+    },
+    {
+        "kanji" : "中村麗乃",
+        "kana" : "なかむら　れの",
+        "romaji" : "Nakamura Reno",
+        "blog" : "http://blog.nogizaka46.com/reno.nakamura/",
+        "index" : "22"
+    },
+    {
+        "kanji" : "樋口日奈",
+        "kana" : "ひぐち　ひな",
+        "romaji" : "Higuchi Hina",
+        "blog" : "http://blog.nogizaka46.com/hina.higuchi/",
+        "index" : "23"
+    },
+    {
+        "kanji" : "星野みなみ",
+        "kana" : "ほしの　みなみ",
+        "romaji" : "Hoshino Minami",
+        "blog" : "http://blog.nogizaka46.com/minami.hoshino/",
+        "index" : "24"
+    },
+    {
+        "kanji" : "堀未央奈",
+        "kana" : "ほり　みおな",
+        "romaji" : "Hori Miona",
+        "blog" : "http://blog.nogizaka46.com/miona.hori/",
+        "index" : "25"
+    },
+    {
+        "kanji" : "松村沙友理",
+        "kana" : "まつむら　さゆり",
+        "romaji" : "Matsumura Sayuri",
+        "blog" : "http://blog.nogizaka46.com/sayuri.matsumura/",
+        "index" : "26"
+    },
+    {
+        "kanji" : "向井葉月",
+        "kana" : "むかい　はずき",
+        "romaji" : "Mukai Hazuki",
+        "blog" : "http://blog.nogizaka46.com/hazuki.mukai/",
+        "index" : "27"
+    },
+    {
+        "kanji" : "山崎怜奈",
+        "kana" : "やまざき　れな",
+        "romaji" : "Yamazaki Rena",
+        "blog" : "http://blog.nogizaka46.com/rena.yamazaki/",
+        "index" : "28"
+    },
+    {
+        "kanji" : "山下美月",
+        "kana" : "やました　みずき",
+        "romaji" : "Yamashita Mizuki",
+        "blog" : "http://blog.nogizaka46.com/mizuki.yamashita/",
+        "index" : "29"
+    },
+    {
+        "kanji" : "吉田綾乃クリスティー",
+        "kana" : "よしだあやのクリスティー",
+        "romaji" : "Yoshida Ayano Christie",
+        "blog" : "http://blog.nogizaka46.com/ayanochristie.yoshida/",
+        "index" : "30"
+    },
+    {
+        "kanji" : "与田祐希",
+        "kana" : "よだ　ゆうき",
+        "romaji" : "Yoda Yuuki",
+        "blog" : "http://blog.nogizaka46.com/yuuki.yoda/",
+        "index" : "31"
+    },
+    {
+        "kanji" : "渡辺みり愛",
+        "kana" : "わたなべ　みりあ",
+        "romaji" : "Watanabe Miria",
+        "blog" : "http://blog.nogizaka46.com/miria.watanabe/",
+        "index" : "32"
+    },
+    {
+        "kanji" : "和田 まあや",
+        "kana" : "わだ まあや",
+        "romaji" : "Wada Maaya",
+        "blog" : "http://blog.nogizaka46.com/maaya.wada/",
+        "index" : "33"
     }
 ]
