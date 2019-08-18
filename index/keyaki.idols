@@ -173,5 +173,19 @@
         "kana" : "まつだいら りこ",
         "blog" : "http://www.keyakizaka46.com/s/k46o/diary/member/list?ima=0000&cd=member&ct=49",
         "index" : "25"
+    },
+    {
+        "romaji" : "Morita Hikaru",
+        "kanji" : "森田ひかる",
+        "kana" : "もりた ひかる",
+        "blog" : "http://www.keyakizaka46.com/s/k46o/diary/member/list?ima=0000&cd=member&ct=50",
+        "index" : "26"
+    },
+    {
+        "romaji" : "Yamasaki Ten",
+        "kanji" : "山﨑天",
+        "kana" : "やまさき てん",
+        "blog" : "http://www.keyakizaka46.com/s/k46o/diary/member/list?ima=0000&cd=member&ct=51",
+        "index" : "27"
     }
 ]
