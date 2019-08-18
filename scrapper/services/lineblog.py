@@ -55,7 +55,7 @@ class LineBlogGroupService(LineBlogService):
         for article in soup.find_all('article', class_='first-article'):
             article_body = article.find('div', class_='article-body')
             article_body_inner = article_body.find('div', class_='article-body-inner')
-            contents = self.traversal.traverse(article_body_inner)
+            contents = self.traversal.traverse(header, article_body_inner)
             self.logger.debug(f'Contents extracted from {header.link} with size {len(contents)}')
         return BlogData(header, contents)
 

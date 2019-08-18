@@ -1,13 +1,11 @@
 from os.path import join
 
 from output_processor import ScrapperOutputProcessor
-from contents import BlogTextContent, BlogImageContent
 
 from docx import Document
 from docx.shared import Inches, Pt
 
 from output_processor import get_output_processor_classes_for_content_except
-from output_processor.docs import HeaderDocumentModifier, create_document_modifier
 
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from logger import BemihoLogger

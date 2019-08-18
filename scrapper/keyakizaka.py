@@ -63,5 +63,5 @@ class KeyakizakaScrapper(Scrapper):
             self.get_header(article)
             header = self.get_header(article)
             content = article.find("div", class_="box-article")
-            contents.append(BlogData(header, self.traversal.traverse(content)))
+            contents.append(BlogData(header, self.traversal.traverse(header, content)))
         return contents

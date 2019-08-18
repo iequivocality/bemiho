@@ -12,7 +12,7 @@ from .exceptions import TraversalClassNotFound
 
 class ScrapperTraversal:
     content = ''
-    def traverse(self, element):
+    def traverse(self, header, element):
         raise NotImplementedError()
 
 def get_available_content_options():

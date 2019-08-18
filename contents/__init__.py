@@ -31,26 +31,26 @@ class BlogHeader:
         header_data = f'    ID: {self.id}\n    Title: {self.title}\n    Date: {self.date}\n    Author: {self.author}\n    Link: {self.link}'
         return enclose_to_json_like_string(header_data)
 
-class BlogContent:
-    def get_content(self):
-        raise NotImplementedError()
+# class BlogContent:
+#     def get_content(self):
+#         raise NotImplementedError()
 
-class BlogTextContent(BlogContent):
-    def __init__(self, text):
-        self.text = text
+# class BlogTextContent(BlogContent):
+#     def __init__(self, text):
+#         self.text = text
     
-    def get_content(self):
-        return self.text
+#     def get_content(self):
+#         return self.text
     
-    def __str__(self):
-        return self.text
+#     def __str__(self):
+#         return self.text
     
-class BlogImageContent(BlogContent):
-    def __init__(self, image_src):
-        self.image_src = image_src
+# class BlogImageContent(BlogContent):
+#     def __init__(self, image_src):
+#         self.image_src = image_src
     
-    def get_content(self):
-        return self.image_src
+#     def get_content(self):
+#         return self.image_src
     
-    def __str__(self):
-        return self.image_src
+#     def __str__(self):
+#         return self.image_src
