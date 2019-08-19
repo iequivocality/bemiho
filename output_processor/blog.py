@@ -4,14 +4,13 @@ from os.path import join, sep
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from output_processor import ScrapperOutputProcessor
-from contents import BlogTextContent, BlogImageContent
 from utilities.text import clean_file_name
 
 from docx import Document
 from docx.shared import Inches, Pt
 
 from logger import BemihoLogger
-from output_processor.docs import HeaderDocumentModifier, create_document_modifier
+from output_processor.docs import HeaderDocumentModifier
 
 from metadata.blog import BlogMetadataHandler
 
@@ -58,18 +57,11 @@ class BlogEntryOutputProcessor(ScrapperOutputProcessor):
                 HeaderDocumentModifier(header.link, level=4).change_document(document)
                 
                 for content in contents:
-                    create_document_modifier(content).change_document(document)
-                # document.save(self.remove_emoji_from_document_path(document_path))
+                    content.download_to_document(document)
                 document.save(document_path)
-                # content_data = self.metadata_handler.build_content_object_from_data(download_url=document_path, successful=True)
                 content_data.successful = True
                 self.metadata_handler.add_to_metadata(header, content_data)
         except:
             content_data = self.metadata_handler.build_content_object_from_data(download_url=document_path, successful=False)
             self.metadata_handler.add_to_metadata(header, content_data)
             self.logger.error(f'Download from {header.link} to {document_path} is unsuccessful due to issue.', exc_info=True)
-        # finally:
-
-    # def remove_emoji_from_document_path(self, document_path):
-    #     RE_EMOJI = re.compile('[\U00010000-\U0010ffff]', flags=re.UNICODE)
-    #     return RE_EMOJI.sub(r'', document_path)

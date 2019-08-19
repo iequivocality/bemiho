@@ -4,9 +4,8 @@ from bs4 import BeautifulSoup
 from scrapper import Scrapper
 from logger import BemihoLogger
 from contents import BlogHeader, BlogData
-from services.lineblog import LineBlogApiCrawler
+from scrapper.services.lineblog import LineBlogApiCrawler, LineBlogGroupService
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from services.lineblog import LineBlogGroupService
 
 class WasutaScrapper(Scrapper):
     code = 'Wasuta'
