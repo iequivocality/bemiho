@@ -7,8 +7,9 @@ from bs4.element import Tag, NavigableString
 from scrapper import Scrapper
 from scrapper.traversal import ScrapperTraversal
 from scrapper.traversal.content import PhotosScrapperTraversal
-
-from contents import BlogImageContent, BlogTextContent, BlogHeader, BlogData
+from download.image import ImageBlogDownloadContent
+from download.text import TextBlogDownloadContent
+from contents import BlogHeader, BlogData
 
 class NogizakaBlogHeader(BlogHeader):
     def get_id_from_link(self, link):
@@ -39,35 +40,45 @@ class NogizakaBlogTraversal(PhotosScrapperTraversal):
             return generated
         return ''
 
-    def traverse(self, element):
+    def traverse(self, header, element):
         contents = []
         for child in element.children:
             if type(child) is Tag:
                 if child.name == 'p':
-                    contents.extend(self.traverse(child))
+                    contents.extend(self.traverse(header, child))
                 elif child.name == 'b':
-                    contents.append(BlogTextContent(child.get_text()))
+                    contents.append(TextBlogDownloadContent(header, child.get_text()))
                 elif (child.name == 'br'):
-                    contents.append(BlogTextContent(''))
+                    contents.append(TextBlogDownloadContent(header, ''))
                 elif (child.name == 'a'):
                     href = child.get('href')
-                    image = self.get_image_for_nogi(href)
-                    if image is not None:
-                        contents.append(BlogImageContent(image))
+                    if 'http://dcimg.awalker.jp' in href:
+                        pass
+                        # Add backup in case image from dcimg.awalker can't be found or expired
+                        # Create Selenium Image Download Content
                     else:
                         smaller_image = child.find('img')
                         if (smaller_image is not None):
-                            contents.append(BlogImageContent(smaller_image.get('src')))
+                            contents.append(ImageBlogDownloadContent(header, smaller_image.get('src')))
                         else:    
-                            contents.append(BlogTextContent(f"{child.get_text()} ({href})"))
+                            contents.append(TextBlogDownloadContent(header, f"{child.get_text()} ({href})"))
+                    # image = self.get_image_for_nogi(href)
+                    # if image is not None:
+                    #     contents.append(ImageBlogDownloadContent(header, image))
+                    # else:
+                    #     smaller_image = child.find('img')
+                    #     if (smaller_image is not None):
+                    #         contents.append(ImageBlogDownloadContent(header, smaller_image.get('src')))
+                    #     else:    
+                    #         contents.append(TextBlogDownloadContent(header, f"{child.get_text()} ({href})"))
                 elif (child.name == 'img'):
                     generated = self.get_generated_link(child.get('src'))
                     if (len(generated) > 0):
-                        contents.append(BlogImageContent(generated))
+                        contents.append(ImageBlogDownloadContent(header, generated))
                 elif (child.name == 'div' or child.name == 'span'):
-                    contents.extend(self.traverse(child))
+                    contents.extend(self.traverse(header, child))
             elif type(child) is NavigableString:
-                contents.append(BlogTextContent(child))
+                contents.append(TextBlogDownloadContent(header, child))
         return contents
                 
 
