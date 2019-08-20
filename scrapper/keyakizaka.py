@@ -14,7 +14,6 @@ class KeyakizakaBlogHeader(BlogHeader):
         return removed_prefix[0:question_mark_index]
     
     def format_date(self, datestring):
-        #2019.5.26 00:48
         return datetime.strptime(datestring, "%Y.%m.%d")
 
 class KeyakizakaScrapper(Scrapper):
@@ -63,5 +62,5 @@ class KeyakizakaScrapper(Scrapper):
             self.get_header(article)
             header = self.get_header(article)
             content = article.find("div", class_="box-article")
-            contents.append(BlogData(header, self.traversal.traverse(content)))
+            contents.append(BlogData(header, self.traversal.traverse(header, content)))
         return contents

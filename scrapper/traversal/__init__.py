@@ -12,7 +12,7 @@ from .exceptions import TraversalClassNotFound
 
 class ScrapperTraversal:
     content = ''
-    def traverse(self, element):
+    def traverse(self, header, element):
         raise NotImplementedError()
 
 def get_available_content_options():
@@ -30,12 +30,6 @@ def get_traversal_based_on_content_request(user_input):
     qualified_name = get_qualified_name(ScrapperTraversal)
     logger.debug(f'Getting traversal method ({qualified_name}) class for content {user_input.content}.')
     traversal = get_class_in_module(__file__, __name__, ScrapperTraversal, lambda clazz : clazz.content == user_input.content)
-    # for (_, name, _) in pkgutil.iter_modules([Path(__file__).parent]):
-    #     imported_module = import_module('.' + name, package=__name__)
-    #     for i in dir(imported_module):
-    #         attribute = getattr(imported_module, i)
-    #         if inspect.isclass(attribute) and issubclass(attribute, ScrapperTraversal) and attribute.content == user_input.content:
-    #             traversal = attribute
     if (traversal == None):
         raise TraversalClassNotFound(user_input.content)
     logger.debug(f'Traversal method ({get_qualified_name(traversal)}) found.')
