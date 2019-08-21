@@ -49,7 +49,6 @@ class SeleniumService:
         element = self.get_element_by_selector(url, selector)
         if element is not None:
             image_source = self.get_element_by_selector(url, selector).get_attribute('src')
-            self.driver.get(image_source)
             image_session = self.get_session_from_url(image_source)
             response = image_session.get(image_source, allow_redirects=True)
             return response.content
@@ -57,4 +56,4 @@ class SeleniumService:
             return None
 
     def stop(self):
-        self.driver.close()
+        self.driver.quit()

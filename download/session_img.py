@@ -14,13 +14,14 @@ class SessionBasedImageBlogDownloadContent(BlogDownloadContent):
         super().__init__(header, content)
         self.element = element
         self.selenium_service = SeleniumService()
+        self.selenium_service.start()
+        self.bit_content = None
 
     def download_to_file(self, directory, index):
-        self.selenium_service.start()
-        ( image_url, image_selector ) = self.content
+        ( image_url ) = self.content
         if (image_url and not image_url == ''):
             self.logger.debug(f'Image url is not empty. Building download path from {image_url}.')
-            bit_content = self.selenium_service.get_image_content(image_url, image_selector)
+            bit_content = self.get_bit_content()
             if bit_content is not None:
                 download_url = self.format_download_url(directory, self.header.title, index)
                 self.save_to_file(directory, download_url, bit_content, index)
@@ -30,10 +31,8 @@ class SessionBasedImageBlogDownloadContent(BlogDownloadContent):
                     ImageBlogDownloadContent(self.header, smaller_image.get('src')).download_to_file(directory, index)
     
     def format_download_url(self, directory, title, index):
-        self.selenium_service.start()
         header_date_string = self.header.date_to_string()
-        ( image_url, image_selector ) = self.content
-        bit_content = self.selenium_service.get_image_content(image_url, image_selector)
+        bit_content = self.get_bit_content()
         if bit_content is not None:
             guessed_ext = get_extension_for_bit_content(bit_content)
             self.logger.debug(f'Extension for image URL ({self.content[0]}): {guessed_ext}')
@@ -60,11 +59,10 @@ class SessionBasedImageBlogDownloadContent(BlogDownloadContent):
             raise other_error
     
     def download_to_document(self, document):
-        self.selenium_service.start()
-        ( image_url, image_selector ) = self.content
+        ( image_url ) = self.content
         if (image_url and not image_url == ''):
             try:
-                bit_content = self.selenium_service.get_image_content(image_url, image_selector)
+                bit_content = self.get_bit_content()
                 if bit_content is not None:
                     image = io.BytesIO(bit_content)
                     document.add_picture(image, width=Inches(4))
@@ -75,4 +73,13 @@ class SessionBasedImageBlogDownloadContent(BlogDownloadContent):
             except Exception:
                 document.add_paragraph(image_url)
                 self.logger.debug(f'Unable to fetch {image_url}. The URL was added instead.')
-            
+
+    def get_bit_content(self):
+        if self.bit_content is None:
+            ( image_url, image_selector ) = self.content
+            return self.selenium_service.get_image_content(image_url, image_selector)
+        else:
+            return self.bit_content
+
+    def clear(self):
+        self.selenium_service.stop()

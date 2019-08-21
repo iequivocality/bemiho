@@ -11,3 +11,6 @@ class BlogDownloadContent:
     
     def download_to_document(self, document):
         pass
+
+    def clear(self):
+        pass
