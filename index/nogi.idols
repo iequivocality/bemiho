@@ -229,5 +229,12 @@
         "romaji" : "Wada Maaya",
         "blog" : "http://blog.nogizaka46.com/maaya.wada/",
         "index" : "33"
+    },
+    {
+        "kanji" : "４期生",
+        "kana" : "４期生",
+        "romaji" : "Fourth Gen",
+        "blog" : "http://blog.nogizaka46.com/fourth/",
+        "index" : "34"
     }
 ]

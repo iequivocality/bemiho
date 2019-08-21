@@ -25,5 +25,11 @@ def get_extension_for_image(image_src):
             request = requests.get(image_src, allow_redirects=True)
             extension = imghdr.what(None, request.content)
             if (extension in VALID_PHOTO_EXTENSIONS):
+                extension = ('jpg' if (extension == 'jpeg') else extension)
                 return f".{extension}"
     return None
+
+def get_extension_for_bit_content(bit_content):
+    extension = imghdr.what(None, bit_content)
+    extension = ('jpg' if (extension == 'jpeg') else extension)
+    return f".{extension}"

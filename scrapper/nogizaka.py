@@ -9,6 +9,7 @@ from scrapper.traversal import ScrapperTraversal
 from scrapper.traversal.content import PhotosScrapperTraversal
 from download.image import ImageBlogDownloadContent
 from download.text import TextBlogDownloadContent
+from download.session_img import SessionBasedImageBlogDownloadContent
 from contents import BlogHeader, BlogData
 
 class NogizakaBlogHeader(BlogHeader):
@@ -26,20 +27,6 @@ class NogizakaBlogHeader(BlogHeader):
 
 class NogizakaBlogTraversal(PhotosScrapperTraversal):
     code = 'photos'
-    def get_image_for_nogi(self, link):
-        if 'http://dcimg.awalker.jp' in link:
-            request = requests.get(link)
-            soup = BeautifulSoup(request.text, 'lxml')
-            image = soup.find('img', class_='original_image')
-            if image is not None:
-                complete_url = 'http://dcimg.awalker.jp' + image.get('src')
-                generated = self.get_generated_link(complete_url)
-                return generated
-        else:
-            generated = self.get_generated_link(link)
-            return generated
-        return ''
-
     def traverse(self, header, element):
         contents = []
         for child in element.children:
@@ -53,24 +40,9 @@ class NogizakaBlogTraversal(PhotosScrapperTraversal):
                 elif (child.name == 'a'):
                     href = child.get('href')
                     if 'http://dcimg.awalker.jp' in href:
-                        pass
-                        # Add backup in case image from dcimg.awalker can't be found or expired
-                        # Create Selenium Image Download Content
+                        contents.append(SessionBasedImageBlogDownloadContent(header, (href, '.original_image'), child))
                     else:
-                        smaller_image = child.find('img')
-                        if (smaller_image is not None):
-                            contents.append(ImageBlogDownloadContent(header, smaller_image.get('src')))
-                        else:    
-                            contents.append(TextBlogDownloadContent(header, f"{child.get_text()} ({href})"))
-                    # image = self.get_image_for_nogi(href)
-                    # if image is not None:
-                    #     contents.append(ImageBlogDownloadContent(header, image))
-                    # else:
-                    #     smaller_image = child.find('img')
-                    #     if (smaller_image is not None):
-                    #         contents.append(ImageBlogDownloadContent(header, smaller_image.get('src')))
-                    #     else:    
-                    #         contents.append(TextBlogDownloadContent(header, f"{child.get_text()} ({href})"))
+                        contents.append(TextBlogDownloadContent(header, f"{child.get_text()} ({href})"))
                 elif (child.name == 'img'):
                     generated = self.get_generated_link(child.get('src'))
                     if (len(generated) > 0):
@@ -135,12 +107,15 @@ class NogizakaScrapper(Scrapper):
         link = self.format_url(self.page_number)
         request = requests.get(link, headers=headers)
         print(request)
+        print(link)
         soup = BeautifulSoup(request.text, 'lxml')
         container = soup.find('div', id='container')
         sheet = container.find('div', id='sheet')
         separated = self.separator.separate_elements(sheet)
+        print(separated)
         for blog in separated:
-            contents.append(BlogData(self.get_header(blog), self.traversal.traverse(blog.content_elem)))
+            header = self.get_header(blog)
+            contents.append(BlogData(header, self.traversal.traverse(header, blog.content_elem)))
         return contents
 
     def get_header(self, element):

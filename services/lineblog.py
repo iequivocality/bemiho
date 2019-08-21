@@ -7,6 +7,8 @@ from logger import BemihoLogger
 from contents import BlogHeader, BlogData
 from scrapper import Scrapper
 
+from services.base import BemihoService
+
 class LineBlogHeader(BlogHeader):
     def __init__(self, title, createdAt, author, url, page_number, _id):
         self.id = _id
@@ -32,7 +34,13 @@ class LineBlogApiCrawler:
             headers.append(LineBlogHeader(row['title'], row['createdAt'], self.author, row['url'], self.page_number, row['id']))
         return headers
 
-class LineBlogService:
+class LineBlogService(BemihoService):
+    def start(self, **kwargs):
+        pass
+
+    def stop(self):
+        pass
+
     def scrape_single_url(self, header):
         raise NotImplementedError()
 

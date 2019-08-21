@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 from scrapper import Scrapper
 from logger import BemihoLogger
 from contents import BlogHeader, BlogData
-from scrapper.services.lineblog import LineBlogApiCrawler, LineBlogGroupService
+from services.lineblog import LineBlogApiCrawler, LineBlogGroupService
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 class NijiconScrapper(Scrapper):
