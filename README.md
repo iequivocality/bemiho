@@ -28,6 +28,9 @@ git clone https://github.com/iequivocality/bemiho.git
 **Requirements**
 - python 3.7
 
+*For Nogizaka*
+- <a href="https://selenium-python.readthedocs.io/installation.html#downloading-python-bindings-for-selenium" target="_blank">Download Selenium for Chrome (required for now)</a>
+
 **Install virtualenvwrapper (Optional)**
 - pip install virtualenvwrapper
 - mkdir -p ~/Envs

@@ -6,7 +6,7 @@ class BlogDownloadContent:
         self.content = content
         self.logger = BemihoLogger(__class__).get_logger()
 
-    def download_to_file(self, download_to_file, index):
+    def download_to_file(self, directory, index):
         pass
     
     def download_to_document(self, document):
