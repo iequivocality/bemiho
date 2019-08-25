@@ -40,7 +40,7 @@ class NogizakaBlogTraversal(PhotosScrapperTraversal):
                 elif (child.name == 'a'):
                     href = child.get('href')
                     if 'http://dcimg.awalker.jp' in href:
-                        contents.append(SessionBasedImageBlogDownloadContent(header, (href, '.original_image'), child))
+                        contents.append(SessionBasedImageBlogDownloadContent(header, (href, 'original_image'), child))
                     else:
                         contents.append(TextBlogDownloadContent(header, f"{child.get_text()} ({href})"))
                 elif (child.name == 'img'):

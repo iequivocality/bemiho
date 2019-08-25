@@ -48,7 +48,6 @@ class PhotosOutputProcessor(ScrapperOutputProcessor):
                     self.logger.debug(f'Duplicate found. Download from {image_url} to {download_url} is cancelled.')
                 else:
                     download_content.download_to_file(self.member_path, index)
-                    print("DOWNLOAD ")
                     self.metadata_handler.add_to_metadata(header, metadata_content)
         except Exception:
             self.logger.error(f'Download from {image_url} to {download_url} is unsuccessful due to issue.', exc_info=True)

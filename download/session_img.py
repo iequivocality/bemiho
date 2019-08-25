@@ -3,7 +3,7 @@ from os.path import join
 
 from download.base import BlogDownloadContent
 from download.image import ImageBlogDownloadContent
-from services.selenium import SeleniumService
+from services.session_img import SessionImageService
 from utilities.file import get_extension_for_bit_content
 from utilities.text import clean_file_name
 
@@ -13,8 +13,8 @@ class SessionBasedImageBlogDownloadContent(BlogDownloadContent):
     def __init__(self, header, content, element):
         super().__init__(header, content)
         self.element = element
-        self.selenium_service = SeleniumService()
-        self.selenium_service.start()
+        self.session_img_service = SessionImageService()
+        self.session_img_service.start()
         self.bit_content = None
 
     def download_to_file(self, directory, index):
@@ -77,9 +77,9 @@ class SessionBasedImageBlogDownloadContent(BlogDownloadContent):
     def get_bit_content(self):
         if self.bit_content is None:
             ( image_url, image_selector ) = self.content
-            return self.selenium_service.get_image_content(image_url, image_selector)
+            return self.session_img_service.get_image_content(image_url, image_selector)
         else:
             return self.bit_content
 
     def clear(self):
-        self.selenium_service.stop()
+        self.session_img_service.stop()
