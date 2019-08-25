@@ -28,9 +28,6 @@ git clone https://github.com/iequivocality/bemiho.git
 **Requirements**
 - python 3.7
 
-*For Nogizaka*
-- <a href="https://selenium-python.readthedocs.io/installation.html#downloading-python-bindings-for-selenium" target="_blank">Download Selenium for Chrome (required for now)</a>
-
 **Install virtualenvwrapper (Optional)**
 - pip install virtualenvwrapper
 - mkdir -p ~/Envs
@@ -54,6 +51,7 @@ python bemiho.py
 ### Supported Groups
 - Hinatazaka46 (日向坂46)
 - Keyakizaka46 (欅坂46)
+- Nogizaka46 (乃木坂46)
 - The World Standard (わーすた)
 - Niji no Conquistador (虹のコンキスタドール)
 
