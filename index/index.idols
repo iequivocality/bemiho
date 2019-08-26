@@ -34,5 +34,14 @@
         "pageformat" : "pageKey=",
         "index" : "4",
         "homepage" : "https://lineblog.me/2zicon/"
+    },
+    {
+        "kanji" : "i☆Ris",
+        "romaji" : "i☆Ris",
+        "index_file" : "iris.idols",
+        "code" : "Iris",
+        "pageformat" : "",
+        "index" : "6",
+        "homepage" : "https://ameblo.jp/iris-official-blog"
     }
 ]
