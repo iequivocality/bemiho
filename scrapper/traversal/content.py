@@ -6,6 +6,7 @@ from bs4.element import Tag, NavigableString
 from scrapper.traversal import ScrapperTraversal
 from download.image import ImageBlogDownloadContent
 from download.text import TextBlogDownloadContent
+from download.no_html import NoHTMLTextBlogDownloadContent
 from utilities.text import check_valid_url_format
 from utilities.file import IMAGE_MIME_TYPE, VALID_PHOTO_EXTENSIONS
 
@@ -71,6 +72,13 @@ class BlogScrapperTraversal(ScrapperTraversal):
                     contents.append(TextBlogDownloadContent(header, ''))
                 elif child.name == 'span':
                     contents.extend(self.traverse(header, child))
+        return contents
+
+class NoHTMLTextBlogTraversal(BlogScrapperTraversal):
+    content = 'no_html'
+    def traverse(self, header, element):
+        contents = []
+        contents.append(NoHTMLTextBlogDownloadContent(header, element.get_text(strip = True)))
         return contents
 
 class AllScrapperTraversal(BlogScrapperTraversal):
