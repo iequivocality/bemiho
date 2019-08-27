@@ -19,11 +19,18 @@ def contains_emojis(input_str):
                             "]+", flags=re.UNICODE)
     return emoji_pattern.match(input_str) is not None
 
+def clean_file_separators(file_path):
+    if file_path is None:
+        return ''
+
+    processed = file_path.replace(sep, '_')
+    return processed
+
 def clean_file_name(file_path):
     if file_path is None:
         return ''
 
-    processed = file_path.replace(sep, '')
+    processed = clean_file_separators(file_path)
     return clean_emojis(processed)
 
 def clean_emojis(input_str):
