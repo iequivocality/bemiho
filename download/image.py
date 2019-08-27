@@ -23,8 +23,11 @@ class ImageBlogDownloadContent(BlogDownloadContent):
         return save_url
     
     def save_to_file(self, directory, download_url, index):
+        headers = {
+            'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'
+        }
         try:
-            request = requests.get(self.content, allow_redirects=True)
+            request = requests.get(self.content, allow_redirects=True, headers=headers)
             with open(download_url, 'wb') as download_file:
                 download_file.write(request.content)
         except OSError as os_err:
