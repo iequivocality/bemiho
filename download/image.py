@@ -5,7 +5,13 @@ from utilities.file import get_extension_for_image
 from utilities.text import clean_file_name, clean_file_separators
 from docx.shared import Inches
 
+from logger import BemihoLogger
+
 class ImageBlogDownloadContent(BlogDownloadContent):
+    def __init__(self, header, content):
+        super().__init__(header, content)
+        self.logger = BemihoLogger(__class__).get_logger()
+
     def download_to_file(self, directory, index):
         image_url = self.content
         if (image_url and not image_url == ''):
@@ -23,9 +29,15 @@ class ImageBlogDownloadContent(BlogDownloadContent):
         return save_url
     
     def save_to_file(self, directory, download_url, index):
+        headers = {
+            'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'
+        }
         try:
-            request = requests.get(self.content, allow_redirects=True)
+            request = requests.get(self.content, allow_redirects=True, headers=headers)
             with open(download_url, 'wb') as download_file:
+                print("WRITE CONTENT")
+                print("URL: ", download_url)
+                print(request)
                 download_file.write(request.content)
         except OSError as os_err:
             if os_err.errno == 92:

@@ -8,6 +8,7 @@ from utilities.file import get_extension_for_bit_content
 from utilities.text import clean_file_name, clean_file_separators
 
 from docx.shared import Inches
+from logger import BemihoLogger
 
 class SessionBasedImageBlogDownloadContent(BlogDownloadContent):
     def __init__(self, header, content, element):
@@ -16,6 +17,7 @@ class SessionBasedImageBlogDownloadContent(BlogDownloadContent):
         self.session_img_service = SessionImageService()
         self.session_img_service.start()
         self.bit_content = None
+        self.logger = BemihoLogger(__class__).get_logger()
 
     def download_to_file(self, directory, index):
         ( image_url ) = self.content
