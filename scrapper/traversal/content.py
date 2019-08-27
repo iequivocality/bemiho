@@ -62,10 +62,9 @@ class BlogScrapperTraversal(ScrapperTraversal):
                         if (imghdr.what(None, request.content) in VALID_PHOTO_EXTENSIONS):
                             contents.append(ImageBlogDownloadContent(header, child.get('href')))
                         else:
-                            contents.append(TextBlogDownloadContent(header, f"{child.get_text()} ()"))
+                            contents.append(TextBlogDownloadContent(header, f"{child.get_text()} ({href})"))
                     else:
-                        contents.append(TextBlogDownloadContent(header, f"{child.get_text()} ()"))
-                    
+                        contents.append(TextBlogDownloadContent(header, f"{child.get_text()} ({href})"))
                 elif child.name == 'div':
                     contents.extend(self.traverse(header, child))
                     contents.append(TextBlogDownloadContent(header, ''))
