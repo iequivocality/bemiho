@@ -35,9 +35,6 @@ class ImageBlogDownloadContent(BlogDownloadContent):
         try:
             request = requests.get(self.content, allow_redirects=True, headers=headers)
             with open(download_url, 'wb') as download_file:
-                print("WRITE CONTENT")
-                print("URL: ", download_url)
-                print(request)
                 download_file.write(request.content)
         except OSError as os_err:
             if os_err.errno == 92:
