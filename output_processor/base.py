@@ -3,6 +3,7 @@ from importlib import import_module
 from os.path import join, exists, isdir
 
 from logger import BemihoLogger
+from metadata.empty import EmptyMetadataHandler
 
 class ScrapperOutputProcessor:
     content = ''
@@ -18,7 +19,7 @@ class ScrapperOutputProcessor:
         self.logger.debug(f'Created output processor for {member.kanji} ({member.romaji}) from {group.kanji} ({group.romaji}) with path {self.member_path}')
 
     def get_metadata_handler_class(self, user_input, member_path):
-        raise NotImplementedError()
+        return EmptyMetadataHandler(user_input, member_path)
 
     def format_path(self):
         group = self.user_input.group.kanji

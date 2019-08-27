@@ -36,6 +36,9 @@ class BemihoLogger:
         file_handler.setFormatter(formatter)
         file_handler.setLevel(logging.DEBUG)
 
+        for handler in self.logger.handlers[:]:
+            self.logger.removeHandler(handler)
+
         self.logger.addHandler(file_handler)
         self.logger.addHandler(stream_handler)
 

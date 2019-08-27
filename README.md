@@ -58,6 +58,7 @@ python bemiho.py
 ### Supported Content
 - Photo download
 - Blog download to .docx
+- Text only (without HTML tags and images) to .txt
 - All download
 
 ## Usage
