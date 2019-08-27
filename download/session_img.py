@@ -5,7 +5,7 @@ from download.base import BlogDownloadContent
 from download.image import ImageBlogDownloadContent
 from services.session_img import SessionImageService
 from utilities.file import get_extension_for_bit_content
-from utilities.text import clean_file_name
+from utilities.text import clean_file_name, clean_file_separators
 
 from docx.shared import Inches
 
@@ -36,7 +36,7 @@ class SessionBasedImageBlogDownloadContent(BlogDownloadContent):
         if bit_content is not None:
             guessed_ext = get_extension_for_bit_content(bit_content)
             self.logger.debug(f'Extension for image URL ({self.content[0]}): {guessed_ext}')
-            download_url = join(directory, '%s_%s (%s)%s' % (header_date_string, index, title, guessed_ext))
+            download_url = join(directory, '%s_%s (%s)%s' % (header_date_string, index, clean_file_separators(title), guessed_ext))
             self.logger.debug(f'Download path for image URL {self.content[0]} created: {download_url}')
             return download_url
         else:

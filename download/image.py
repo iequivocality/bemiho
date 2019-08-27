@@ -2,7 +2,7 @@ import requests, io
 from download.base import BlogDownloadContent
 from os.path import join
 from utilities.file import get_extension_for_image
-from utilities.text import clean_file_name
+from utilities.text import clean_file_name, clean_file_separators
 from docx.shared import Inches
 
 class ImageBlogDownloadContent(BlogDownloadContent):
@@ -18,7 +18,7 @@ class ImageBlogDownloadContent(BlogDownloadContent):
         header_date_string = self.header.date_to_string()
         guessed_ext = get_extension_for_image(image_url)
         self.logger.debug(f'Extension for image URL ({image_url}): {guessed_ext}')
-        save_url = join(directory, '%s_%s (%s)%s' % (header_date_string, index, title, guessed_ext))
+        save_url = join(directory, '%s_%s (%s)%s' % (header_date_string, index, clean_file_separators(title), guessed_ext))
         self.logger.debug(f'Download path for image URL {image_url} created: {save_url}')
         return save_url
     
