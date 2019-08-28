@@ -3,7 +3,7 @@ import inspect
 import pkgutil
 from pathlib import Path
 from importlib import import_module
-from utilities.reflect import get_class_in_module
+from utilities.reflect import get_class_in_module, get_classes_in_module
 
 from logger import BemihoLogger
 from utilities.reflect import get_qualified_name
@@ -34,3 +34,7 @@ def get_traversal_based_on_content_request(user_input):
         raise TraversalClassNotFound(user_input.content)
     logger.debug(f'Traversal method ({get_qualified_name(traversal)}) found.')
     return traversal()
+
+def get_traversal_based_on_content_except_all():
+    traversals = get_classes_in_module(__file__, __name__, ScrapperTraversal, lambda clazz : clazz != ScrapperTraversal and clazz.content != 'all')
+    return traversals
