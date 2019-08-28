@@ -53,7 +53,6 @@ class NogizakaBlogTraversal(PhotosScrapperTraversal):
                 contents.append(TextBlogDownloadContent(header, child))
         return contents
                 
-
 class NogizakaSeparatedContent:
     def __init__(self, header_elem):
         self.header_elem = header_elem
@@ -82,12 +81,13 @@ class NogizakaContentSeparator:
                     sep_contents.append(sep_content)
                     sep_content = None
         return sep_contents
-        
 
 class NogizakaScrapper(Scrapper):
     code = 'Nogizaka'
     def __init__(self, user_input, page_number, traversal):
-        super().__init__(user_input, page_number, NogizakaBlogTraversal())
+        super().__init__(user_input, page_number, traversal)
+        if not user_input.content == 'no_html':
+            self.traversal = NogizakaBlogTraversal()
         self.separator = NogizakaContentSeparator()
 
     @staticmethod
