@@ -48,18 +48,18 @@ python bemiho.py
 ## Features
 > ✔️ Supported content and groups
 
-### Supported Groups
+### Supported Groups (-g or --group)
 - Hinatazaka46 (日向坂46)
 - Keyakizaka46 (欅坂46)
 - Nogizaka46 (乃木坂46)
 - The World Standard (わーすた)
 - Niji no Conquistador (虹のコンキスタドール)
 
-### Supported Content
-- Photo download
-- Blog download to .docx
-- Text only (without HTML tags and images) to .txt
-- All download
+### Supported Content (-c or --content)
+- Photo download (photos)
+- Blog download to .docx (blog)
+- Text only (without HTML tags and images) to .txt (no_html)
+- All download (all)
 
 ## Usage
 > 💎 How to get your idol photos, fast...
@@ -75,6 +75,8 @@ python bemiho.py
 | --content   | -c        | Specified which data is fetched from content |
 | --firstpage | -f        | Specified the first page from which data is fetched |
 | --lastpage  | -l        | Specified the last page from which data is fetched, this will changed to page count |
+| --list      |           | Lists all groups and supported members |
+| --reset     |           | Resets saved data from idol's blog |
 
 ## Contributing
 > ⭐️ Starring this repository is enough. But, if you want to contribute...
