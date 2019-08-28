@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 from bs4.element import Tag, NavigableString
 
 from scrapper import Scrapper
-from scrapper.traversal import ScrapperTraversal
+from scrapper.traversal import ScrapperTraversal, get_traversal_based_on_content_except_all
 from scrapper.traversal.content import PhotosScrapperTraversal
 from download.image import ImageBlogDownloadContent
 from download.text import TextBlogDownloadContent
@@ -17,16 +17,13 @@ class NogizakaBlogHeader(BlogHeader):
         #http://blog.nogizaka46.com/miona.hori/2019/08/052085.php
         last_part = link.split('/')[-1]
         return last_part.replace('.php', '')
-        # removed_prefix = link.replace('https://www.hinatazaka46.com/s/official/diary/detail/', '')
-        # question_mark_index = removed_prefix.find('?')
-        # return removed_prefix[0:question_mark_index]
 
     def format_date(self, datestring):
         #2019/08/05 18:00
         return datetime.strptime(datestring, "%Y/%m/%d %H:%M")
 
 class NogizakaBlogTraversal(PhotosScrapperTraversal):
-    code = 'photos'
+    code = ''
     def traverse(self, header, element):
         contents = []
         for child in element.children:
@@ -51,6 +48,22 @@ class NogizakaBlogTraversal(PhotosScrapperTraversal):
                     contents.extend(self.traverse(header, child))
             elif type(child) is NavigableString:
                 contents.append(TextBlogDownloadContent(header, child))
+        return contents
+
+class NogiAllScrapperTraversal(ScrapperTraversal):
+    content = 'all'
+    def __init__(self):
+        self.traversals = get_traversal_based_on_content_except_all()
+    
+    def traverse(self, header, element):
+        contents = []
+        content_object = {}
+        for traversal in self.traversals:
+            if traversal.content not in ['blog', 'photos']:
+                content_object[traversal.content] = traversal().traverse(header, element)
+        content_object['blog'] = NogizakaBlogTraversal().traverse(header, element)
+        content_object['photos'] = NogizakaBlogTraversal().traverse(header, element)
+        contents.append(content_object)
         return contents
                 
 class NogizakaSeparatedContent:
@@ -86,8 +99,11 @@ class NogizakaScrapper(Scrapper):
     code = 'Nogizaka'
     def __init__(self, user_input, page_number, traversal):
         super().__init__(user_input, page_number, traversal)
-        if not user_input.content == 'no_html':
+        if user_input.content == 'all':
+            self.traversal = NogiAllScrapperTraversal()
+        elif not user_input.content == 'no_html':
             self.traversal = NogizakaBlogTraversal()
+
         self.separator = NogizakaContentSeparator()
 
     @staticmethod

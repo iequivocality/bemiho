@@ -10,6 +10,8 @@ from download.no_html import NoHTMLTextBlogDownloadContent
 from utilities.text import check_valid_url_format
 from utilities.file import IMAGE_MIME_TYPE, VALID_PHOTO_EXTENSIONS
 
+from scrapper.traversal import get_traversal_based_on_content_except_all
+
 class PhotosScrapperTraversal(ScrapperTraversal):
     content = 'photos'
     def get_generated_link(self, image_src):
@@ -73,12 +75,23 @@ class BlogScrapperTraversal(ScrapperTraversal):
                     contents.extend(self.traverse(header, child))
         return contents
 
-class NoHTMLTextBlogTraversal(BlogScrapperTraversal):
+class NoHTMLTextBlogTraversal(ScrapperTraversal):
     content = 'no_html'
     def traverse(self, header, element):
         contents = []
         contents.append(NoHTMLTextBlogDownloadContent(header, element.get_text(strip = True)))
         return contents
 
-class AllScrapperTraversal(BlogScrapperTraversal):
-    content = 'all' 
+class AllScrapperTraversal(ScrapperTraversal):
+    content = 'all'
+    def __init__(self):
+        self.traversals = get_traversal_based_on_content_except_all()
+    
+    def traverse(self, header, element):
+        contents = []
+        content_object = {}
+        for traversal in self.traversals:
+            content_object[traversal.content] = traversal().traverse(header, element)
+        contents.append(content_object)
+        return contents
+    
