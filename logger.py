@@ -7,7 +7,7 @@ from logging import StreamHandler, Formatter, getLogger, DEBUG, INFO, FileHandle
 from logging.handlers import TimedRotatingFileHandler
 
 class BemihoLogger:
-    def __init__(self, name_or_class, minimum_level = logging.DEBUG):
+    def __init__(self, name_or_class, minimum_level = logging.INFO):
         self.logger = getLogger(self.get_name(name_or_class))
         self.logger.setLevel(DEBUG)
         self.minimum_level = minimum_level

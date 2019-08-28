@@ -7,6 +7,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from output_processor import ScrapperOutputProcessor
 from download.image import ImageBlogDownloadContent
+from download.session_img import SessionBasedImageBlogDownloadContent
 from logger import BemihoLogger
 from utilities.text import clean_file_name, check_valid_url_format
 from utilities.file import IMAGE_MIME_TYPE, VALID_PHOTO_EXTENSIONS
@@ -28,7 +29,7 @@ class PhotosOutputProcessor(ScrapperOutputProcessor):
         self.logger.debug(f'Blog data number {len(blog_datas)}.')
         for blog_data in blog_datas:
             header = blog_data.header
-            contents = blog_data.contents
+            contents = list(filter(lambda content: type(content) is ImageBlogDownloadContent or type(content) is SessionBasedImageBlogDownloadContent, blog_data.contents))
             self.logger.debug(f'Saving contents from {header.title} with content count {len(contents)}.')
             for (index, download_content) in enumerate(contents):
                 self.download_file(header, index, download_content)

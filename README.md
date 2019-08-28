@@ -51,6 +51,7 @@ python bemiho.py
 ### Supported Groups
 - Hinatazaka46 (日向坂46)
 - Keyakizaka46 (欅坂46)
+- Nogizaka46 (乃木坂46)
 - The World Standard (わーすた)
 - Niji no Conquistador (虹のコンキスタドール)
 

@@ -1,8 +1,13 @@
 from os.path import join
 from download.base import BlogDownloadContent
 from utilities.text import clean_file_name
+from logger import BemihoLogger
 
 class NoHTMLTextBlogDownloadContent(BlogDownloadContent):
+    def __init__(self, header, content):
+        super().__init__(header, content)
+        self.logger = BemihoLogger(__class__).get_logger()
+
     def download_to_text_file(self, directory):
         self.logger.debug(f'Writing no HTML content from {self.header.title} with size {len(self.content)}.')
         with open(self.get_text_file_path(directory), 'w') as new_text_file:

@@ -34,5 +34,14 @@
         "pageformat" : "pageKey=",
         "index" : "4",
         "homepage" : "https://lineblog.me/2zicon/"
+    },
+    {
+        "kanji" : "乃木坂46",
+        "romaji" : "Nogizaka46",
+        "index_file" : "nogi.idols",
+        "code" : "Nogizaka",
+        "pageformat" : "p=",
+        "index" : "5",
+        "homepage" : "http://blog.nogizaka46.com/"
     }
 ]

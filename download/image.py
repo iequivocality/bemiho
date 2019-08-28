@@ -5,7 +5,13 @@ from utilities.file import get_extension_for_image
 from utilities.text import clean_file_name, clean_file_separators
 from docx.shared import Inches
 
+from logger import BemihoLogger
+
 class ImageBlogDownloadContent(BlogDownloadContent):
+    def __init__(self, header, content):
+        super().__init__(header, content)
+        self.logger = BemihoLogger(__class__).get_logger()
+
     def download_to_file(self, directory, index):
         image_url = self.content
         if (image_url and not image_url == ''):
