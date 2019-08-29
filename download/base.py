@@ -14,5 +14,5 @@ class BlogDownloadContent:
     def clear(self):
         pass
 
-    def download_to_text_file(self, directory):
+    def download_to_text_file(self, directory, on_save, on_except):
         pass
