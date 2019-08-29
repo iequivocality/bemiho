@@ -4,7 +4,7 @@ from os.path import join, sep
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from output_processor import ScrapperOutputProcessor
-from utilities.text import clean_file_name
+from utilities.text import clean_file_name, clean_file_separators
 
 from docx import Document
 from docx.shared import Inches, Pt
@@ -44,24 +44,35 @@ class BlogEntryOutputProcessor(ScrapperOutputProcessor):
         header = blog_data.header
         contents = blog_data.contents
         date_string = header.date.strftime("%Y.%m.%d")
-        document_path = join(directory, f"{date_string} ({clean_file_name(header.title)}).docx")
+        document_path = join(directory, f"{date_string} ({clean_file_separators(header.title)}).docx")
 
         try:
             content_data = self.metadata_handler.build_content_object_from_data(download_url=document_path, successful=False)
-            if not self.metadata_handler.check_duplicates(header, content_data):
-                document = Document()
-                paragraph_format = document.styles['Normal'].paragraph_format
-                paragraph_format.line_spacing = 1
-                
-                HeaderDocumentModifier(header.title, level=1).change_document(document)
-                HeaderDocumentModifier(header.link, level=4).change_document(document)
-                
-                for content in contents:
-                    content.download_to_document(document)
-                document.save(document_path)
-                content_data.successful = True
-                self.metadata_handler.add_to_metadata(header, content_data)
+            self.save_to_document(header, contents, content_data, document_path)
+        except OSError as os_error:
+            if os_error.errno == 92:
+                document_path = join(directory, f"{date_string} ({clean_file_name(header.title)}).docx")
+                content_data = self.metadata_handler.build_content_object_from_data(download_url=document_path, successful=False)
+                self.save_to_document(header, contents, content_data, document_path)
+            else:
+                raise os_error
         except:
             content_data = self.metadata_handler.build_content_object_from_data(download_url=document_path, successful=False)
             self.metadata_handler.add_to_metadata(header, content_data)
             self.logger.error(f'Download from {header.link} to {document_path} is unsuccessful due to issue.', exc_info=True)
+    
+    def save_to_document(self, header, contents, content_data, document_path):
+        if not self.metadata_handler.check_duplicates(header, content_data):
+            document = Document()
+            paragraph_format = document.styles['Normal'].paragraph_format
+            paragraph_format.line_spacing = 1
+            
+            HeaderDocumentModifier(header.title, level=1).change_document(document)
+            HeaderDocumentModifier(header.date.strftime("%Y-%m-%d %H:%M:%S"), level=4).change_document(document)
+            HeaderDocumentModifier(header.link, level=4).change_document(document)
+            
+            for content in contents:
+                content.download_to_document(document)
+            document.save(document_path)
+            content_data.successful = True
+            self.metadata_handler.add_to_metadata(header, content_data)
