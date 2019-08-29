@@ -19,14 +19,14 @@ class SessionBasedImageBlogDownloadContent(BlogDownloadContent):
         self.bit_content = None
         self.logger = BemihoLogger(__class__).get_logger()
 
-    def download_to_file(self, directory, index):
+    def download_to_file(self, directory, index, on_save, on_except):
         ( image_url ) = self.content
         if (image_url and not image_url == ''):
             self.logger.debug(f'Image url is not empty. Building download path from {image_url}.')
             bit_content = self.get_bit_content()
             if bit_content is not None:
                 download_url = self.format_download_url(directory, self.header.title, index)
-                self.save_to_file(directory, download_url, bit_content, index)
+                self.save_to_file(directory, download_url, bit_content, index, on_save, on_except)
             else:
                 smaller_image = self.element.find('img')
                 if (smaller_image is not None):
@@ -46,18 +46,21 @@ class SessionBasedImageBlogDownloadContent(BlogDownloadContent):
             if (smaller_image is not None):
                 return ImageBlogDownloadContent(self.header, smaller_image.get('src')).format_download_url(directory, title, index)
 
-    def save_to_file(self, directory, download_url, bit_content, index):
+    def save_to_file(self, directory, download_url, bit_content, index, on_save, on_except):
         try:
             with open(download_url, 'wb') as download_file:
                 download_file.write(bit_content)
+            on_save(download_url)
         except OSError as os_err:
             if os_err.errno == 92:
                 rollback_save_url = self.format_download_url(directory, clean_file_name(self.header.title), index)
                 self.logger.error(f'Download from {self.content} to {download_url} is unsuccessful due to OS issue. Will re-download with a cleaned name ({rollback_save_url}).', exc_info=True)
-                self.save_to_file(directory, rollback_save_url, bit_content, index)
+                self.save_to_file(directory, rollback_save_url, bit_content, index, on_save, on_except)
             else:
+                on_except(download_url)
                 raise os_err
         except Exception as other_error:
+            on_except(download_url)
             raise other_error
     
     def download_to_document(self, document):

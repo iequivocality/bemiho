@@ -35,6 +35,16 @@ class PhotosOutputProcessor(ScrapperOutputProcessor):
                 self.download_file(header, index, download_content)
         self.metadata_handler.save_metadata()
 
+    def on_save(self, header, content_data, file_path):
+        content_data.download_url = file_path
+        content_data.successful = True
+        self.metadata_handler.add_to_metadata(header, content_data)
+
+    def on_except(self, header, content_data, file_path):
+        content_data.download_url = file_path
+        content_data.successful = False
+        self.metadata_handler.add_to_metadata(header, content_data)
+
     def download_file(self, header, index, download_content):
         image_url = download_content.content
         download_url = download_content.format_download_url(self.member_path, header.title, index)
@@ -47,9 +57,9 @@ class PhotosOutputProcessor(ScrapperOutputProcessor):
                 if self.metadata_handler.check_duplicates(header, metadata_content):
                     self.logger.debug(f'Duplicate found. Download from {image_url} to {download_url} is cancelled.')
                 else:
-                    download_content.download_to_file(self.member_path, index)
+                    download_content.download_to_file(self.member_path, index,
+                        lambda file_path : self.on_save(header, metadata_content, file_path),
+                        lambda file_path : self.on_except(header, metadata_content, file_path))
                     self.metadata_handler.add_to_metadata(header, metadata_content)
         except Exception:
             self.logger.error(f'Download from {image_url} to {download_url} is unsuccessful due to issue.', exc_info=True)
-            content_data = self.metadata_handler.build_content_object_from_data(image_url=image_url, download_url=download_url, successful=False)
-            self.metadata_handler.add_to_metadata(header, content_data)
