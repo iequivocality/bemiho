@@ -51,9 +51,16 @@ python bemiho.py
 ### Supported Groups (-g or --group)
 - Hinatazaka46 (日向坂46)
 - Keyakizaka46 (欅坂46)
-- Nogizaka46 (乃木坂46)
+- Nogizaka46 (乃木坂46)*
 - The World Standard (わーすた)
 - Niji no Conquistador (虹のコンキスタドール)
+
+*DISCLAIMER:* Nogizaka46's blogs contains only the most recent 12 pages of posts from members.
+You can refer to other archivers to get older Nogizaka46 blog content, as this is a new project.
+
+The image provider used on blogs on some members also have a expiration so the in-line images
+are used as fallback in the case the original image link is expired. You can refer to other
+archivers for this as well.
 
 ### Supported Content (-c or --content)
 - Photo download (photos)
@@ -98,8 +105,6 @@ python bemiho.py
 - 🔃 Create a new pull request using <a href="https://github.com/iequivocality/bemiho/compare" target="_blank">`https://github.com/iequivocality/bemiho/compare`</a>.
 
 ## Future Development
-- Adding other blogs Sakamichi groups and some chika idol groups
-- Logging improvements
 - Extracing blogs from LINE for individual members
 - Extracting blogs from Ameblo (both groups and individual groups)
 - Allow re-download through only metadata

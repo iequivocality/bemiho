@@ -51,5 +51,7 @@ class NoHTMLTextOutputProcessor(ScrapperOutputProcessor):
                 download_content.download_to_text_file(self.member_path,
                     lambda file_path : self.on_save(header, content_data, file_path),
                     lambda file_path : self.on_except(header, content_data, file_path))
+            else:
+                self.logger.debug(f'Duplicate found for {header.title} with content count {len(contents)}.')
         except:
             self.logger.error(f'Download of no_html from {header.link} to {download_url} is unsuccessful due to issue.', exc_info=True)
