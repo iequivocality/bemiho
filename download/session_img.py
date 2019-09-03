@@ -30,7 +30,7 @@ class SessionBasedImageBlogDownloadContent(BlogDownloadContent):
             else:
                 smaller_image = self.element.find('img')
                 if (smaller_image is not None):
-                    ImageBlogDownloadContent(self.header, smaller_image.get('src')).download_to_file(directory, index)
+                    ImageBlogDownloadContent(self.header, smaller_image.get('src')).download_to_file(directory, index, on_save, on_except)
     
     def format_download_url(self, directory, title, index):
         header_date_string = self.header.date_to_string()
