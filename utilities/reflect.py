@@ -46,14 +46,4 @@ def get_class_in_package(package_name, super_clazz, predicate):
         if inspect.isclass(clsmember) and issubclass(clsmember, super_clazz) and predicate(clsmember):
             print("CLS:", clsname, clsmember.content)
             clazz = clsmember
-    # for clsmember, clsname in clsmembers:
-    #     print("CLS:", clsmember)
-    # for (_, name, _) in pkgutil.iter_modules([Path(package_file).parent]):
-    #     print("PKG:", name)
-    #     imported_module = import_module('.' + name, package=package_name)
-    #     print(name)
-    #     for i in dir(imported_module):
-    #         attribute = getattr(imported_module, i)
-    #         if inspect.isclass(attribute) and issubclass(attribute, super_clazz) and predicate(attribute):
-    #             clazz = attribute
     return clazz
