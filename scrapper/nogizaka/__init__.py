@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 from bs4.element import Tag, NavigableString
 
 from scrapper import Scrapper
+from scrapper.nogizaka.traversal import get_nogi_traversal_based_on_content_request
 from scrapper.traversal import ScrapperTraversal, get_traversal_based_on_content_except_all
 from scrapper.traversal.content import PhotosScrapperTraversal
 from download.image import ImageBlogDownloadContent
@@ -21,50 +22,6 @@ class NogizakaBlogHeader(BlogHeader):
     def format_date(self, datestring):
         #2019/08/05 18:00
         return datetime.strptime(datestring, "%Y/%m/%d %H:%M")
-
-class NogizakaBlogTraversal(PhotosScrapperTraversal):
-    code = ''
-    def traverse(self, header, element):
-        contents = []
-        for child in element.children:
-            if type(child) is Tag:
-                if child.name == 'p':
-                    contents.extend(self.traverse(header, child))
-                elif child.name == 'b':
-                    contents.append(TextBlogDownloadContent(header, child.get_text()))
-                elif (child.name == 'br'):
-                    contents.append(TextBlogDownloadContent(header, ''))
-                elif (child.name == 'a'):
-                    href = child.get('href')
-                    if 'http://dcimg.awalker.jp' in href:
-                        contents.append(SessionBasedImageBlogDownloadContent(header, (href, 'original_image'), child))
-                    else:
-                        contents.append(TextBlogDownloadContent(header, f"{child.get_text()} ({href})"))
-                elif (child.name == 'img'):
-                    generated = self.get_generated_link(child.get('src'))
-                    if (len(generated) > 0):
-                        contents.append(ImageBlogDownloadContent(header, generated))
-                elif (child.name == 'div' or child.name == 'span'):
-                    contents.extend(self.traverse(header, child))
-            elif type(child) is NavigableString:
-                contents.append(TextBlogDownloadContent(header, child))
-        return contents
-
-class NogiAllScrapperTraversal(ScrapperTraversal):
-    content = 'all'
-    def __init__(self):
-        self.traversals = get_traversal_based_on_content_except_all()
-    
-    def traverse(self, header, element):
-        contents = []
-        content_object = {}
-        for traversal in self.traversals:
-            if traversal.content not in ['blog', 'photos']:
-                content_object[traversal.content] = traversal().traverse(header, element)
-        content_object['blog'] = NogizakaBlogTraversal().traverse(header, element)
-        content_object['photos'] = NogizakaBlogTraversal().traverse(header, element)
-        contents.append(content_object)
-        return contents
                 
 class NogizakaSeparatedContent:
     def __init__(self, header_elem):
@@ -99,10 +56,7 @@ class NogizakaScrapper(Scrapper):
     code = 'Nogizaka'
     def __init__(self, user_input, page_number, traversal):
         super().__init__(user_input, page_number, traversal)
-        if user_input.content == 'all':
-            self.traversal = NogiAllScrapperTraversal()
-        elif not user_input.content == 'no_html':
-            self.traversal = NogizakaBlogTraversal()
+        self.traversal = get_nogi_traversal_based_on_content_request(user_input)
 
         self.separator = NogizakaContentSeparator()
 
