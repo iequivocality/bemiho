@@ -44,6 +44,5 @@ def get_class_in_package(package_name, super_clazz, predicate):
     clsmembers = inspect.getmembers(sys.modules[package_name])
     for clsname, clsmember in clsmembers:
         if inspect.isclass(clsmember) and issubclass(clsmember, super_clazz) and predicate(clsmember):
-            print("CLS:", clsname, clsmember.content)
             clazz = clsmember
     return clazz

@@ -11,6 +11,7 @@ from utilities.text import check_valid_url_format
 from utilities.file import IMAGE_MIME_TYPE, VALID_PHOTO_EXTENSIONS
 
 from scrapper.traversal import get_traversal_based_on_content_except_all
+from requests.exceptions import ReadTimeout
 
 class PhotosScrapperTraversal(ScrapperTraversal):
     content = 'photos'
@@ -20,10 +21,13 @@ class PhotosScrapperTraversal(ScrapperTraversal):
             if (mime_type[0] is not None and mime_type[0].startswith(IMAGE_MIME_TYPE)):
                 return image_src
             else:
-                request = requests.get(image_src, allow_redirects=True)
-                extension = imghdr.what(None, request.content)
-                if (extension in VALID_PHOTO_EXTENSIONS):
-                    return f'{image_src}.{extension}'
+                try:
+                    request = requests.get(image_src, allow_redirects=True)
+                    extension = imghdr.what(None, request.content)
+                    if (extension in VALID_PHOTO_EXTENSIONS):
+                        return f'{image_src}.{extension}'
+                except ReadTimeout:
+                    pass
         return None
 
     def traverse(self, header, element):
