@@ -40,7 +40,7 @@ class ImageBlogDownloadContent(BlogDownloadContent):
         except OSError as os_err:
             if os_err.errno == 92:
                 rollback_save_url = self.format_download_url(directory, clean_file_name(self.header.title), index)
-                self.logger.info(f'Download from {self.content} to {download_url} is unsuccessful due to illegal byte sequence on file name. Will re-download with a cleaned name ({rollback_save_url}).')
+                self.logger.error(f'Download from {self.content} to {download_url} is unsuccessful due to illegal byte sequence on file name. Will re-download with a cleaned name ({rollback_save_url}).')
                 self.save_to_file(directory, rollback_save_url, index, on_save, on_except)
             else:
                 on_except(download_url)

@@ -28,6 +28,8 @@ class PhotosScrapperTraversal(ScrapperTraversal):
                         return f'{image_src}.{extension}'
                 except ReadTimeout:
                     pass
+                except Exception:
+                    pass
         return None
 
     def traverse(self, header, element):
