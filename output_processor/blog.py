@@ -1,4 +1,4 @@
-import re
+import re, errno
 from os.path import join, sep
 
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -50,7 +50,7 @@ class BlogEntryOutputProcessor(ScrapperOutputProcessor):
             content_data = self.metadata_handler.build_content_object_from_data(download_url=document_path, successful=False)
             self.save_to_document(header, contents, content_data, document_path)
         except OSError as os_error:
-            if os_error.errno == 92:
+            if os_error.errno == errno.EILSEQ:
                 document_path = join(directory, f"{date_string} ({clean_file_name(header.title)}).docx")
                 content_data = self.metadata_handler.build_content_object_from_data(download_url=document_path, successful=False)
                 self.save_to_document(header, contents, content_data, document_path)

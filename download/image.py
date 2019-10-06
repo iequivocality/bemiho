@@ -1,4 +1,4 @@
-import requests, io
+import requests, io, errno
 from download.base import BlogDownloadContent
 from os.path import join
 from utilities.file import get_extension_for_image
@@ -38,7 +38,7 @@ class ImageBlogDownloadContent(BlogDownloadContent):
                 download_file.write(request.content)
             on_save(download_url)
         except OSError as os_err:
-            if os_err.errno == 92:
+            if os_err.errno == errno.EILSEQ:
                 rollback_save_url = self.format_download_url(directory, clean_file_name(self.header.title), index)
                 self.logger.error(f'Download from {self.content} to {download_url} is unsuccessful due to illegal byte sequence on file name. Will re-download with a cleaned name ({rollback_save_url}).')
                 self.save_to_file(directory, rollback_save_url, index, on_save, on_except)

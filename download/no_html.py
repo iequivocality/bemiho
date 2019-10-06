@@ -1,3 +1,5 @@
+import errno
+
 from os.path import join
 from download.base import BlogDownloadContent
 from utilities.text import clean_emojis, clean_file_separators
@@ -14,7 +16,7 @@ class NoHTMLTextBlogDownloadContent(BlogDownloadContent):
         try:
             self.do_save(text_file_path, on_save)
         except OSError as os_err:
-            if os_err.errno == 92:
+            if os_err.errno == errno.EILSEQ:
                 text_file_path = clean_emojis(self.get_text_file_path(directory))
                 self.do_save(text_file_path, on_save)
             else:

@@ -2,10 +2,7 @@
 > Utility for dowloading blogs of various Japanese idols. Allows extraction for both photos and content.
 
 > **Announcement**
-> The following members will be removed by September as management
-> will take down their respective blogs on August 30, 2019:
->       Nagahama Neru (Keyakizaka46)
->       Kakizaki Memi (Hinatazaka46)
+> Submit an issue if you want me to add a new group. If you want to work on this project, just let me know.
 
 ## Table of Contents (Optional)
 

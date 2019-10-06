@@ -9,6 +9,7 @@ from output_processor.exceptions import OutputProcessorNotFound
 from scrapper.traversal.exceptions import TraversalClassNotFound
 
 from processor import create_bemiho_processor
+from utilities.text import seconds_to_minutes_format
 
 if __name__ == '__main__':
     logger = BemihoLogger('bemiho').get_logger()
@@ -32,4 +33,4 @@ if __name__ == '__main__':
         end = time.time()
         total_seconds = (end - start)
         logger.debug('Stopped Bemiho.')
-        logger.info(f'Duration: {int(total_seconds)}s')
+        logger.info(f'Duration: {seconds_to_minutes_format(total_seconds)}')

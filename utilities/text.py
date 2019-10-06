@@ -51,3 +51,14 @@ def check_valid_url_format(url):
         r'(?::\d+)?' # optional port
         r'(?:/?|[/?]\S+)$', re.IGNORECASE)
     return re.match(regex, url) is not None
+
+def seconds_to_minutes_format(seconds):
+    if(seconds > 60):
+        minutes = int(seconds / 60)
+        second_rem = seconds % 60
+        return f'{minutes}m {second_rem}s'
+    elif (seconds == 60):
+        minutes = seconds / 60
+        return f'{minutes}m'
+    else:
+        return f'{int(seconds)}s'
