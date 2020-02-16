@@ -43,5 +43,14 @@
         "pageformat" : "p=",
         "index" : "5",
         "homepage" : "http://blog.nogizaka46.com/"
+    },
+    {
+        "kanji" : "i☆Ris",
+        "romaji" : "i☆Ris",
+        "index_file" : "iris.idols",
+        "code" : "Iris",
+        "pageformat" : "",
+        "index" : "5",
+        "homepage" : "https://ameblo.jp/"
     }
 ]
